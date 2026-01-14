@@ -1,84 +1,87 @@
-// Theme Data Model - Colors, Gradients, and Design Tokens
+// Theme Data Model - CSS Variables Based System
+// Base colors: rgb(250, 250, 250) light | rgb(10, 10, 10) dark
 
-// Core theme colors
+// Core theme colors matching CSS variables
 export const themeColors = {
   light: {
-    bg: "#FAFAFA",        // rgb(250, 250, 250)
-    text: "#0A0A0A",      // rgb(10, 10, 10)
-    bgRgb: "250, 250, 250",
-    textRgb: "10, 10, 10"
+    background: "rgb(250, 250, 250)",
+    foreground: "rgb(10, 10, 10)",
+    card: "rgb(255, 255, 255)",
+    muted: "rgb(240, 240, 240)",
+    mutedForeground: "rgb(110, 110, 110)",
+    border: "rgb(220, 220, 220)",
+    primary: "#3b82f6",
+    accent: "#22c55e"
   },
   dark: {
-    bg: "#0A0A0A",        // rgb(10, 10, 10)
-    text: "#FAFAFA",      // rgb(250, 250, 250)
-    bgRgb: "10, 10, 10",
-    textRgb: "250, 250, 250"
+    background: "rgb(10, 10, 10)",
+    foreground: "rgb(250, 250, 250)",
+    card: "rgb(20, 20, 20)",
+    muted: "rgb(30, 30, 30)",
+    mutedForeground: "rgb(140, 140, 140)",
+    border: "rgb(50, 50, 50)",
+    primary: "#60a5fa",
+    accent: "#4ade80"
   }
 };
 
-export const colors = {
-  primary: {
-    50: "#eff6ff",
-    100: "#dbeafe",
-    200: "#bfdbfe",
-    300: "#93c5fd",
-    400: "#60a5fa",
-    500: "#3b82f6",
-    600: "#2563eb",
-    700: "#1d4ed8",
-    800: "#1e40af",
-    900: "#1e3a8a"
-  },
-  secondary: {
-    50: "#f5f3ff",
-    100: "#ede9fe",
-    200: "#ddd6fe",
-    300: "#c4b5fd",
-    400: "#a78bfa",
-    500: "#8b5cf6",
-    600: "#7c3aed",
-    700: "#6d28d9",
-    800: "#5b21b6",
-    900: "#4c1d95"
-  },
-  neutral: {
-    50: "#FAFAFA",   // Light background
-    100: "#f3f4f6",
-    200: "#e5e7eb",
-    300: "#d1d5db",
-    400: "#9ca3af",
-    500: "#6b7280",
-    600: "#4b5563",
-    700: "#374151",
-    800: "#1f2937",
-    900: "#0A0A0A"   // Dark background
-  }
+// Neutral scale from rgb(250,250,250) to rgb(10,10,10)
+export const neutral = {
+  50: "rgb(250, 250, 250)",
+  100: "rgb(230, 230, 230)",
+  200: "rgb(200, 200, 200)",
+  300: "rgb(170, 170, 170)",
+  400: "rgb(140, 140, 140)",
+  500: "rgb(110, 110, 110)",
+  600: "rgb(80, 80, 80)",
+  700: "rgb(50, 50, 50)",
+  800: "rgb(30, 30, 30)",
+  900: "rgb(10, 10, 10)"
 };
 
-// Gradient Presets
+// Primary colors (Blue)
+export const primary = {
+  50: "#eff6ff",
+  100: "#dbeafe",
+  200: "#bfdbfe",
+  300: "#93c5fd",
+  400: "#60a5fa",
+  500: "#3b82f6",
+  600: "#2563eb",
+  700: "#1d4ed8",
+  800: "#1e40af",
+  900: "#1e3a8a"
+};
+
+// Accent colors (Green)
+export const accent = {
+  50: "#f0fdf4",
+  100: "#dcfce7",
+  200: "#bbf7d0",
+  300: "#86efac",
+  400: "#4ade80",
+  500: "#22c55e",
+  600: "#16a34a",
+  700: "#15803d",
+  800: "#166534",
+  900: "#14532d"
+};
+
+// Gradient Presets using CSS variables
 export const gradients = {
-  primary: "from-blue-600 to-indigo-600",
-  secondary: "from-purple-600 to-pink-600",
-  success: "from-green-400 to-emerald-600",
-  warning: "from-amber-400 to-orange-600",
-  hero: "from-white via-blue-50 to-white",
-  heroDark: "from-gray-900 via-gray-800 to-gray-900",
-  glass: "from-white/10 to-white/5",
-  glassDark: "from-gray-800/50 to-gray-900/50"
+  primary: "from-primary to-blue-700",
+  secondary: "from-indigo-500 to-purple-600",
+  accent: "from-accent to-emerald-600",
+  hero: "from-background via-muted/30 to-background",
+  glass: "from-card/10 to-card/5",
+  text: "from-primary to-accent"
 };
 
-// Glassmorphism Styles
+// Glassmorphism using CSS variables
 export const glassStyles = {
-  light: {
-    background: "bg-white/70",
-    backdrop: "backdrop-blur-md",
-    border: "border border-white/20"
-  },
-  dark: {
-    background: "bg-gray-900/70",
-    backdrop: "backdrop-blur-md",
-    border: "border border-gray-700/50"
-  }
+  base: "bg-card/70 backdrop-blur-md border border-border/50",
+  light: "bg-card/80 backdrop-blur-md border border-border/30",
+  dark: "bg-card/50 backdrop-blur-lg border border-border/20"
 };
 
 // Shadow Presets
@@ -87,30 +90,43 @@ export const shadows = {
   md: "shadow-md",
   lg: "shadow-lg",
   xl: "shadow-xl",
-  glow: "shadow-lg shadow-blue-500/25",
-  glowDark: "shadow-lg shadow-blue-400/20"
+  glow: "shadow-lg shadow-primary/25",
+  glowAccent: "shadow-lg shadow-accent/25"
 };
 
-// Theme Configuration
+// Theme Configuration using Tailwind CSS variable classes
 export const themeConfig = {
   light: {
     name: "light",
-    background: "bg-[#FAFAFA]",
-    backgroundGradient: "bg-gradient-to-br from-[#FAFAFA] via-blue-50/30 to-[#FAFAFA]",
-    text: "text-[#0A0A0A]",
-    textMuted: "text-gray-600",
-    card: "bg-white",
-    cardGlass: "bg-white/70",
-    border: "border-gray-200"
+    background: "bg-background",
+    foreground: "text-foreground",
+    card: "bg-card",
+    cardForeground: "text-card-foreground",
+    muted: "bg-muted",
+    mutedForeground: "text-muted-foreground",
+    border: "border-border",
+    primary: "bg-primary text-primary-foreground",
+    secondary: "bg-secondary text-secondary-foreground",
+    accent: "bg-accent text-accent-foreground"
   },
   dark: {
     name: "dark",
-    background: "bg-[#0A0A0A]",
-    backgroundGradient: "bg-gradient-to-br from-[#0A0A0A] via-gray-900 to-[#0A0A0A]",
-    text: "text-[#FAFAFA]",
-    textMuted: "text-gray-400",
-    card: "bg-gray-900",
-    cardGlass: "bg-gray-900/70",
-    border: "border-gray-800"
+    background: "bg-background",
+    foreground: "text-foreground",
+    card: "bg-card",
+    cardForeground: "text-card-foreground",
+    muted: "bg-muted",
+    mutedForeground: "text-muted-foreground",
+    border: "border-border",
+    primary: "bg-primary text-primary-foreground",
+    secondary: "bg-secondary text-secondary-foreground",
+    accent: "bg-accent text-accent-foreground"
   }
+};
+
+// Font families
+export const fonts = {
+  sans: "'Outfit', system-ui, sans-serif",
+  serif: "'Crimson Pro', Georgia, serif",
+  mono: "ui-monospace, monospace"
 };
