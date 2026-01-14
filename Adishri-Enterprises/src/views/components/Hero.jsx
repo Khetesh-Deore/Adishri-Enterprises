@@ -1,6 +1,6 @@
 // Hero Component - Main Landing Section
 import { motion } from "framer-motion";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { stats } from "../../models/statsData";
 import { fadeInRight, staggerContainer, staggerItem } from "../../controllers/useAnimations";
 import { useScrollToSection } from "../../controllers/useScroll";
@@ -78,18 +78,10 @@ export default function Hero() {
               >
                 Explore Products
               </Button>
-              <Button
-                variant="secondary"
-                size="lg"
-                icon={Play}
-                onClick={() => scrollToSection("about")}
-              >
-                Watch Process
-              </Button>
             </motion.div>
 
             {/* Stats */}
-            <motion.div
+            {/* <motion.div
               variants={staggerItem}
               className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4"
             >
@@ -107,15 +99,12 @@ export default function Hero() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * index, duration: 0.5 }}
                 >
-                  {/* Gradient overlay on hover */}
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-indigo-500/0 group-hover:from-blue-500/10 group-hover:to-indigo-500/10 transition-all duration-300" />
                   
-                  {/* Glow effect on hover */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-indigo-400/20 blur-xl" />
                   </div>
 
-                  {/* Content */}
                   <div className="relative z-10">
                     <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                       <AnimatedCounter value={stat.value} suffix={stat.suffix} duration={2.5} />
@@ -125,11 +114,10 @@ export default function Hero() {
                     </div>
                   </div>
 
-                  {/* Corner accent */}
                   <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </motion.div>
               ))}
-            </motion.div>
+            </motion.div> */}
           </motion.div>
 
           {/* Right Content - Hero Image */}
@@ -137,88 +125,39 @@ export default function Hero() {
             variants={fadeInRight}
             initial="hidden"
             animate="visible"
-            className="relative group"
+            className="relative"
           >
-            {/* Multi-layer Glow Effects */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-3xl blur-3xl opacity-20 scale-90 group-hover:opacity-30 group-hover:scale-95 transition-all duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 rounded-3xl blur-2xl opacity-0 group-hover:opacity-20 scale-75 group-hover:scale-90 transition-all duration-700" />
-            
-            {/* Animated ring glow */}
-            <motion.div
-              className="absolute inset-0 rounded-3xl"
-              animate={{
-                boxShadow: [
-                  "0 0 20px rgba(59, 130, 246, 0.3)",
-                  "0 0 60px rgba(99, 102, 241, 0.4)",
-                  "0 0 20px rgba(59, 130, 246, 0.3)"
-                ]
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
+            {/* Simple Image */}
+            <img
+              src="/product8.jpeg"
+              alt="HDPE LDPE Bottles Collection"
+              className="w-full max-w-lg mx-auto rounded-2xl shadow-lg"
             />
-            
-            {/* Image Container with Enhanced Hover */}
-            <motion.div
-              className="relative z-10 perspective-1000"
-              whileHover={{ 
-                scale: 1.08,
-                rotate: 2,
-                transition: { duration: 0.6, ease: "easeOut" }
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {/* Product showcase image */}
-              <motion.img
-                src="/product1.jpeg"
-                alt="HDPE LDPE Bottles Collection"
-                className="w-full max-w-lg mx-auto drop-shadow-2xl rounded-2xl"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3, duration: 0.8 }}
-              />
-              
-              {/* Shine effect on hover */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100"
-                initial={{ x: "-100%", y: "-100%" }}
-                whileHover={{ x: "100%", y: "100%" }}
-                transition={{ duration: 0.8 }}
-              />
-            </motion.div>
 
             {/* Floating Badge - ISO Certified */}
-            <motion.div
-              className="absolute -bottom-4 -left-4 sm:bottom-8 sm:left-0 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-4 border border-gray-100 dark:border-gray-700 hover:shadow-2xl hover:border-green-200 dark:hover:border-green-800 transition-all duration-300"
+            {/* <motion.div
+              className="absolute -bottom-4 -left-4 sm:bottom-8 sm:left-0 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-4 border border-gray-100 dark:border-gray-700"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              whileHover={{ scale: 1.08, y: -2 }}
             >
               <div className="flex items-center gap-3">
-                <motion.div 
-                  className="w-12 h-12 rounded-full bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 flex items-center justify-center"
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.6 }}
-                >
+                <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
                   <span className="text-2xl">✓</span>
-                </motion.div>
+                </div>
                 <div>
                   <div className="font-bold text-gray-800 dark:text-white">ISO Certified</div>
                   <div className="text-sm text-gray-500 dark:text-gray-400">Quality Assured</div>
                 </div>
               </div>
-            </motion.div>
+            </motion.div> */}
 
             {/* Floating Badge - Capacity Range */}
             <motion.div
-              className="absolute -top-4 -right-4 sm:top-8 sm:right-0 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-xl p-3 border border-blue-400/50"
+              className="absolute -top-4 -right-4 sm:top-8 sm:right-0 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-xl p-3"
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1, duration: 0.5 }}
-              whileHover={{ scale: 1.1, rotate: -2 }}
             >
               <div className="text-center">
                 <div className="text-2xl font-bold text-white">200ml - 5L</div>

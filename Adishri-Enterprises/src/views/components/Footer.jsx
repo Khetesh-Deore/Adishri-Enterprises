@@ -114,6 +114,21 @@ export default function Footer() {
             })}
           </div>
         </div>
+
+        {/* Developer Credit */}
+        <div className="mt-6 pt-4 border-t border-gray-800 text-center">
+          <p className="text-sm text-gray-500">
+            Developed by{" "}
+            <a
+              href="https://www.linkedin.com/in/khetesh-deore/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
+            >
+              Khetesh Deore
+            </a>
+          </p>
+        </div>
       </div>
 
       {/* Scroll to Top */}
