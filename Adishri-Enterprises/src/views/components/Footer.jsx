@@ -13,7 +13,7 @@ export default function Footer() {
   return (
     <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-300 relative overflow-hidden">
       {/* Gradient Divider */}
-      <div className="h-1 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600" />
+      <div className="h-1 bg-gradient-to-r from-gradient-from via-gradient-to to-purple-600" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <motion.div
@@ -134,7 +134,7 @@ export default function Footer() {
       {/* Scroll to Top */}
       <motion.button
         onClick={scrollToTop}
-        className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-blue-600 text-white shadow-lg flex items-center justify-center hover:bg-blue-700 transition-colors z-50"
+        className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary-hover transition-colors z-50"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         initial={{ opacity: 0 }}

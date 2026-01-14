@@ -4,7 +4,7 @@ import { Send, Phone, Mail, MapPin, Clock } from "lucide-react";
 import { useForm } from "../../controllers/useForm";
 import { contactInfo } from "../../models/navigationData";
 import { fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "../../controllers/useAnimations";
-import { SectionHeading, GlassCard, Button } from "../shared";
+import { SectionHeading, Button } from "../shared";
 
 const contactDetails = [
   { icon: Phone, label: "Phone", value: contactInfo.phone },
@@ -44,19 +44,23 @@ ${formData.message}
 
     // Encode message for URL
     const encodedMessage = encodeURIComponent(message);
-    
+
     // Create WhatsApp URL
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-    
+
     // Open WhatsApp in new tab
     window.open(whatsappUrl, "_blank");
-    
+
     // Small delay for UX
     await new Promise((resolve) => setTimeout(resolve, 500));
   };
 
   return (
-    <section id="contact" className="py-20 md:py-28 bg-gray-50/50 dark:bg-gray-800/30 relative overflow-hidden">
+    <section
+      id="contact"
+      className="  py-20 md:py-28 bg-muted/30 dark:bg-background relative overflow-hidden"
+    >
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           subtitle="Get in Touch"
@@ -73,20 +77,20 @@ ${formData.message}
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
           >
-            <GlassCard className="p-6 md:p-8" hover={false}>
+            <div className="p-6 md:p-8 rounded-2xl bg-card border border-border shadow-lg">
               {isSubmitted ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="text-center py-12"
                 >
-                  <div className="w-20 h-20 mx-auto rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-6">
-                    <Send className="w-10 h-10 text-green-600 dark:text-green-400" />
+                  <div className="w-20 h-20 mx-auto rounded-full bg-accent-soft flex items-center justify-center mb-6">
+                    <Send className="w-10 h-10 text-accent" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+                  <h3 className="text-2xl font-bold text-foreground mb-2">
                     Opening WhatsApp!
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  <p className="text-muted-foreground mb-6">
                     Complete sending your message in WhatsApp.
                   </p>
                   <Button variant="secondary" onClick={resetForm}>
@@ -171,7 +175,7 @@ ${formData.message}
                   </Button>
                 </form>
               )}
-            </GlassCard>
+            </div>
           </motion.div>
 
           {/* Contact Info */}
@@ -184,10 +188,10 @@ ${formData.message}
           >
             {/* Company Info */}
             <div className="mb-8">
-              <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+              <h3 className="text-2xl font-bold text-foreground mb-2">
                 {contactInfo.company}
               </h3>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-muted-foreground">
                 {contactInfo.tagline}
               </p>
             </div>
@@ -202,21 +206,21 @@ ${formData.message}
             >
               {contactDetails.map((detail, index) => (
                 <motion.div key={index} variants={staggerItem}>
-                  <GlassCard className="p-4" hover={true}>
+                  <div className="p-4 rounded-xl bg-card border border-border shadow-md hover:shadow-lg transition-all duration-300">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center flex-shrink-0">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-gradient-from to-gradient-to flex items-center justify-center flex-shrink-0">
                         <detail.icon className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-800 dark:text-white">
+                        <h4 className="font-semibold text-foreground">
                           {detail.label}
                         </h4>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                        <p className="text-muted-foreground text-sm mt-1">
                           {detail.value}
                         </p>
                       </div>
                     </div>
-                  </GlassCard>
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
@@ -240,19 +244,19 @@ ${formData.message}
 function FormInput({ label, error, required, ...props }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      <label className="block text-sm font-medium text-foreground/80 mb-2">
         {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {required && <span className="text-destructive ml-1">*</span>}
       </label>
       <input
         {...props}
         className={`
           w-full px-4 py-3 rounded-xl
-          bg-white dark:bg-gray-800
-          border ${error ? "border-red-500" : "border-gray-200 dark:border-gray-700"}
-          text-gray-800 dark:text-white
-          placeholder-gray-400 dark:placeholder-gray-500
-          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+          bg-background
+          border ${error ? "border-destructive" : "border-border"}
+          text-foreground
+          placeholder-muted-foreground
+          focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
           transition-all duration-300
         `}
       />
@@ -260,7 +264,7 @@ function FormInput({ label, error, required, ...props }) {
         <motion.p
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-1 text-sm text-red-500"
+          className="mt-1 text-sm text-destructive"
         >
           {error}
         </motion.p>
@@ -273,20 +277,20 @@ function FormInput({ label, error, required, ...props }) {
 function FormTextarea({ label, error, required, ...props }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      <label className="block text-sm font-medium text-foreground/80 mb-2">
         {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {required && <span className="text-destructive ml-1">*</span>}
       </label>
       <textarea
         {...props}
         rows={4}
         className={`
           w-full px-4 py-3 rounded-xl resize-none
-          bg-white dark:bg-gray-800
-          border ${error ? "border-red-500" : "border-gray-200 dark:border-gray-700"}
-          text-gray-800 dark:text-white
-          placeholder-gray-400 dark:placeholder-gray-500
-          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+          bg-background
+          border ${error ? "border-destructive" : "border-border"}
+          text-foreground
+          placeholder-muted-foreground
+          focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
           transition-all duration-300
         `}
       />
@@ -294,7 +298,7 @@ function FormTextarea({ label, error, required, ...props }) {
         <motion.p
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-1 text-sm text-red-500"
+          className="mt-1 text-sm text-destructive"
         >
           {error}
         </motion.p>

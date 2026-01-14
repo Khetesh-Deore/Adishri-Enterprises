@@ -1,7 +1,11 @@
 // Theme Data Model - CSS Variables Based System
 // Base colors: rgb(250, 250, 250) light | rgb(10, 10, 10) dark
 
-// Core theme colors matching CSS variables
+// ========================================
+// SEMANTIC COLOR TOKENS
+// Edit these to change colors site-wide!
+// ========================================
+
 export const themeColors = {
   light: {
     background: "rgb(250, 250, 250)",
@@ -10,8 +14,17 @@ export const themeColors = {
     muted: "rgb(240, 240, 240)",
     mutedForeground: "rgb(110, 110, 110)",
     border: "rgb(220, 220, 220)",
-    primary: "#3b82f6",
-    accent: "#22c55e"
+    // Primary - Main brand color
+    primary: "#2563eb",
+    primaryHover: "#1d4ed8",
+    primarySoft: "#dbeafe",
+    // Accent - Secondary brand color
+    accent: "#16a34a",
+    accentHover: "#15803d",
+    accentSoft: "#dcfce7",
+    // Gradient
+    gradientFrom: "#2563eb",
+    gradientTo: "#4f46e5"
   },
   dark: {
     background: "rgb(10, 10, 10)",
@@ -20,8 +33,17 @@ export const themeColors = {
     muted: "rgb(30, 30, 30)",
     mutedForeground: "rgb(140, 140, 140)",
     border: "rgb(50, 50, 50)",
-    primary: "#60a5fa",
-    accent: "#4ade80"
+    // Primary - Brighter for dark mode
+    primary: "#3b82f6",
+    primaryHover: "#60a5fa",
+    primarySoft: "rgba(59, 130, 246, 0.2)",
+    // Accent
+    accent: "#22c55e",
+    accentHover: "#4ade80",
+    accentSoft: "rgba(34, 197, 94, 0.2)",
+    // Gradient
+    gradientFrom: "#3b82f6",
+    gradientTo: "#6366f1"
   }
 };
 
@@ -69,12 +91,12 @@ export const accent = {
 
 // Gradient Presets using CSS variables
 export const gradients = {
-  primary: "from-primary to-blue-700",
+  primary: "from-gradient-from to-gradient-to",
   secondary: "from-indigo-500 to-purple-600",
   accent: "from-accent to-emerald-600",
   hero: "from-background via-muted/30 to-background",
   glass: "from-card/10 to-card/5",
-  text: "from-primary to-accent"
+  text: "from-gradient-from to-gradient-to"
 };
 
 // Glassmorphism using CSS variables

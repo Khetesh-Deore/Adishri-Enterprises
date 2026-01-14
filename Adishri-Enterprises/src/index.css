@@ -16,16 +16,27 @@
   --color-destructive: var(--destructive);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-soft: var(--primary-soft);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  
+  /* Gradient tokens */
+  --color-gradient-from: var(--gradient-from);
+  --color-gradient-to: var(--gradient-to);
+  --color-gradient-from-hover: var(--gradient-from-hover);
+  --color-gradient-to-hover: var(--gradient-to-hover);
   
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -46,21 +57,38 @@
   --popover: rgb(255, 255, 255);
   --popover-foreground: rgb(10, 10, 10);
   
-  /* Primary - Blue */
-  --primary: #3b82f6;
+  /* ========================================
+     SEMANTIC COLOR TOKENS - EDIT THESE!
+     ======================================== */
+  
+  /* Primary - Main brand color (buttons, links, highlights) */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-soft: #dbeafe;
   --primary-foreground: rgb(250, 250, 250);
   
-  /* Secondary */
+  /* Secondary - Supporting color */
   --secondary: rgb(240, 240, 240);
+  --secondary-hover: rgb(220, 220, 220);
   --secondary-foreground: rgb(10, 10, 10);
+  
+  /* Accent - Call-to-action, success states */
+  --accent: #16a34a;
+  --accent-hover: #15803d;
+  --accent-soft: #dcfce7;
+  --accent-foreground: rgb(250, 250, 250);
+  
+  /* Gradient colors - for gradient buttons/text */
+  --gradient-from: #2563eb;
+  --gradient-to: #4f46e5;
+  --gradient-from-hover: #1d4ed8;
+  --gradient-to-hover: #4338ca;
+  
+  /* ======================================== */
   
   /* Muted */
   --muted: rgb(240, 240, 240);
   --muted-foreground: rgb(110, 110, 110);
-  
-  /* Accent - Green */
-  --accent: #22c55e;
-  --accent-foreground: rgb(250, 250, 250);
   
   /* Destructive */
   --destructive: #ef4444;
@@ -68,7 +96,7 @@
   /* Borders & Inputs */
   --border: rgb(220, 220, 220);
   --input: rgb(220, 220, 220);
-  --ring: #3b82f6;
+  --ring: var(--primary);
   
   /* Chart colors */
   --chart-1: #3b82f6;
@@ -89,21 +117,38 @@
   --popover: rgb(20, 20, 20);
   --popover-foreground: rgb(250, 250, 250);
   
-  /* Primary - Blue (slightly brighter for dark) */
-  --primary: #60a5fa;
-  --primary-foreground: rgb(10, 10, 10);
+  /* ========================================
+     SEMANTIC COLOR TOKENS (DARK MODE)
+     ======================================== */
+  
+  /* Primary - Brighter for dark mode */
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  --primary-soft: rgba(59, 130, 246, 0.2);
+  --primary-foreground: rgb(250, 250, 250);
   
   /* Secondary */
   --secondary: rgb(30, 30, 30);
+  --secondary-hover: rgb(50, 50, 50);
   --secondary-foreground: rgb(250, 250, 250);
+  
+  /* Accent */
+  --accent: #22c55e;
+  --accent-hover: #4ade80;
+  --accent-soft: rgba(34, 197, 94, 0.2);
+  --accent-foreground: rgb(250, 250, 250);
+  
+  /* Gradient colors */
+  --gradient-from: #3b82f6;
+  --gradient-to: #6366f1;
+  --gradient-from-hover: #60a5fa;
+  --gradient-to-hover: #818cf8;
+  
+  /* ======================================== */
   
   /* Muted */
   --muted: rgb(30, 30, 30);
   --muted-foreground: rgb(140, 140, 140);
-  
-  /* Accent */
-  --accent: #4ade80;
-  --accent-foreground: rgb(10, 10, 10);
   
   /* Destructive */
   --destructive: #f87171;
@@ -111,7 +156,7 @@
   /* Borders & Inputs */
   --border: rgb(50, 50, 50);
   --input: rgb(50, 50, 50);
-  --ring: #60a5fa;
+  --ring: var(--primary);
 }
 
 @layer base {
@@ -155,11 +200,11 @@
   
   /* Gradient text */
   .gradient-text {
-    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent;
   }
   
   .gradient-text-blue {
-    @apply bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent;
   }
   
   /* Cards */
@@ -167,21 +212,37 @@
     @apply bg-card/80 backdrop-blur-sm rounded-xl border border-border/50 shadow-sm;
   }
   
-  /* Buttons */
+  /* ========================================
+     BUTTON STYLES - Uses semantic tokens
+     Change colors in :root to update all buttons
+     ======================================== */
+  
   .btn-primary {
     @apply bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium 
-           hover:opacity-90 transition-all duration-300;
+           hover:bg-primary-hover transition-all duration-300;
   }
   
   .btn-secondary {
     @apply bg-secondary text-secondary-foreground px-6 py-3 rounded-lg font-medium 
-           hover:bg-secondary/80 transition-all duration-300;
+           hover:bg-secondary-hover transition-all duration-300;
   }
   
   .btn-outline {
-    @apply border border-border bg-transparent px-6 py-3 rounded-lg font-medium 
-           hover:bg-muted transition-all duration-300;
+    @apply border-2 border-primary bg-transparent text-primary px-6 py-3 rounded-lg font-medium 
+           hover:bg-primary hover:text-primary-foreground transition-all duration-300;
   }
+  
+  .btn-gradient {
+    @apply bg-gradient-to-r from-gradient-from to-gradient-to text-white px-6 py-3 rounded-lg font-medium 
+           hover:from-gradient-from-hover hover:to-gradient-to-hover transition-all duration-300 shadow-md;
+  }
+  
+  .btn-accent {
+    @apply bg-accent text-accent-foreground px-6 py-3 rounded-lg font-medium 
+           hover:bg-accent-hover transition-all duration-300;
+  }
+  
+  /* ======================================== */
   
   /* Input fields */
   .input-field {
@@ -200,7 +261,6 @@
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 }
-
 @layer utilities {
   /* Neutral scale utilities - rgb(250,250,250) to rgb(10,10,10) */
   .bg-neutral-50 { background-color: rgb(250, 250, 250); }
@@ -247,4 +307,4 @@
   .animate-pulse-slow {
     animation: pulse 3s ease-in-out infinite;
   }
-}
+};

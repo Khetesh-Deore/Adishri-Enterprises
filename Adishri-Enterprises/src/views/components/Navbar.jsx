@@ -81,8 +81,8 @@ export default function Navbar() {
                   className={`
                     relative px-4 py-2 font-medium transition-colors duration-200
                     ${isActive(link.href) 
-                      ? "text-blue-600 dark:text-blue-400" 
-                      : "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                      ? "text-primary" 
+                      : "text-foreground/80 hover:text-primary"
                     }
                   `}
                 >
@@ -90,7 +90,7 @@ export default function Navbar() {
                   
                   {/* Animated underline */}
                   <motion.span
-                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"
+                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-gradient-from to-gradient-to rounded-full"
                     initial={{ scaleX: 0, originX: 0 }}
                     animate={{ 
                       scaleX: isActive(link.href) || hoveredLink === link.id ? 1 : 0 
@@ -145,7 +145,7 @@ export default function Navbar() {
 
             {/* CTA Button - Desktop */}
             <motion.button
-              className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg hover:shadow-blue-500/25"
+              className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-gradient-from to-gradient-to hover:from-gradient-from-hover hover:to-gradient-to-hover transition-all shadow-md hover:shadow-lg"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleNavClick("#contact")}
@@ -200,8 +200,8 @@ export default function Navbar() {
                     className={`
                       block w-full text-left px-4 py-3 rounded-xl font-medium transition-all
                       ${isActive(link.href)
-                        ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
-                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+                        ? "bg-primary-soft text-primary"
+                        : "text-foreground/80 hover:bg-muted"
                       }
                     `}
                   >
@@ -235,7 +235,7 @@ export default function Navbar() {
               >
                 <button
                   onClick={() => handleNavClick("#contact")}
-                  className="block w-full mt-2 px-4 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 text-center shadow-md"
+                  className="block w-full mt-2 px-4 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-gradient-from to-gradient-to text-center shadow-md"
                 >
                   Get Quote
                 </button>

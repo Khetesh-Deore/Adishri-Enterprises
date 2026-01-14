@@ -1,25 +1,31 @@
 // Button Component - Reusable Button with Variants
+// Uses semantic color tokens from index.css - change colors there!
 import { motion } from "framer-motion";
 
 const variants = {
   primary: `
-    bg-blue-600 text-white
-    hover:bg-blue-700
-    shadow-md hover:shadow-lg hover:shadow-blue-500/25
+    bg-primary text-primary-foreground
+    hover:bg-primary-hover
+    shadow-md hover:shadow-lg
   `,
   secondary: `
-    bg-transparent text-blue-600
-    border-2 border-blue-600
-    hover:bg-blue-600 hover:text-white
+    bg-transparent text-primary
+    border-2 border-primary
+    hover:bg-primary hover:text-primary-foreground
   `,
   ghost: `
-    bg-transparent text-gray-700 dark:text-gray-300
-    hover:bg-gray-100 dark:hover:bg-gray-800
+    bg-transparent text-foreground
+    hover:bg-muted
   `,
   gradient: `
-    bg-gradient-to-r from-blue-600 to-indigo-600 text-white
-    hover:from-blue-700 hover:to-indigo-700
-    shadow-md hover:shadow-lg hover:shadow-blue-500/25
+    bg-gradient-to-r from-gradient-from to-gradient-to text-white
+    hover:from-gradient-from-hover hover:to-gradient-to-hover
+    shadow-md hover:shadow-lg
+  `,
+  accent: `
+    bg-accent text-accent-foreground
+    hover:bg-accent-hover
+    shadow-md hover:shadow-lg
   `
 };
 

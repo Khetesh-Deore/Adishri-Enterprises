@@ -11,8 +11,8 @@ export default function Hero() {
 
   return (
     <section
-      id="home"
-      className="relative min-h-screen flex items-center pt-20 overflow-hidden"
+      id="home" 
+      className=" bg-background relative min-h-screen flex items-center pt-20 overflow-hidden"
     >
       {/* Floating Background Blurs */}
       <FloatingBlur color="blue" position="-top-32 -left-32" size="w-96 h-96" />
@@ -30,7 +30,7 @@ export default function Hero() {
           >
             {/* Badge */}
             <motion.div variants={staggerItem}>
-              <span className="inline-block px-4 py-2 mb-6 text-sm font-medium text-blue-600 bg-blue-100 dark:bg-blue-900/30 dark:text-blue-400 rounded-full">
+              <span className="inline-block px-4 py-2 mb-6 text-sm font-medium text-primary bg-primary-soft rounded-full">
                 🏭 Premium Industrial Packaging
               </span>
             </motion.div>
@@ -38,18 +38,18 @@ export default function Hero() {
             {/* Heading */}
             <motion.h1
               variants={staggerItem}
-              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-800 dark:text-white"
+              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-foreground"
             >
               Precision{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
                 HDPE &
               </span>
               <br />
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
                 LDPE Bottles
               </span>
               <br />
-              <span className="text-2xl sm:text-3xl lg:text-4xl text-gray-600 dark:text-gray-400 font-semibold">
+              <span className="text-2xl sm:text-3xl lg:text-4xl text-muted-foreground font-semibold">
                 200ml to 5L Capacity
               </span>
             </motion.h1>
@@ -57,7 +57,7 @@ export default function Hero() {
             {/* Description */}
             <motion.p
               variants={staggerItem}
-              className="mt-6 text-lg text-gray-600 dark:text-gray-400 max-w-xl mx-auto lg:mx-0"
+              className="mt-6 text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0"
             >
               Industry-leading manufacturer of high-quality plastic bottles for
               pharmaceuticals, chemicals, and industrial applications. ISO certified
@@ -154,14 +154,14 @@ export default function Hero() {
 
             {/* Floating Badge - Capacity Range */}
             <motion.div
-              className="absolute -top-4 -right-4 sm:top-8 sm:right-0 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-xl p-3"
+              className="absolute -top-4 -right-4 sm:top-8 sm:right-0 bg-gradient-to-br from-gradient-from to-gradient-to rounded-xl shadow-xl p-3"
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1, duration: 0.5 }}
             >
               <div className="text-center">
                 <div className="text-2xl font-bold text-white">200ml - 5L</div>
-                <div className="text-xs text-blue-100">Capacity Range</div>
+                <div className="text-xs text-white/80">Capacity Range</div>
               </div>
             </motion.div>
           </motion.div>

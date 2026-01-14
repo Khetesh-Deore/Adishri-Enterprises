@@ -31,8 +31,14 @@ export default function Standards() {
   return (
     <section
       id="standards"
-      className="py-20 md:py-28 bg-gradient-to-br from-blue-900 via-indigo-900 to-blue-900 relative overflow-hidden"
+      className="
+    py-20 md:py-28
+    bg-black
+    text-white
+    relative overflow-hidden
+  "
     >
+
       {/* Background Effects */}
       <FloatingBlur color="blue" position="top-0 left-0" size="w-96 h-96" opacity="opacity-10" />
       <FloatingBlur color="indigo" position="bottom-0 right-0" size="w-80 h-80" opacity="opacity-10" />

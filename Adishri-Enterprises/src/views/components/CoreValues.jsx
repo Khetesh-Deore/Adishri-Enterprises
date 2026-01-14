@@ -6,7 +6,7 @@ import { SectionHeading, GlassCard } from "../shared";
 
 export default function CoreValues() {
   return (
-    <section className="py-20 md:py-28 bg-gray-50/50 dark:bg-gray-800/30 relative overflow-hidden">
+    <section className="py-20 md:py-28 bg-muted/30 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           subtitle="Our Philosophy"
@@ -40,12 +40,12 @@ export default function CoreValues() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="mt-6 text-xl font-bold text-gray-800 dark:text-white">
+                  <h3 className="mt-6 text-xl font-bold text-foreground">
                     {value.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="mt-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                  <p className="mt-3 text-muted-foreground text-sm leading-relaxed">
                     {value.description}
                   </p>
                 </GlassCard>
