@@ -61,7 +61,7 @@ export default function Navbar() {
               <div className="absolute inset-0 bg-blue-500 rounded-full blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg md:text-xl font-extrabold tracking-wide bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <span className="text-lg md:text-xl font-extrabold tracking-wide bg-gradient-to-r from-green-600 to-indigo-600 bg-clip-text text-transparent">
                 Adishri
               </span>
               <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 -mt-1 tracking-wider">

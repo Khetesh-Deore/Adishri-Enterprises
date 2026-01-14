@@ -1,130 +1,128 @@
-// Excellence Component - Manufacturing Excellence Section
+// Excellence Component - About Section
 import { motion } from "framer-motion";
-import { CheckCircle, Factory, Cog, Award } from "lucide-react";
-import { staggerContainer, staggerItem, fadeInLeft, fadeInRight } from "../../controllers/useAnimations";
-import { SectionHeading, GlassCard } from "../shared";
-
-const excellenceFeatures = [
-  {
-    icon: Factory,
-    title: "State-of-the-art Facility",
-    description: "Modern manufacturing unit with advanced blow molding technology"
-  },
-  {
-    icon: Cog,
-    title: "Precision Engineering",
-    description: "Tight tolerances and consistent quality in every batch"
-  },
-  {
-    icon: Award,
-    title: "Quality Certifications",
-    description: "ISO 9001:2015, FDA approved, BIS certified facility"
-  }
-];
-
-const galleryImages = [
-  { id: 1, src: "/adishri_logo3.png", alt: "Manufacturing Floor" },
-  { id: 2, src: "/adishri_logo3.png", alt: "Quality Control" },
-  { id: 3, src: "/adishri_logo3.png", alt: "Blow Molding Machine" },
-  { id: 4, src: "/adishri_logo3.png", alt: "Product Testing" }
-];
+import { CheckCircle, Leaf } from "lucide-react";
+import { fadeInLeft, fadeInRight } from "../../controllers/useAnimations";
 
 export default function Excellence() {
   return (
-    <section id="about" className="py-20 md:py-28 relative overflow-hidden">
+    <section id="about" className="py-20 md:py-28 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          subtitle="About Us"
-          title="Excellence in"
-          highlight="Industrial Packaging"
-          description="With over 15 years of experience, we deliver premium quality HDPE and LDPE bottles that meet the highest industry standards."
-        />
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mt-16">
-          {/* Image Grid */}
+          {/* Left - Image Grid */}
           <motion.div
-            variants={staggerContainer}
+            variants={fadeInLeft}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
-            className="grid grid-cols-2 gap-4"
+            className="space-y-4"
           >
-            {galleryImages.map((image, index) => (
-              <motion.div
-                key={image.id}
-                variants={staggerItem}
-                className={`relative overflow-hidden rounded-2xl ${
-                  index === 0 ? "row-span-2" : ""
-                }`}
-                whileHover={{ scale: 1.03, y: -5 }}
-                transition={{ duration: 0.3 }}
-              >
+            {/* Top Row */}
+            <div className="grid grid-cols-2 gap-4">
+              {/* Large Image */}
+              <div className="row-span-2">
                 <img
-                  src={image.src}
-                  alt={image.alt}
-                  className={`w-full object-cover ${
-                    index === 0 ? "h-full min-h-[300px]" : "h-40 md:h-48"
-                  }`}
+                  src="/product1.jpeg"
+                  alt="HDPE Bottles"
+                  className="w-full h-full object-cover rounded-2xl"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <span className="text-white font-medium">{image.alt}</span>
+              </div>
+              {/* Small Bottles Display */}
+              <div className="bg-card rounded-2xl p-4 flex items-end justify-center gap-2">
+                <div className="text-center">
+                  <div className="h-16 w-6 bg-gray-200 rounded-t-full mx-auto" />
+                  <span className="text-xs text-muted-foreground mt-1 block">200 ML</span>
                 </div>
-              </motion.div>
-            ))}
+                <div className="text-center">
+                  <div className="h-20 w-8 bg-gray-200 rounded-t-full mx-auto" />
+                  <span className="text-xs text-muted-foreground mt-1 block">500 ML</span>
+                </div>
+                <div className="text-center">
+                  <div className="h-24 w-10 bg-blue-100 rounded-t-full mx-auto" />
+                  <span className="text-xs text-muted-foreground mt-1 block">1 Ltr</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Row */}
+            <div className="grid grid-cols-2 gap-4">
+              <img
+                src="/product2.jpeg"
+                alt="Jerry Cans"
+                className="w-full h-48 object-cover rounded-2xl"
+              />
+              <div className="bg-card rounded-2xl p-4 flex items-end justify-center gap-3">
+                <div className="text-center">
+                  <div className="h-14 w-10 bg-gray-100 rounded mx-auto" />
+                  <span className="text-xs text-muted-foreground mt-1 block">500 ML</span>
+                </div>
+                <div className="text-center">
+                  <div className="h-16 w-12 bg-gray-100 rounded mx-auto" />
+                  <span className="text-xs text-muted-foreground mt-1 block">1 Ltr</span>
+                </div>
+                <div className="text-center">
+                  <div className="h-20 w-14 bg-gray-100 rounded mx-auto" />
+                  <span className="text-xs text-muted-foreground mt-1 block">2 Ltr</span>
+                </div>
+              </div>
+            </div>
           </motion.div>
 
-          {/* Content */}
+          {/* Right - Content */}
           <motion.div
             variants={fadeInRight}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
           >
-            <h3 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-6">
-              Crafting Quality Since{" "}
-              <span className="text-blue-600">2009</span>
-            </h3>
+            <span className="text-sm font-semibold text-primary uppercase tracking-wider">
+              About Adishri Enterprises
+            </span>
 
-            <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-              Adishri Enterprises has been at the forefront of plastic packaging
-              innovation, serving pharmaceutical, chemical, and industrial sectors
-              with unwavering commitment to quality and customer satisfaction.
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 leading-tight">
+              Excellence in Plastic Packaging Manufacturing
+            </h2>
+
+            <p className="text-muted-foreground mt-6 leading-relaxed">
+              Based in Chhatrapati Sambhaji Nagar, Adishri Enterprises manufactures HDPE & LDPE
+              bottles and jerry cans for pharmaceutical, chemical, and industrial sectors.
             </p>
 
-            {/* Features */}
-            <div className="space-y-4">
-              {excellenceFeatures.map((feature, index) => (
-                <GlassCard key={index} className="p-4" hover={true}>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center flex-shrink-0">
-                      <feature.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-800 dark:text-white">
-                        {feature.title}
-                      </h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </div>
-                </GlassCard>
-              ))}
+            {/* Commitment Box */}
+            <div className="mt-8 p-6 bg-card rounded-xl border border-border">
+              <h3 className="font-semibold text-foreground mb-3">Our Commitment</h3>
+              <p className="text-muted-foreground italic font-serif">
+                "To provide superior quality plastic packaging solutions that ensure
+                safety, durability, and customer satisfaction through innovation and
+                precision."
+              </p>
             </div>
 
-            {/* Highlights */}
-            <div className="mt-8 flex flex-wrap gap-3">
-              {["FDA Approved", "ISO Certified", "BIS Standards", "GMP Compliant"].map(
-                (badge) => (
-                  <span
-                    key={badge}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
-                  >
-                    <CheckCircle className="w-4 h-4" />
-                    {badge}
-                  </span>
-                )
-              )}
+            {/* Features */}
+            <div className="mt-8 grid grid-cols-2 gap-6">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <CheckCircle className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-foreground">Quality Assured</h4>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Rigorous quality control for every HDPE & LDPE product manufactured.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                  <Leaf className="w-5 h-5 text-accent" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-foreground">Eco-Friendly</h4>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Promoting 100% recyclable plastic solutions for a greener planet.
+                  </p>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>

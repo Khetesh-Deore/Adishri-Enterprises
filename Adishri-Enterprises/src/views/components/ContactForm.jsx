@@ -222,13 +222,13 @@ ${formData.message}
             </motion.div>
 
             {/* Map or Image */}
-            <GlassCard className="overflow-hidden mt-6" hover={false}>
+            {/* <GlassCard className="overflow-hidden mt-6" hover={false}>
               <img
                 src="/adishri_logo3.png"
                 alt="Office Location"
                 className="w-full h-48 object-cover"
               />
-            </GlassCard>
+            </GlassCard> */}
           </motion.div>
         </div>
       </div>
