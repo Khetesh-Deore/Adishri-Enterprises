@@ -26,10 +26,33 @@ export default function ContactForm() {
     resetForm
   } = useForm();
 
+  const WHATSAPP_NUMBER = "919529178362"; // India country code + number
+
   const onSubmit = async (formData) => {
-    // Simulate API call
-    console.log("Form submitted:", formData);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    // Build WhatsApp message
+    const message = `
+*New Inquiry from Website*
+
+*Name:* ${formData.name}
+*Email:* ${formData.email}
+*Phone:* ${formData.phone || "Not provided"}
+*Company:* ${formData.company || "Not provided"}
+
+*Message:*
+${formData.message}
+    `.trim();
+
+    // Encode message for URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+    
+    // Open WhatsApp in new tab
+    window.open(whatsappUrl, "_blank");
+    
+    // Small delay for UX
+    await new Promise((resolve) => setTimeout(resolve, 500));
   };
 
   return (
@@ -61,10 +84,10 @@ export default function ContactForm() {
                     <Send className="w-10 h-10 text-green-600 dark:text-green-400" />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
-                    Message Sent!
+                    Opening WhatsApp!
                   </h3>
                   <p className="text-gray-600 dark:text-gray-400 mb-6">
-                    We'll get back to you within 24 hours.
+                    Complete sending your message in WhatsApp.
                   </p>
                   <Button variant="secondary" onClick={resetForm}>
                     Send Another Message
