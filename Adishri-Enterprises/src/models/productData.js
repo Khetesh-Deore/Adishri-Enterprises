@@ -2,141 +2,148 @@
 // Images: product1.jpeg to product8.jpeg in public folder
 
 export const products = [
-  {
+    {
     id: 1,
-    name: "Wide Mouth Bottle",
-    category: "HDPE",
-    capacity: "500ml",
-    image: "/product1.jpeg",
-    description: "Premium wide mouth HDPE bottle ideal for chemicals and pharmaceuticals",
+    name: "Jerry Can",
+    category: "Jerry Can",
+    capacity: "5L",
+    image: "/product8.jpeg",
+    description: "Large capacity HDPE jerry can suitable for bulk storage and transport of liquids.",
     specs: {
       material: "HDPE",
-      neckSize: "38mm",
-      height: "185mm",
-      diameter: "75mm",
-      weight: "32g"
+      neckSize: "50 mm",
+      height: "340 mm",
+      width: "230 mm",
+      weight: "380 g"
     },
-    features: ["Chemical Resistant", "FDA Approved", "Leak Proof"],
-    applications: ["Pharmaceuticals", "Chemicals", "Laboratory"]
+    features: ["Heavy Duty", "Double Handle", "Stackable"],
+    applications: ["Industrial", "Agricultural", "Automotive"]
   },
+
   {
     id: 2,
-    name: "Narrow Mouth Bottle",
-    category: "HDPE",
-    capacity: "1L",
+    name: "Narrow Mouth HDPE Bottle",
+    category: "HDPE Bottle",
+    capacity: "4 ML-1 L",
     image: "/product2.jpeg",
-    description: "Narrow mouth design for precise pouring and dispensing",
+    description: "Narrow mouth HDPE bottle designed for controlled and precise pouring of liquids.",
     specs: {
       material: "HDPE",
-      neckSize: "28mm",
-      height: "220mm",
-      diameter: "90mm",
-      weight: "45g"
+      neckSize: "28 mm",
+      height: "220 mm",
+      diameter: "90 mm",
+      weight: "45 g"
     },
     features: ["Precision Pouring", "Stackable", "UV Resistant"],
     applications: ["Chemicals", "Solvents", "Industrial"]
   },
+
   {
     id: 3,
-    name: "Jerry Can",
-    category: "Jerry Can",
-    capacity: "5L",
+    name: "Round bottles with wide mouths",
+    category: "HDPE",
+    capacity: "100 ML - 5 L",
     image: "/product3.jpeg",
-    description: "Heavy-duty jerry can for industrial liquid storage and transport",
+    description: "Strong, chemical- and UV-resistant containers ideal for chemicals, pharmaceuticals, and personal care products.",
     specs: {
       material: "HDPE",
-      neckSize: "50mm",
-      height: "280mm",
-      width: "180mm",
-      weight: "200g"
+      neckSize: "50 mm",
+      height: "280 mm",
+      width: "180 mm",
+      weight: "200 g"
     },
-    features: ["Industrial Grade", "Ergonomic Handle", "Stackable"],
+    features: ["Industrial Grade", "Strong Handle", "Leak Proof"],
     applications: ["Chemicals", "Lubricants", "Agricultural"]
   },
+
   {
     id: 4,
-    name: "Chemical Container",
-    category: "HDPE",
-    capacity: "2L",
+    name: "LDPE Plastic Bottle ",
+    category: "LDPE",
+    capacity: "",
     image: "/product4.jpeg",
-    description: "Robust container for chemical storage and transport",
+    description: "They are designed with a narrow neck and a flip-top or pull-push cap for controlled dispensing of liquids like dish soap or other household chemicals. ",
     specs: {
       material: "HDPE",
-      neckSize: "45mm",
-      height: "250mm",
-      diameter: "120mm",
-      weight: "95g"
+      neckSize: "45 mm",
+      height: "250 mm",
+      diameter: "120 mm",
+      weight: "95 g"
     },
-    features: ["Chemical Resistant", "Leak Proof", "Tamper Evident"],
+    features: ["Chemical Resistant", "Tamper Evident", "Leak Proof"],
     applications: ["Chemicals", "Solvents", "Industrial"]
   },
+
   {
     id: 5,
-    name: "Pharmaceutical Bottle",
-    category: "HDPE",
-    capacity: "200ml",
+    name: "Pharmaceutical HDPE Bottle",
+    category: "HDPE Bottle",
+    capacity: "",
     image: "/product5.jpeg",
-    description: "FDA approved bottle for pharmaceutical packaging",
+    description: "Compact pharmaceutical-grade HDPE bottle suitable for medicines and healthcare products.",
     specs: {
       material: "HDPE",
-      neckSize: "28mm",
-      height: "140mm",
-      diameter: "60mm",
-      weight: "22g"
+      neckSize: "28 mm",
+      height: "140 mm",
+      diameter: "60 mm",
+      weight: "22 g"
     },
-    features: ["FDA Approved", "Child Resistant Cap", "Light Protected"],
+    features: ["FDA Approved", "Light Weight", "Leak Proof"],
     applications: ["Pharmaceuticals", "Nutraceuticals", "Healthcare"]
   },
+
   {
     id: 6,
-    name: "Squeeze Bottle",
-    category: "LDPE",
-    capacity: "250ml",
+    name: "LDPE Squeeze Bottle",
+    category: "LDPE Bottle",
+    capacity: "250 ml",
     image: "/product6.jpeg",
-    description: "Flexible squeeze bottle for easy dispensing",
+    description: "Flexible LDPE squeeze bottle for easy and controlled dispensing.",
     specs: {
       material: "LDPE",
-      neckSize: "24mm",
-      height: "150mm",
-      diameter: "55mm",
-      weight: "18g"
+      neckSize: "24 mm",
+      height: "150 mm",
+      diameter: "55 mm",
+      weight: "18 g"
     },
-    features: ["Flexible Body", "Easy Squeeze", "Food Safe"],
+    features: ["Flexible Body", "Easy Dispensing", "Food Grade"],
     applications: ["Food", "Cosmetics", "Laboratory"]
   },
+
   {
     id: 7,
-    name: "Agro Chemical Bottle",
-    category: "HDPE",
-    capacity: "1L",
+    name: "Agro Chemical HDPE Bottle",
+    category: "HDPE Bottle",
+    capacity: "1 L",
     image: "/product7.jpeg",
-    description: "Durable bottle for agricultural chemicals and pesticides",
+    description: "UV-stabilized HDPE bottle designed for agricultural chemicals and pesticides.",
     specs: {
       material: "HDPE",
-      neckSize: "38mm",
-      height: "210mm",
-      diameter: "95mm",
-      weight: "55g"
+      neckSize: "38 mm",
+      height: "210 mm",
+      diameter: "95 mm",
+      weight: "55 g"
     },
-    features: ["UV Stabilized", "Chemical Resistant", "Measuring Cap"],
+    features: ["UV Stabilized", "Chemical Resistant", "Strong Body"],
     applications: ["Agricultural", "Pesticides", "Fertilizers"]
   },
-  {
+
+ {
     id: 8,
-    name: "Industrial Container",
-    category: "Jerry Can",
-    capacity: "10L",
-    image: "/product8.jpeg",
-    description: "Large capacity container for bulk liquid storage",
+    name: "Wide Mouth HDPE Bottle",
+    category: "HDPE Bottle",
+    capacity: "500 ml",
+    image: "/product1.jpeg",
+    description: "Wide mouth HDPE bottle suitable for pharmaceutical and chemical storage. Easy filling and cleaning.",
     specs: {
       material: "HDPE",
-      neckSize: "50mm",
-      height: "340mm",
-      width: "230mm",
-      weight: "380g"
+      neckSize: "38 mm",
+      height: "185 mm",
+      diameter: "75 mm",
+      weight: "32 g"
     },
-    features: ["Heavy Duty", "Double Handle", "Stackable"],
-    applications: ["Industrial", "Agricultural", "Automotive"]
+    features: ["Chemical Resistant", "Leak Proof", "Reusable"],
+    applications: ["Pharmaceuticals", "Chemicals", "Laboratory"]
   }
 ];
 

@@ -1,9 +1,10 @@
 // Navigation Data Model
 export const navLinks = [
   { id: 1, name: "Home", href: "#home" },
-  { id: 2, name: "About", href: "#about" },
-  { id: 3, name: "Vision", href: "#vision" },
-  { id: 4, name: "Products", href: "#products" },
+  { id: 2, name: "Products", href: "#products" },
+  { id: 3, name: "About", href: "#about" },
+  { id: 4, name: "Vision", href: "#vision" },
+
   // { id: 5, name: "Gallery", href: "#gallery" },
   { id: 6, name: "Contact", href: "#contact" }
 ];
@@ -12,9 +13,10 @@ export const navLinks = [
 export const footerLinks = {
   quickLinks: [
     { name: "Home", href: "#home" },
+    { name: "Products", href: "#products" },
     { name: "About Us", href: "#about" },
     { name: "Our Vision", href: "#vision" },
-    { name: "Products", href: "#products" },
+
     // { name: "Gallery", href: "#gallery" },
     { name: "Contact", href: "#contact" }
   ],

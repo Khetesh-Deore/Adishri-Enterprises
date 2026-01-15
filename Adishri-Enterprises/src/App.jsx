@@ -19,11 +19,12 @@ function App() {
         <Navbar />
         <main>
           <Hero />
+          <ProductCollection />
           <Excellence />
           <Vision />
           <CoreValues />
-          <ProductCollection />
-          <Standards />
+
+          {/* <Standards /> */}
           <ContactForm />
         </main>
         <Footer />
