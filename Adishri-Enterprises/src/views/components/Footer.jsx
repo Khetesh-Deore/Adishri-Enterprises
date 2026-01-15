@@ -94,7 +94,7 @@ export default function Footer() {
           </motion.div>
 
           {/* Credentials */}
-          <motion.div variants={staggerItem}>
+          {/* <motion.div variants={staggerItem}>
             <h4 className="text-white font-semibold mb-4">Credentials</h4>
             <ul className="space-y-2">
               {footerLinks.credentials.map((link, i) => (
@@ -105,7 +105,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </motion.div> */}
 
           {/* Resources */}
           <motion.div variants={staggerItem}>
