@@ -56,10 +56,7 @@ ${formData.message}
   };
 
   return (
-    <section
-      id="contact"
-      className="  py-20 md:py-28 bg-muted/30 dark:bg-background relative overflow-hidden"
-    >
+    <section className="py-20 md:py-28 bg-muted/30 dark:bg-background relative overflow-hidden min-h-screen">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading

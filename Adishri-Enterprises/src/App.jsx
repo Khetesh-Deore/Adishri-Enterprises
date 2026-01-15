@@ -1,34 +1,23 @@
-// App.jsx - Main Application Component
+// App.jsx - Main Application with Routing
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./controllers/useTheme";
-import {
-  Navbar,
-  Hero,
-  Excellence,
-  Vision,
-  CoreValues,
-  ProductCollection,
-  Standards,
-  ContactForm,
-  Footer
-} from "./views/components";
+import MainLayout from "./layouts/MainLayout";
+import { HomePage, AboutPage, VisionPage, ProductsPage, ContactPage } from "./pages";
 
 function App() {
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-800 dark:text-white overflow-hidden transition-colors duration-300">
-        <Navbar />
-        <main>
-          <Hero />
-          <ProductCollection />
-          <Excellence />
-          <Vision />
-          <CoreValues />
-
-          {/* <Standards /> */}
-          <ContactForm />
-        </main>
-        <Footer />
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="about" element={<AboutPage />} />
+            <Route path="vision" element={<VisionPage />} />
+            <Route path="products" element={<ProductsPage />} />
+            <Route path="contact" element={<ContactPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }

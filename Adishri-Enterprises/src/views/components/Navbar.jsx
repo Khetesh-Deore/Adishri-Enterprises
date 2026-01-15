@@ -1,30 +1,48 @@
 // Navbar Component - Sticky Navigation with Glassmorphism
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Sun, Moon, MessageCircle } from "lucide-react";
 import { navLinks, whatsappConfig } from "../../models/navigationData";
-import { useScrollDirection, useScrollToSection, useActiveSection } from "../../controllers/useScroll";
 import { useTheme } from "../../controllers/useTheme";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredLink, setHoveredLink] = useState(null);
-  const { visible, scrollY } = useScrollDirection();
-  const { scrollToSection } = useScrollToSection();
+  const [scrollY, setScrollY] = useState(0);
+  const [visible, setVisible] = useState(true);
   const { isDark, toggleTheme } = useTheme();
-  
-  // Track active section for highlighting
-  const sectionIds = navLinks.map(link => link.href.replace("#", ""));
-  const activeSection = useActiveSection(sectionIds);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const handleNavClick = (href) => {
-    const sectionId = href.replace("#", "");
-    scrollToSection(sectionId);
+  // Handle scroll for navbar visibility and background
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setScrollY(currentScrollY);
+      setVisible(currentScrollY < lastScrollY || currentScrollY < 100);
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
     setIsOpen(false);
-  };
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   // Check if link is active
-  const isActive = (href) => href.replace("#", "") === activeSection;
+  const isActive = (href) => location.pathname === href;
+
+  const handleNavClick = (href) => {
+    setIsOpen(false);
+    navigate(href);
+  };
 
   return (
     <motion.nav
@@ -45,41 +63,41 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 md:h-20">
           
           {/* Logo */}
-          <motion.div
-            className="flex items-center gap-3 cursor-pointer group"
-            onClick={() => handleNavClick("#home")}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <div className="relative">
-              <img
-                src="/adishri_logo3.png"
-                alt="Adishri Enterprises"
-                className="h-10 w-10 md:h-12 md:w-12 object-contain transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110"
-              />
-              {/* Logo glow on hover */}
-              <div className="absolute inset-0 bg-blue-500 rounded-full blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-lg md:text-xl font-extrabold tracking-wide bg-gradient-to-r from-green-600 to-indigo-600 bg-clip-text text-transparent">
-                Adishri
-              </span>
-              <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 -mt-1 tracking-wider">
-                ENTERPRISES
-              </span>
-            </div>
-          </motion.div>
+          <Link to="/" className="flex items-center gap-3 group">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="flex items-center gap-3"
+            >
+              <div className="relative">
+                <img
+                  src="/adishri_logo3.png"
+                  alt="Adishri Enterprises"
+                  className="h-10 w-10 md:h-12 md:w-12 object-contain transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-blue-500 rounded-full blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-lg md:text-xl font-extrabold tracking-wide bg-gradient-to-r from-green-600 to-indigo-600 bg-clip-text text-transparent">
+                  Adishri
+                </span>
+                <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 -mt-1 tracking-wider">
+                  ENTERPRISES
+                </span>
+              </div>
+            </motion.div>
+          </Link>
 
           {/* Desktop Navigation */}
           <ul className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <li key={link.id} className="relative">
-                <motion.button
-                  onClick={() => handleNavClick(link.href)}
+                <Link
+                  to={link.href}
                   onMouseEnter={() => setHoveredLink(link.id)}
                   onMouseLeave={() => setHoveredLink(null)}
                   className={`
-                    relative px-4 py-2 font-medium transition-colors duration-200
+                    relative px-4 py-2 font-medium transition-colors duration-200 block
                     ${isActive(link.href) 
                       ? "text-primary" 
                       : "text-foreground/80 hover:text-primary"
@@ -97,7 +115,7 @@ export default function Navbar() {
                     }}
                     transition={{ duration: 0.3, ease: "easeOut" }}
                   />
-                </motion.button>
+                </Link>
               </li>
             ))}
           </ul>
@@ -110,7 +128,7 @@ export default function Navbar() {
               href={whatsappConfig.getWhatsAppLink()}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-900/50 transition-colors"
+              className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-900/50 transition-colors no-external-icon"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -148,7 +166,7 @@ export default function Navbar() {
               className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-gradient-from to-gradient-to hover:from-gradient-from-hover hover:to-gradient-to-hover transition-all shadow-md hover:shadow-lg"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => handleNavClick("#contact")}
+              onClick={() => navigate("/contact")}
             >
               Get Quote
             </motion.button>
@@ -195,8 +213,9 @@ export default function Navbar() {
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <button
-                    onClick={() => handleNavClick(link.href)}
+                  <Link
+                    to={link.href}
+                    onClick={() => setIsOpen(false)}
                     className={`
                       block w-full text-left px-4 py-3 rounded-xl font-medium transition-all
                       ${isActive(link.href)
@@ -206,7 +225,7 @@ export default function Navbar() {
                     `}
                   >
                     {link.name}
-                  </button>
+                  </Link>
                 </motion.li>
               ))}
               
@@ -220,7 +239,7 @@ export default function Navbar() {
                   href={whatsappConfig.getWhatsAppLink()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 w-full px-4 py-3 rounded-xl font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30"
+                  className="flex items-center gap-3 w-full px-4 py-3 rounded-xl font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 no-external-icon"
                 >
                   <MessageCircle className="w-5 h-5" />
                   Chat on WhatsApp
@@ -234,7 +253,7 @@ export default function Navbar() {
                 transition={{ delay: (navLinks.length + 1) * 0.05 }}
               >
                 <button
-                  onClick={() => handleNavClick("#contact")}
+                  onClick={() => handleNavClick("/contact")}
                   className="block w-full mt-2 px-4 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-gradient-from to-gradient-to text-center shadow-md"
                 >
                   Get Quote

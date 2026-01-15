@@ -1,33 +1,41 @@
 // Footer Component - Site Footer with Links
 import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin, ArrowUp } from "lucide-react";
 import { footerLinks, socialLinks, contactInfo } from "../../models/navigationData";
-import { useScrollToSection } from "../../controllers/useScroll";
 import { staggerContainer, staggerItem } from "../../controllers/useAnimations";
 
 const socialIcons = { Facebook, Twitter, Linkedin, Instagram };
 
 export default function Footer() {
-  const { scrollToTop } = useScrollToSection();
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const location = useLocation();
 
-  // Show button only when scrolled past home section (after ~100vh)
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Show button only when scrolled down
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const threshold = window.innerHeight * 0.5; // Show after scrolling 50% of viewport
+      const threshold = 300;
       setShowScrollTop(scrollY > threshold);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Check initial position
+    handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Check if link is internal route or external
+  const isInternalLink = (href) => href.startsWith("/");
+
   return (
-    <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-300 relative overflow-hidden">
+    <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-300 relative overflow-hidden mt-auto">
       {/* Gradient Divider */}
       <div className="h-1 bg-gradient-to-r from-gradient-from via-gradient-to to-purple-600" />
 
@@ -41,10 +49,10 @@ export default function Footer() {
         >
           {/* Company Info */}
           <motion.div variants={staggerItem} className="lg:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
+            <Link to="/" className="flex items-center gap-3 mb-4 group">
               <img src="/adishri_logo3.png" alt="Logo" className="h-10 w-10 object-contain" />
-              <span className="text-xl font-bold text-white">{contactInfo.company}</span>
-            </div>
+              <span className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">{contactInfo.company}</span>
+            </Link>
             <p className="text-gray-400 text-sm mb-6">{contactInfo.tagline}</p>
             <div className="space-y-3 text-sm">
               <div className="flex items-start gap-3">
@@ -68,9 +76,18 @@ export default function Footer() {
             <ul className="space-y-2">
               {footerLinks.quickLinks.map((link, i) => (
                 <li key={i}>
-                  <a href={link.href} className="text-sm hover:text-blue-400 transition-colors">
-                    {link.name}
-                  </a>
+                  {isInternalLink(link.href) ? (
+                    <Link 
+                      to={link.href} 
+                      className={`text-sm hover:text-blue-400 transition-colors ${location.pathname === link.href ? 'text-blue-400' : ''}`}
+                    >
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <a href={link.href} className="text-sm hover:text-blue-400 transition-colors">
+                      {link.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -82,9 +99,9 @@ export default function Footer() {
             <ul className="space-y-2">
               {footerLinks.credentials.map((link, i) => (
                 <li key={i}>
-                  <a href={link.href} className="text-sm hover:text-blue-400 transition-colors">
+                  <span className="text-sm text-gray-400">
                     {link.name}
-                  </a>
+                  </span>
                 </li>
               ))}
             </ul>
@@ -96,9 +113,15 @@ export default function Footer() {
             <ul className="space-y-2">
               {footerLinks.resources.map((link, i) => (
                 <li key={i}>
-                  <a href={link.href} className="text-sm hover:text-blue-400 transition-colors">
-                    {link.name}
-                  </a>
+                  {isInternalLink(link.href) ? (
+                    <Link to={link.href} className="text-sm hover:text-blue-400 transition-colors">
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <a href={link.href} className="text-sm hover:text-blue-400 transition-colors">
+                      {link.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -120,7 +143,7 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition-colors"
+                  className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition-colors no-external-icon"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                 >
@@ -139,7 +162,7 @@ export default function Footer() {
               href="https://www.linkedin.com/in/khetesh-deore/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
+              className="text-blue-400 hover:text-blue-300 font-medium transition-colors no-external-icon"
             >
               Khetesh Deore
             </a>
@@ -147,7 +170,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Scroll to Top - Only visible when not at home */}
+      {/* Scroll to Top */}
       <AnimatePresence>
         {showScrollTop && (
           <motion.button

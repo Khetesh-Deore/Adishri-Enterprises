@@ -1,24 +1,20 @@
 // Navigation Data Model
 export const navLinks = [
-  { id: 1, name: "Home", href: "#home" },
-  { id: 2, name: "Products", href: "#products" },
-  { id: 3, name: "About", href: "#about" },
-  { id: 4, name: "Vision", href: "#vision" },
-
-  // { id: 5, name: "Gallery", href: "#gallery" },
-  { id: 6, name: "Contact", href: "#contact" }
+  { id: 1, name: "Home", href: "/" },
+  { id: 2, name: "Products", href: "/products" },
+  { id: 3, name: "About", href: "/about" },
+  { id: 4, name: "Vision", href: "/vision" },
+  { id: 5, name: "Contact", href: "/contact" }
 ];
 
 // Footer Links
 export const footerLinks = {
   quickLinks: [
-    { name: "Home", href: "#home" },
-    { name: "Products", href: "#products" },
-    { name: "About Us", href: "#about" },
-    { name: "Our Vision", href: "#vision" },
-
-    // { name: "Gallery", href: "#gallery" },
-    { name: "Contact", href: "#contact" }
+    { name: "Home", href: "/" },
+    { name: "Products", href: "/products" },
+    { name: "About Us", href: "/about" },
+    { name: "Our Vision", href: "/vision" },
+    { name: "Contact", href: "/contact" }
   ],
   credentials: [
     { name: "ISO 9001:2015", href: "#" },
@@ -27,9 +23,9 @@ export const footerLinks = {
     { name: "GMP Compliant", href: "#" }
   ],
   resources: [
-    { name: "Product Catalog", href: "#brochure" },
-    { name: "Download Brochure", href: "#brochure" },
-    { name: "Technical Specs", href: "#products" },
+    { name: "Product Catalog", href: "/products" },
+    { name: "Download Brochure", href: "/products" },
+    { name: "Technical Specs", href: "/products" },
     { name: "Quality Reports", href: "#" }
   ]
 };
@@ -42,7 +38,7 @@ export const socialLinks = [
   { name: "Instagram", href: "https://instagram.com", icon: "Instagram" }
 ];
 
-// Company Contact Info - Updated with actual details
+// Company Contact Info
 export const contactInfo = {
   company: "Adishri Enterprises",
   tagline: "Premium HDPE & LDPE Bottles & Jerry Can Manufacturer",

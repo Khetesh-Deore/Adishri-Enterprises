@@ -1,19 +1,15 @@
 // Hero Component - Main Landing Section
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { stats } from "../../models/statsData";
 import { fadeInRight, staggerContainer, staggerItem } from "../../controllers/useAnimations";
-import { useScrollToSection } from "../../controllers/useScroll";
-import { AnimatedCounter, FloatingBlur, Button } from "../shared";
+import { FloatingBlur, Button } from "../shared";
 
 export default function Hero() {
-  const { scrollToSection } = useScrollToSection();
+  const navigate = useNavigate();
 
   return (
-    <section
-      id="home" 
-      className=" bg-background relative min-h-screen flex items-center pt-20 overflow-hidden"
-    >
+    <section className="bg-background relative min-h-screen flex items-center pt-20 overflow-hidden">
       {/* Floating Background Blurs */}
       <FloatingBlur color="blue" position="-top-32 -left-32" size="w-96 h-96" />
       <FloatingBlur color="indigo" position="-bottom-32 -right-32" size="w-80 h-80" duration={10} />
@@ -73,7 +69,7 @@ export default function Hero() {
                 size="lg"
                 icon={ArrowRight}
                 iconPosition="right"
-                onClick={() => scrollToSection("products")}
+                onClick={() => navigate("/products")}
               >
                 Explore Products
               </Button>

@@ -6,7 +6,7 @@ import { SectionHeading } from "../shared";
 
 export default function Vision() {
   return (
-    <section id="vision" className="py-20 md:py-28 bg-background relative overflow-hidden">
+    <section className="py-20 md:py-28 bg-background relative overflow-hidden min-h-[60vh]">
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary-soft/20 to-transparent pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-1/4 h-1/2 bg-gradient-to-tr from-primary-soft/10 to-transparent pointer-events-none" />
