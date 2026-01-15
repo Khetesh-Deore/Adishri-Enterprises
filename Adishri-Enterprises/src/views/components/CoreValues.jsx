@@ -6,7 +6,7 @@ import { SectionHeading, GlassCard } from "../shared";
 
 export default function CoreValues() {
   return (
-    <section className="py-20 md:py-28 bg-muted/30 relative overflow-hidden">
+    <section className="py-20 md:py-28 bg-background relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           subtitle="Our Philosophy"

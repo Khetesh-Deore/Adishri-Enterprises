@@ -1,11 +1,13 @@
 // Product Data Model - HDPE/LDPE Bottles & Jerry Cans Collection
+// Images: product1.jpeg to product8.jpeg in public folder
+
 export const products = [
   {
     id: 1,
     name: "Wide Mouth Bottle",
     category: "HDPE",
     capacity: "500ml",
-    image: "/products/wide-mouth-500ml.png",
+    image: "/product1.jpeg",
     description: "Premium wide mouth HDPE bottle ideal for chemicals and pharmaceuticals",
     specs: {
       material: "HDPE",
@@ -22,7 +24,7 @@ export const products = [
     name: "Narrow Mouth Bottle",
     category: "HDPE",
     capacity: "1L",
-    image: "/products/narrow-mouth-1l.png",
+    image: "/product2.jpeg",
     description: "Narrow mouth design for precise pouring and dispensing",
     specs: {
       material: "HDPE",
@@ -36,10 +38,10 @@ export const products = [
   },
   {
     id: 3,
-    name: "Jerry Can - 5L",
+    name: "Jerry Can",
     category: "Jerry Can",
     capacity: "5L",
-    image: "/products/jerry-can-5l.png",
+    image: "/product3.jpeg",
     description: "Heavy-duty jerry can for industrial liquid storage and transport",
     specs: {
       material: "HDPE",
@@ -48,49 +50,49 @@ export const products = [
       width: "180mm",
       weight: "200g"
     },
-    features: ["Industrial Grade", "Ergonomic Handle", "Tamper Evident", "Stackable"],
+    features: ["Industrial Grade", "Ergonomic Handle", "Stackable"],
     applications: ["Chemicals", "Lubricants", "Agricultural"]
   },
   {
     id: 4,
-    name: "Jerry Can - 10L",
-    category: "Jerry Can",
-    capacity: "10L",
-    image: "/products/jerry-can-10l.png",
-    description: "Large capacity jerry can for bulk liquid storage",
+    name: "Chemical Container",
+    category: "HDPE",
+    capacity: "2L",
+    image: "/product4.jpeg",
+    description: "Robust container for chemical storage and transport",
     specs: {
       material: "HDPE",
-      neckSize: "50mm",
-      height: "340mm",
-      width: "230mm",
-      weight: "380g"
+      neckSize: "45mm",
+      height: "250mm",
+      diameter: "120mm",
+      weight: "95g"
     },
-    features: ["Heavy Duty", "Double Handle", "UN Certified", "Stackable"],
-    applications: ["Industrial", "Agricultural", "Automotive"]
+    features: ["Chemical Resistant", "Leak Proof", "Tamper Evident"],
+    applications: ["Chemicals", "Solvents", "Industrial"]
   },
   {
     id: 5,
-    name: "Jerry Can - 20L",
-    category: "Jerry Can",
-    capacity: "20L",
-    image: "/products/jerry-can-20l.png",
-    description: "Extra large jerry can for industrial and commercial use",
+    name: "Pharmaceutical Bottle",
+    category: "HDPE",
+    capacity: "200ml",
+    image: "/product5.jpeg",
+    description: "FDA approved bottle for pharmaceutical packaging",
     specs: {
       material: "HDPE",
-      neckSize: "60mm",
-      height: "420mm",
-      width: "280mm",
-      weight: "650g"
+      neckSize: "28mm",
+      height: "140mm",
+      diameter: "60mm",
+      weight: "22g"
     },
-    features: ["Maximum Capacity", "Reinforced Walls", "Transport Safe"],
-    applications: ["Bulk Storage", "Industrial", "Commercial"]
+    features: ["FDA Approved", "Child Resistant Cap", "Light Protected"],
+    applications: ["Pharmaceuticals", "Nutraceuticals", "Healthcare"]
   },
   {
     id: 6,
     name: "Squeeze Bottle",
     category: "LDPE",
     capacity: "250ml",
-    image: "/products/squeeze-250ml.png",
+    image: "/product6.jpeg",
     description: "Flexible squeeze bottle for easy dispensing",
     specs: {
       material: "LDPE",
@@ -104,61 +106,10 @@ export const products = [
   },
   {
     id: 7,
-    name: "Dropper Bottle",
-    category: "LDPE",
-    capacity: "100ml",
-    image: "/products/dropper-100ml.png",
-    description: "Precision dropper bottle for laboratory and pharmaceutical use",
-    specs: {
-      material: "LDPE",
-      neckSize: "18mm",
-      height: "120mm",
-      diameter: "45mm",
-      weight: "12g"
-    },
-    features: ["Precision Drops", "Lab Grade", "Autoclavable"],
-    applications: ["Pharmaceuticals", "Laboratory", "Medical"]
-  },
-  {
-    id: 8,
-    name: "Chemical Container",
-    category: "HDPE",
-    capacity: "2L",
-    image: "/products/chemical-2l.png",
-    description: "Robust container for chemical storage",
-    specs: {
-      material: "HDPE",
-      neckSize: "45mm",
-      height: "250mm",
-      diameter: "120mm",
-      weight: "95g"
-    },
-    features: ["Chemical Resistant", "Leak Proof", "Tamper Evident"],
-    applications: ["Chemicals", "Solvents", "Industrial"]
-  },
-  {
-    id: 9,
-    name: "Pharmaceutical Bottle",
-    category: "HDPE",
-    capacity: "200ml",
-    image: "/products/pharma-200ml.png",
-    description: "FDA approved bottle for pharmaceutical packaging",
-    specs: {
-      material: "HDPE",
-      neckSize: "28mm",
-      height: "140mm",
-      diameter: "60mm",
-      weight: "22g"
-    },
-    features: ["FDA Approved", "Child Resistant Cap", "Light Protected"],
-    applications: ["Pharmaceuticals", "Nutraceuticals", "Healthcare"]
-  },
-  {
-    id: 10,
     name: "Agro Chemical Bottle",
     category: "HDPE",
     capacity: "1L",
-    image: "/products/agro-1l.png",
+    image: "/product7.jpeg",
     description: "Durable bottle for agricultural chemicals and pesticides",
     specs: {
       material: "HDPE",
@@ -169,20 +120,37 @@ export const products = [
     },
     features: ["UV Stabilized", "Chemical Resistant", "Measuring Cap"],
     applications: ["Agricultural", "Pesticides", "Fertilizers"]
+  },
+  {
+    id: 8,
+    name: "Industrial Container",
+    category: "Jerry Can",
+    capacity: "10L",
+    image: "/product8.jpeg",
+    description: "Large capacity container for bulk liquid storage",
+    specs: {
+      material: "HDPE",
+      neckSize: "50mm",
+      height: "340mm",
+      width: "230mm",
+      weight: "380g"
+    },
+    features: ["Heavy Duty", "Double Handle", "Stackable"],
+    applications: ["Industrial", "Agricultural", "Automotive"]
   }
 ];
 
 // Product Categories
 export const categories = [
-  { id: "all", name: "All Products", count: 10 },
-  { id: "hdpe", name: "HDPE Bottles", count: 6 },
-  { id: "ldpe", name: "LDPE Bottles", count: 2 },
-  { id: "jerry can", name: "Jerry Cans", count: 3 }
+  { id: "all", name: "All Products", count: 8 },
+  { id: "hdpe", name: "HDPE Bottles", count: 5 },
+  { id: "ldpe", name: "LDPE Bottles", count: 1 },
+  { id: "jerry can", name: "Jerry Cans", count: 2 }
 ];
 
 // Capacity Options
 export const capacityOptions = [
-  "100ml", "200ml", "250ml", "500ml", "1L", "2L", "5L", "10L", "20L", "50L"
+  "200ml", "250ml", "500ml", "1L", "2L", "5L", "10L"
 ];
 
 // Product Applications
