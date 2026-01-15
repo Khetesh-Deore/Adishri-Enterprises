@@ -2,6 +2,7 @@
 export { default as Navbar } from "./Navbar";
 export { default as Hero } from "./Hero";
 export { default as Excellence } from "./Excellence";
+export { default as Vision } from "./Vision";
 export { default as CoreValues } from "./CoreValues";
 export { default as ProductCollection } from "./ProductCollection";
 export { default as Standards } from "./Standards";

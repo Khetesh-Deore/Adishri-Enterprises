@@ -4,3 +4,4 @@ export * from "./statsData";
 export * from "./valuesData";
 export * from "./productData";
 export * from "./themeData";
+export * from "./visionData";

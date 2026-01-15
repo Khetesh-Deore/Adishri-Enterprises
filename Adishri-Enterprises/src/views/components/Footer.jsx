@@ -1,5 +1,6 @@
 // Footer Component - Site Footer with Links
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin, ArrowUp } from "lucide-react";
 import { footerLinks, socialLinks, contactInfo } from "../../models/navigationData";
 import { useScrollToSection } from "../../controllers/useScroll";
@@ -9,6 +10,21 @@ const socialIcons = { Facebook, Twitter, Linkedin, Instagram };
 
 export default function Footer() {
   const { scrollToTop } = useScrollToSection();
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // Show button only when scrolled past home section (after ~100vh)
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const threshold = window.innerHeight * 0.5; // Show after scrolling 50% of viewport
+      setShowScrollTop(scrollY > threshold);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Check initial position
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-300 relative overflow-hidden">
@@ -131,17 +147,22 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Scroll to Top */}
-      <motion.button
-        onClick={scrollToTop}
-        className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary-hover transition-colors z-50"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        <ArrowUp className="w-5 h-5" />
-      </motion.button>
+      {/* Scroll to Top - Only visible when not at home */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary-hover transition-colors z-50"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <ArrowUp className="w-5 h-5" />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </footer>
   );
 }

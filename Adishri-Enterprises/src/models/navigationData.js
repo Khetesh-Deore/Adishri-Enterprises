@@ -4,7 +4,7 @@ export const navLinks = [
   { id: 2, name: "About", href: "#about" },
   { id: 3, name: "Vision", href: "#vision" },
   { id: 4, name: "Products", href: "#products" },
-  { id: 5, name: "Gallery", href: "#gallery" },
+  // { id: 5, name: "Gallery", href: "#gallery" },
   { id: 6, name: "Contact", href: "#contact" }
 ];
 
@@ -15,7 +15,7 @@ export const footerLinks = {
     { name: "About Us", href: "#about" },
     { name: "Our Vision", href: "#vision" },
     { name: "Products", href: "#products" },
-    { name: "Gallery", href: "#gallery" },
+    // { name: "Gallery", href: "#gallery" },
     { name: "Contact", href: "#contact" }
   ],
   credentials: [

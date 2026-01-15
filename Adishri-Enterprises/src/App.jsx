@@ -4,6 +4,7 @@ import {
   Navbar,
   Hero,
   Excellence,
+  Vision,
   CoreValues,
   ProductCollection,
   Standards,
@@ -19,6 +20,7 @@ function App() {
         <main>
           <Hero />
           <Excellence />
+          <Vision />
           <CoreValues />
           <ProductCollection />
           <Standards />
