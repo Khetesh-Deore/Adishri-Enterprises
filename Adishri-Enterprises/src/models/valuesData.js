@@ -5,33 +5,32 @@ export const coreValues = [
   {
     id: 1,
     icon: Shield,
-    title: "Quality Excellence",
-    description: "Uncompromising quality checks ensure durable, leak-proof HDPE & LDPE packaging that meets industrial standards.",
+    title: "Quality Assurance",
+    description: "Rigorous quality control at every stage ensures products that exceed industry standards. Every bottle undergoes strict testing.",
     color: "from-blue-400 to-indigo-600"
   },
   {
     id: 2,
-    icon: Cpu,
+    icon: Lightbulb,
     title: "Innovation",
-    description: "Advanced blow molding technology and continuous improvement drive precision and performance.",
+    description: "Continuous R&D investment to develop cutting-edge packaging solutions using advanced blow molding technology.",
     color: "from-amber-400 to-orange-600"
   },
   {
     id: 3,
     icon: Leaf,
     title: "Sustainability",
-    description: "Eco-conscious manufacturing using recyclable materials and energy-efficient processes.",
+    description: "Committed to eco-friendly manufacturing with 100% recyclable HDPE & LDPE materials for a greener future.",
     color: "from-green-400 to-emerald-600"
   },
   {
     id: 4,
     icon: Award,
-    title: "Compliance & Safety",
-    description: "Strict adherence to ISO, FDA, BIS, and GMP standards for safe and reliable packaging.",
+    title: "Compliance",
+    description: "Full adherence to international standards including ISO 9001:2015, FDA, BIS, and GMP certifications.",
     color: "from-purple-400 to-violet-600"
   }
 ];
-
 
 // Extended Values for Vision Section
 export const extendedValues = [
