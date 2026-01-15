@@ -1,12 +1,23 @@
-// Hero Component - Main Landing Section
+// Hero Component - Main Landing Section with API Integration
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useHero } from "../../hooks/useApi";
 import { fadeInRight, staggerContainer, staggerItem } from "../../controllers/useAnimations";
-import { FloatingBlur, Button } from "../shared";
+import { FloatingBlur, Button, SkeletonHero } from "../shared";
 
 export default function Hero() {
   const navigate = useNavigate();
+  const { data: hero, loading, error } = useHero();
+
+  // Show skeleton while loading
+  if (loading) {
+    return (
+      <section className="bg-background relative min-h-screen overflow-hidden">
+        <SkeletonHero />
+      </section>
+    );
+  }
 
   return (
     <section className="bg-background relative min-h-screen flex items-center pt-20 overflow-hidden">
@@ -31,35 +42,50 @@ export default function Hero() {
               </span>
             </motion.div>
 
-            {/* Heading */}
+            {/* Heading - Dynamic from API */}
             <motion.h1
               variants={staggerItem}
               className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-foreground"
             >
-              Precision{" "}
-              <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
-                HDPE &
-              </span>
-              <br />
-              <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
-                LDPE Bottles
-              </span>
-              <br />
-              <span className="text-2xl sm:text-3xl lg:text-4xl text-muted-foreground font-semibold">
-                200ml to 5L Capacity
-              </span>
+              {hero.title ? (
+                <>
+                  {hero.title.split(' ').slice(0, 1).join(' ')}{" "}
+                  <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
+                    {hero.title.split(' ').slice(1, 3).join(' ')}
+                  </span>
+                  <br />
+                  <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
+                    {hero.title.split(' ').slice(3).join(' ')}
+                  </span>
+                </>
+              ) : (
+                <>
+                  Precision{" "}
+                  <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
+                    HDPE & LDPE Bottles
+                  </span>
+                </>
+              )}
+              {hero.subtitle && (
+                <>
+                  <br />
+                  <span className="text-2xl sm:text-3xl lg:text-4xl text-muted-foreground font-semibold">
+                    {hero.subtitle}
+                  </span>
+                </>
+              )}
             </motion.h1>
 
-            {/* Description */}
+            {/* Description - Dynamic from API */}
             <motion.p
               variants={staggerItem}
               className="mt-6 text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0"
             >
-              Industry-leading manufacturer of high-quality plastic bottles for
-              pharmaceuticals, chemicals, and industrial applications.
+              {hero.description || 
+                "Industry-leading manufacturer of high-quality plastic bottles for pharmaceuticals, chemicals, and industrial applications."}
             </motion.p>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - Dynamic from API */}
             <motion.div
               variants={staggerItem}
               className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
@@ -69,50 +95,20 @@ export default function Hero() {
                 size="lg"
                 icon={ArrowRight}
                 iconPosition="right"
-                onClick={() => navigate("/products")}
+                onClick={() => navigate(hero.ctaButton?.link || "/products")}
               >
-                Explore Products
+                {hero.ctaButton?.text || "Explore Products"}
               </Button>
-            </motion.div>
-
-            {/* Stats */}
-            {/* <motion.div
-              variants={staggerItem}
-              className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4"
-            >
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.id}
-                  className="group relative p-4 rounded-xl bg-gradient-to-br from-white/60 via-white/50 to-blue-50/30 dark:from-gray-800/60 dark:via-gray-800/50 dark:to-blue-900/20 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 overflow-hidden"
-                  whileHover={{ 
-                    scale: 1.05,
-                    y: -5,
-                    transition: { duration: 0.3, ease: "easeOut" }
-                  }}
-                  whileTap={{ scale: 0.98 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 * index, duration: 0.5 }}
+              {hero.secondaryButton?.text && (
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  onClick={() => navigate(hero.secondaryButton.link || "/contact")}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-indigo-500/0 group-hover:from-blue-500/10 group-hover:to-indigo-500/10 transition-all duration-300" />
-                  
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-indigo-400/20 blur-xl" />
-                  </div>
-
-                  <div className="relative z-10">
-                    <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                      <AnimatedCounter value={stat.value} suffix={stat.suffix} duration={2.5} />
-                    </div>
-                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1 font-medium">
-                      {stat.label}
-                    </div>
-                  </div>
-
-                  <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </motion.div>
-              ))}
-            </motion.div> */}
+                  {hero.secondaryButton.text}
+                </Button>
+              )}
+            </motion.div>
           </motion.div>
 
           {/* Right Content - Hero Image */}
@@ -122,30 +118,15 @@ export default function Hero() {
             animate="visible"
             className="relative"
           >
-            {/* Simple Image */}
+            {/* Image - Use API background image or fallback */}
             <img
-              src="/product8.jpeg"
+              src={hero.backgroundImage?.url || "/product8.jpeg"}
               alt="HDPE LDPE Bottles Collection"
               className="w-full max-w-lg mx-auto rounded-2xl shadow-lg"
+              onError={(e) => {
+                e.target.src = "/product8.jpeg";
+              }}
             />
-
-            {/* Floating Badge - ISO Certified */}
-            {/* <motion.div
-              className="absolute -bottom-4 -left-4 sm:bottom-8 sm:left-0 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-4 border border-gray-100 dark:border-gray-700"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                  <span className="text-2xl">✓</span>
-                </div>
-                <div>
-                  <div className="font-bold text-gray-800 dark:text-white">ISO Certified</div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">Quality Assured</div>
-                </div>
-              </div>
-            </motion.div> */}
 
             {/* Floating Badge - Capacity Range */}
             <motion.div

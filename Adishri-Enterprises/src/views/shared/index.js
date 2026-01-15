@@ -4,3 +4,12 @@ export { default as AnimatedCounter, CounterWithLabel, GradientCounter } from ".
 export { default as FloatingBlur, FloatingBlurs, BlurBackground, GlowEffect } from "./FloatingBlur";
 export { default as Button } from "./Button";
 export { default as SectionHeading } from "./SectionHeading";
+export { 
+  Skeleton, 
+  SkeletonText, 
+  SkeletonCard, 
+  SkeletonProductCard, 
+  SkeletonHero, 
+  SkeletonGallery,
+  SkeletonSection 
+} from "./Skeleton";

@@ -1,10 +1,42 @@
 // Vision Component - Future Goals & Company Direction
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { visionCards } from "../../models/visionData";
+import { visionCards as defaultVisionCards } from "../../models/visionData";
 import { staggerContainer, staggerItem } from "../../controllers/useAnimations";
 import { SectionHeading } from "../shared";
+import { visionAPI } from "../../services/api";
+import { Target, Rocket, Globe, TrendingUp, Lightbulb, Award, Users, Shield } from "lucide-react";
+
+// Icon mapping for dynamic icons from API
+const iconMap = {
+  Target, Rocket, Globe, TrendingUp, Lightbulb, Award, Users, Shield
+};
 
 export default function Vision() {
+  const [visionData, setVisionData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchVision = async () => {
+      try {
+        const response = await visionAPI.get();
+        setVisionData(response.data.data);
+      } catch (error) {
+        console.log('Using default vision data');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchVision();
+  }, []);
+
+  // Use API data or fallback to defaults
+  const subtitle = visionData?.subtitle || "Our Vision";
+  const title = visionData?.title || "Shaping the Future of";
+  const highlight = visionData?.highlight || "Packaging";
+  const description = visionData?.description || "Driven by innovation and commitment to excellence, we're building tomorrow's packaging solutions today.";
+  const cards = visionData?.cards || defaultVisionCards;
+
   return (
     <section className="py-20 md:py-28 bg-background relative overflow-hidden min-h-[60vh]">
       {/* Background decoration */}
@@ -13,10 +45,10 @@ export default function Vision() {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
-          subtitle="Our Vision"
-          title="Shaping the Future of"
-          highlight="Packaging"
-          description="Driven by innovation and commitment to excellence, we're building tomorrow's packaging solutions today."
+          subtitle={subtitle}
+          title={title}
+          highlight={highlight}
+          description={description}
         />
 
         {/* Vision Cards Grid */}
@@ -27,8 +59,9 @@ export default function Vision() {
           viewport={{ once: true, amount: 0.2 }}
           className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12"
         >
-          {visionCards.map((card, index) => {
-            const Icon = card.icon;
+          {cards.map((card, index) => {
+            // Get icon from map (API) or use directly (static data)
+            const Icon = typeof card.icon === 'string' ? iconMap[card.icon] : card.icon;
             return (
               <motion.div
                 key={index}
@@ -37,7 +70,7 @@ export default function Vision() {
               >
                 {/* Icon */}
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-gradient-from to-gradient-to flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
-                  <Icon className="w-7 h-7 text-white" />
+                  {Icon && <Icon className="w-7 h-7 text-white" />}
                 </div>
 
                 {/* Title */}

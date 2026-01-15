@@ -2,9 +2,10 @@
 export const navLinks = [
   { id: 1, name: "Home", href: "/" },
   { id: 2, name: "Products", href: "/products" },
-  { id: 3, name: "About", href: "/about" },
-  { id: 4, name: "Vision", href: "/vision" },
-  { id: 5, name: "Contact", href: "/contact" }
+  { id: 3, name: "Gallery", href: "/gallery" },
+  { id: 4, name: "About", href: "/about" },
+  { id: 5, name: "Vision", href: "/vision" },
+  { id: 6, name: "Contact", href: "/contact" }
 ];
 
 // Footer Links
@@ -12,6 +13,7 @@ export const footerLinks = {
   quickLinks: [
     { name: "Home", href: "/" },
     { name: "Products", href: "/products" },
+    { name: "Gallery", href: "/gallery" },
     { name: "About Us", href: "/about" },
     { name: "Our Vision", href: "/vision" },
     { name: "Contact", href: "/contact" }

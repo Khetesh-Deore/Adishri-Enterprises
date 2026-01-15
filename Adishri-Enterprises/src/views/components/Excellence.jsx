@@ -1,8 +1,9 @@
-// Excellence Component - About Section with Industries & Capacity
+// Excellence Component - About Section with Industries & Capacity (API Integration)
 import { motion } from "framer-motion";
 import { CheckCircle, Leaf, Target, Package, Factory, Beaker, Home, Tractor } from "lucide-react";
+import { useAbout } from "../../hooks/useApi";
 import { fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "../../controllers/useAnimations";
-import { SectionHeading } from "../shared";
+import { SectionHeading, Skeleton } from "../shared";
 
 // Targeted Industries
 const industries = [
@@ -51,6 +52,14 @@ const packagingFeatures = [
 ];
 
 export default function Excellence() {
+  // Fetch about data from API
+  const { data: apiAbout, loading } = useAbout();
+
+  // Use API data for mission/vision if available
+  const mission = apiAbout?.mission?.description || "To provide superior quality plastic packaging solutions ensuring safety, durability, and customer satisfaction.";
+  const vision = apiAbout?.vision?.description || "100% recyclable HDPE & LDPE materials promoting sustainable packaging solutions.";
+  const aboutImage = apiAbout?.image?.url;
+
   return (
     <section className="py-20 md:py-28 bg-background min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -158,7 +167,7 @@ export default function Excellence() {
                 <div>
                   <h4 className="font-bold text-foreground mb-1">Our Mission</h4>
                   <p className="text-sm text-muted-foreground">
-                    To provide superior quality plastic packaging solutions ensuring safety, durability, and customer satisfaction.
+                    {mission}
                   </p>
                 </div>
               </div>
