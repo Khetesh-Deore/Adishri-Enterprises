@@ -60,8 +60,7 @@ export default function Hero() {
               className="mt-6 text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0"
             >
               Industry-leading manufacturer of high-quality plastic bottles for
-              pharmaceuticals, chemicals, and industrial applications. ISO certified
-              with 15+ years of excellence.
+              pharmaceuticals, chemicals, and industrial applications.
             </motion.p>
 
             {/* CTA Buttons */}
