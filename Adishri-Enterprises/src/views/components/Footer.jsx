@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, MapPin, ArrowUp } from "lucide-react";
-import { useContact, useSettings } from "../../hooks/useApi";
-import { footerLinks, socialLinks, contactInfo as staticContact } from "../../models/navigationData";
+import { useContact, useSettings, useNavigation } from "../../hooks/useApi";
+import { socialLinks, contactInfo as staticContact } from "../../models/navigationData";
 import { staggerContainer, staggerItem } from "../../controllers/useAnimations";
 
 // Social icons as simple SVGs to avoid deprecation warnings
@@ -29,6 +29,7 @@ export default function Footer() {
   // Fetch data from API
   const { data: apiContact } = useContact();
   const { data: apiSettings } = useSettings();
+  const { data: navigation } = useNavigation();
 
   // Merge API data with static fallback
   const contact = {
@@ -39,6 +40,19 @@ export default function Footer() {
     address: apiContact?.address?.full || staticContact.address,
     socialLinks: apiContact?.socialLinks || {}
   };
+  
+  // Get footer links from navigation API
+  const quickLinks = navigation?.footerQuickLinks?.sort((a, b) => a.order - b.order) || [
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Products', href: '/products' },
+    { name: 'Contact', href: '/contact' }
+  ];
+  
+  const resources = navigation?.footerResources?.sort((a, b) => a.order - b.order) || [
+    { name: 'Privacy Policy', href: '/privacy' },
+    { name: 'Terms of Service', href: '/terms' }
+  ];
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -54,8 +68,8 @@ export default function Footer() {
   // Build social links from API or static
   const activeSocialLinks = socialLinks.map(social => ({
     ...social,
-    href: contact.socialLinks[social.icon.toLowerCase()] || social.href
-  })).filter(s => s.href);
+    href: (navigation?.socialLinks?.[social.icon.toLowerCase()] || contact.socialLinks[social.icon.toLowerCase()] || social.href)
+  })).filter(s => s.href && s.href !== '');
 
   return (
     <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-300 relative overflow-hidden mt-auto">
@@ -91,7 +105,7 @@ export default function Footer() {
           <motion.div variants={staggerItem}>
             <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              {footerLinks.quickLinks.map((link, i) => (
+              {quickLinks.map((link, i) => (
                 <li key={i}>
                   {isInternalLink(link.href) ? (
                     <Link to={link.href} className={`text-sm hover:text-blue-400 transition-colors ${location.pathname === link.href ? 'text-blue-400' : ''}`}>
@@ -105,23 +119,11 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          {/* Credentials */}
-          <motion.div variants={staggerItem}>
-            <h4 className="text-white font-semibold mb-4">Credentials</h4>
-            <ul className="space-y-2">
-              {(apiSettings?.credentials || footerLinks.credentials).map((cred, i) => (
-                <li key={i}>
-                  <span className="text-sm text-gray-400">{cred.name}</span>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
           {/* Resources */}
           <motion.div variants={staggerItem}>
             <h4 className="text-white font-semibold mb-4">Resources</h4>
             <ul className="space-y-2">
-              {footerLinks.resources.map((link, i) => (
+              {resources.map((link, i) => (
                 <li key={i}>
                   {isInternalLink(link.href) ? (
                     <Link to={link.href} className="text-sm hover:text-blue-400 transition-colors">{link.name}</Link>

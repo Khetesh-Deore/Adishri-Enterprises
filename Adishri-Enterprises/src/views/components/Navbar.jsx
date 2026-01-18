@@ -1,9 +1,9 @@
-// Navbar Component - Sticky Navigation with Glassmorphism
+// Navbar Component - Sticky Navigation with Glassmorphism (API Integration)
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Sun, Moon, MessageCircle } from "lucide-react";
-import { navLinks, whatsappConfig } from "../../models/navigationData";
+import { useNavigation } from "../../hooks/useApi";
 import { useTheme } from "../../controllers/useTheme";
 
 export default function Navbar() {
@@ -14,6 +14,17 @@ export default function Navbar() {
   const { isDark, toggleTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
+  
+  // Fetch navigation data from API
+  const { data: navigation } = useNavigation();
+  const navLinks = navigation?.navLinks?.sort((a, b) => a.order - b.order) || [];
+  const whatsappNumber = navigation?.whatsapp?.number || '919876543210';
+  const whatsappMessage = navigation?.whatsapp?.message || 'Hello! I would like to inquire about your products.';
+  
+  const getWhatsAppLink = () => {
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    return `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+  };
 
   // Handle scroll for navbar visibility and background
   useEffect(() => {
@@ -125,7 +136,7 @@ export default function Navbar() {
             
             {/* WhatsApp Button - Desktop */}
             <motion.a
-              href={whatsappConfig.getWhatsAppLink()}
+              href={getWhatsAppLink()}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-900/50 transition-colors no-external-icon"
@@ -236,7 +247,7 @@ export default function Navbar() {
                 transition={{ delay: navLinks.length * 0.05 }}
               >
                 <a
-                  href={whatsappConfig.getWhatsAppLink()}
+                  href={getWhatsAppLink()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 w-full px-4 py-3 rounded-xl font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 no-external-icon"

@@ -11,6 +11,9 @@ const contactRoutes = require('./contactRoutes');
 const settingsRoutes = require('./settingsRoutes');
 const uploadRoutes = require('./uploadRoutes');
 const visionRoutes = require('./visionRoutes');
+const coreValueRoutes = require('./coreValueRoutes');
+const standardRoutes = require('./standardRoutes');
+const navigationRoutes = require('./navigationRoutes');
 
 // Mount routes
 router.use('/auth', authRoutes);
@@ -22,6 +25,9 @@ router.use('/contact', contactRoutes);
 router.use('/settings', settingsRoutes);
 router.use('/upload', uploadRoutes);
 router.use('/vision', visionRoutes);
+router.use('/core-values', coreValueRoutes);
+router.use('/standards', standardRoutes);
+router.use('/navigation', navigationRoutes);
 
 // Health check
 router.get('/health', (req, res) => {

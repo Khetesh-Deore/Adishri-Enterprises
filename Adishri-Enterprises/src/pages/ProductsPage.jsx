@@ -5,7 +5,7 @@ export default function ProductsPage() {
   return (
     <>
       <ProductCollection />
-      <Standards />
+      {/* <Standards /> */}
     </>
   );
 }

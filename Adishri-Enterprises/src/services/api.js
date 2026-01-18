@@ -46,4 +46,21 @@ export const visionAPI = {
   get: () => api.get('/vision')
 };
 
+// Core Values API
+export const coreValuesAPI = {
+  getAll: () => api.get('/core-values'),
+  getOne: (id) => api.get(`/core-values/${id}`)
+};
+
+// Standards API
+export const standardsAPI = {
+  getAll: () => api.get('/standards'),
+  getOne: (id) => api.get(`/standards/${id}`)
+};
+
+// Navigation API
+export const navigationAPI = {
+  get: () => api.get('/navigation')
+};
+
 export default api;

@@ -1,33 +1,32 @@
-// Standards Component - Quality Standards Section
+// Standards Component - Quality Standards Section (API Integration)
 import { motion } from "framer-motion";
-import { Shield, CheckCircle, Award, Leaf, Recycle, FlaskConical } from "lucide-react";
+import { Shield, CheckCircle, Award, Leaf, Recycle, FlaskConical, Factory, Package } from "lucide-react";
+import { useStandards } from "../../hooks/useApi";
 import { fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "../../controllers/useAnimations";
-import { FloatingBlur } from "../shared";
+import { FloatingBlur, Skeleton } from "../shared";
 
-const standardFeatures = [
-  {
-    icon: Shield,
-    title: "ISO 9001:2015",
-    description: "Certified quality management system ensuring consistent product excellence"
-  },
-  {
-    icon: FlaskConical,
-    title: "FDA Approved",
-    description: "Materials approved for food and pharmaceutical contact applications"
-  },
-  {
-    icon: Award,
-    title: "BIS Certified",
-    description: "Compliance with Bureau of Indian Standards for plastic containers"
-  },
-  {
-    icon: Recycle,
-    title: "Recyclable Materials",
-    description: "100% recyclable HDPE and LDPE for sustainable packaging solutions"
-  }
-];
+// Icon mapping
+const iconMap = {
+  Shield,
+  FlaskConical,
+  Award,
+  Recycle,
+  CheckCircle,
+  Leaf,
+  Factory,
+  Package
+};
 
 export default function Standards() {
+  const { standards, loading } = useStandards();
+
+  // Map standards to match existing structure
+  const standardFeatures = standards.map(s => ({
+    icon: iconMap[s.icon] || Shield,
+    title: s.title,
+    description: s.description
+  }));
+
   return (
     <section
       id="standards"
@@ -70,33 +69,49 @@ export default function Standards() {
             </p>
 
             {/* Features Grid */}
-            <motion.div
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              className="mt-10 grid sm:grid-cols-2 gap-4"
-            >
-              {standardFeatures.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  variants={staggerItem}
-                  className="p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors group"
-                >
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                      <feature.icon className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-white">{feature.title}</h4>
-                      <p className="text-sm text-blue-200/70 mt-1">
-                        {feature.description}
-                      </p>
+            {loading ? (
+              <div className="mt-10 grid sm:grid-cols-2 gap-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
+                    <div className="flex items-start gap-3">
+                      <Skeleton className="w-10 h-10 rounded-lg" />
+                      <div className="flex-1">
+                        <Skeleton className="h-5 w-32 mb-2" />
+                        <Skeleton className="h-4 w-full" />
+                      </div>
                     </div>
                   </div>
-                </motion.div>
-              ))}
-            </motion.div>
+                ))}
+              </div>
+            ) : (
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                className="mt-10 grid sm:grid-cols-2 gap-4"
+              >
+                {standardFeatures.map((feature, index) => (
+                  <motion.div
+                    key={index}
+                    variants={staggerItem}
+                    className="p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors group"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                        <feature.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-white">{feature.title}</h4>
+                        <p className="text-sm text-blue-200/70 mt-1">
+                          {feature.description}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
           </motion.div>
 
           {/* Right Content - Image */}

@@ -98,4 +98,46 @@ export const uploadAPI = {
   delete: (publicId) => api.delete(`/upload/${publicId}`)
 };
 
+// Core Values API
+export const coreValuesAPI = {
+  getAll: () => api.get('/core-values'),
+  getOne: (id) => api.get(`/core-values/${id}`),
+  create: (data) => api.post('/core-values', data),
+  update: (id, data) => api.put(`/core-values/${id}`, data),
+  delete: (id) => api.delete(`/core-values/${id}`),
+  reorder: (data) => api.put('/core-values/reorder', data)
+};
+
+// Standards API
+export const standardsAPI = {
+  getAll: () => api.get('/standards'),
+  getOne: (id) => api.get(`/standards/${id}`),
+  create: (data) => api.post('/standards', data),
+  update: (id, data) => api.put(`/standards/${id}`, data),
+  delete: (id) => api.delete(`/standards/${id}`),
+  reorder: (data) => api.put('/standards/reorder', data)
+};
+
+// Navigation API
+export const navigationAPI = {
+  get: () => api.get('/navigation'),
+  update: (data) => api.put('/navigation', data)
+};
+
+// Vision API
+export const visionAPI = {
+  get: () => api.get('/vision'),
+  update: (data) => api.put('/vision', data)
+};
+
+// Users API
+export const usersAPI = {
+  getAll: (params) => api.get('/auth/users', { params }),
+  getOne: (id) => api.get(`/auth/users/${id}`),
+  create: (data) => api.post('/auth/users', data),
+  update: (id, data) => api.put(`/auth/users/${id}`, data),
+  delete: (id) => api.delete(`/auth/users/${id}`),
+  resetPassword: (id, data) => api.put(`/auth/users/${id}/reset-password`, data)
+};
+
 export default api;

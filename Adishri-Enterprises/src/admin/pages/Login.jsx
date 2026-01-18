@@ -122,11 +122,11 @@ export default function Login() {
           </form>
 
           {/* Demo credentials hint */}
-          <div className="mt-6 p-4 bg-muted/50 rounded-lg">
+          {/* <div className="mt-6 p-4 bg-muted/50 rounded-lg">
             <p className="text-xs text-muted-foreground text-center">
               Default: admin@adishrienterprises.com / Admin@123
             </p>
-          </div>
+          </div> */}
         </div>
 
         {/* Back to site */}

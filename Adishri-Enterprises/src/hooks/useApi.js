@@ -165,3 +165,79 @@ export function useSettings() {
 
   return useFetch(() => settingsAPI.get(), defaultSettings);
 }
+
+// Core Values data hook
+export function useCoreValues() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetch = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await import('../services/api').then(m => m.coreValuesAPI.getAll());
+      setData(response.data?.data || []);
+    } catch (err) {
+      console.error('Core Values API Error:', err);
+      setError(err.message || 'Failed to fetch core values');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetch();
+  }, [fetch]);
+
+  return { coreValues: data, loading, error, refetch: fetch };
+}
+
+// Standards data hook
+export function useStandards() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetch = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await import('../services/api').then(m => m.standardsAPI.getAll());
+      setData(response.data?.data || []);
+    } catch (err) {
+      console.error('Standards API Error:', err);
+      setError(err.message || 'Failed to fetch standards');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetch();
+  }, [fetch]);
+
+  return { standards: data, loading, error, refetch: fetch };
+}
+
+// Navigation data hook
+export function useNavigation() {
+  const defaultNavigation = {
+    navLinks: [
+      { id: 'home', name: 'Home', href: '/', order: 0 },
+      { id: 'about', name: 'About', href: '/about', order: 1 },
+      { id: 'products', name: 'Products', href: '/products', order: 2 },
+      { id: 'vision', name: 'Vision', href: '/vision', order: 3 },
+      { id: 'contact', name: 'Contact', href: '/contact', order: 4 }
+    ],
+    footerQuickLinks: [],
+    footerResources: [],
+    socialLinks: {},
+    whatsapp: { number: '919876543210', message: 'Hello! I would like to inquire about your products.' }
+  };
+
+  return useFetch(async () => {
+    const { navigationAPI } = await import('../services/api');
+    return navigationAPI.get();
+  }, defaultNavigation);
+}
