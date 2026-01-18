@@ -147,12 +147,14 @@ export const products = [
   }
 ];
 
-// Product Categories
+// Product Categories - Match backend enum values
 export const categories = [
   { id: "all", name: "All Products", count: 8 },
-  { id: "hdpe", name: "HDPE Bottles", count: 5 },
-  { id: "ldpe", name: "LDPE Bottles", count: 1 },
-  { id: "jerry can", name: "Jerry Cans", count: 2 }
+  { id: "hdpe-bottles", name: "HDPE Bottles", count: 5 },
+  { id: "ldpe-bottles", name: "LDPE Bottles", count: 1 },
+  { id: "jerry-cans", name: "Jerry Cans", count: 2 },
+  { id: "caps-closures", name: "Caps & Closures", count: 0 },
+  { id: "custom-moulded", name: "Custom Moulded", count: 0 }
 ];
 
 // Capacity Options

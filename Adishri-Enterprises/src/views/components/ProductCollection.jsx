@@ -15,10 +15,7 @@ export default function ProductCollection() {
 
   const filteredProducts = activeCategory === "all"
     ? products
-    : products.filter((p) => {
-        const cat = p.category?.toLowerCase().replace(/\s+/g, '-');
-        return cat === activeCategory.toLowerCase();
-      });
+    : products.filter((p) => p.category === activeCategory);
 
   const scroll = (dir) => {
     if (scrollRef.current) {

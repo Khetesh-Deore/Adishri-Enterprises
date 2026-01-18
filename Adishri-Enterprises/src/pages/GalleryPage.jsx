@@ -26,7 +26,7 @@ export default function GalleryPage() {
     : images.filter(img => img.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-background py-20 md:py-28">
+    <div className="bg-background py-12 md:py-16 pt-24 md:pt-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -105,11 +105,12 @@ export default function GalleryPage() {
                 >
                   {/* Image */}
                   <img
-                    src={image.image?.url || image.image}
+                    src={image.image?.url || image.image || '/product1.jpeg'}
                     alt={image.title || 'Product'}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     onError={(e) => {
-                      e.target.src = '/placeholder-product.jpg';
+                      e.target.onerror = null;
+                      e.target.src = '/product1.jpeg';
                     }}
                   />
 
@@ -173,9 +174,13 @@ export default function GalleryPage() {
               onClick={(e) => e.stopPropagation()}
             >
               <img
-                src={selectedImage.image?.url || selectedImage.image}
+                src={selectedImage.image?.url || selectedImage.image || '/product1.jpeg'}
                 alt={selectedImage.title}
                 className="w-full h-auto max-h-[85vh] object-contain rounded-lg"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = '/product1.jpeg';
+                }}
               />
               
               {/* Image Info */}

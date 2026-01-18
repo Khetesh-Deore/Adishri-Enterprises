@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test - Adishri Enterprises</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+        }
+        .endpoint {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .endpoint h3 {
+            margin: 0 0 10px 0;
+            color: #2563eb;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .success {
+            background: #10b981;
+            color: white;
+        }
+        .error {
+            background: #ef4444;
+            color: white;
+        }
+        .loading {
+            background: #f59e0b;
+            color: white;
+        }
+        pre {
+            background: #f9fafb;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 10px 5px 10px 0;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 API Connection Test</h1>
+    <p>Testing connection to: <strong id="api-url"></strong></p>
+    
+    <button onclick="testAllEndpoints()">Test All Endpoints</button>
+    <button onclick="clearResults()">Clear Results</button>
+    
+    <div id="results"></div>
+
+    <script>
+        const API_URL = 'https://adishri-enterprises.onrender.com/api';
+        document.getElementById('api-url').textContent = API_URL;
+
+        const endpoints = [
+            { name: 'Health Check', url: '/health' },
+            { name: 'Hero', url: '/hero' },
+            { name: 'Products', url: '/products' },
+            { name: 'Gallery', url: '/gallery' },
+            { name: 'Core Values', url: '/core-values' },
+            { name: 'Standards', url: '/standards' },
+            { name: 'About', url: '/about' },
+            { name: 'Vision', url: '/vision' },
+            { name: 'Contact', url: '/contact' },
+            { name: 'Settings', url: '/settings' },
+            { name: 'Navigation', url: '/navigation' }
+        ];
+
+        async function testEndpoint(endpoint) {
+            const resultDiv = document.getElementById(`result-${endpoint.name.replace(/\s+/g, '-')}`);
+            resultDiv.innerHTML = `<span class="status loading">Testing...</span>`;
+
+            try {
+                const response = await fetch(API_URL + endpoint.url);
+                const data = await response.json();
+                
+                const dataCount = Array.isArray(data.data) ? data.data.length : (data.data ? 1 : 0);
+                
+                resultDiv.innerHTML = `
+                    <span class="status success">✓ ${response.status}</span>
+                    <span style="margin-left: 10px; color: #666;">
+                        ${dataCount} item${dataCount !== 1 ? 's' : ''}
+                    </span>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <span class="status error">✗ Error</span>
+                    <pre>${error.message}</pre>
+                `;
+            }
+        }
+
+        async function testAllEndpoints() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            for (const endpoint of endpoints) {
+                const endpointDiv = document.createElement('div');
+                endpointDiv.className = 'endpoint';
+                endpointDiv.innerHTML = `
+                    <h3>${endpoint.name}</h3>
+                    <div id="result-${endpoint.name.replace(/\s+/g, '-')}">
+                        <span class="status loading">Waiting...</span>
+                    </div>
+                `;
+                resultsDiv.appendChild(endpointDiv);
+            }
+
+            for (const endpoint of endpoints) {
+                await testEndpoint(endpoint);
+                await new Promise(resolve => setTimeout(resolve, 200));
+            }
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+
+        // Auto-test on load
+        window.onload = () => {
+            setTimeout(testAllEndpoints, 500);
+        };
+    </script>
+</body>
+</html>

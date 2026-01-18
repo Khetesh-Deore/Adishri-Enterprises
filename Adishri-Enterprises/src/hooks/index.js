@@ -6,5 +6,8 @@ export {
   useAbout, 
   useGallery, 
   useContact, 
-  useSettings 
+  useSettings,
+  useCoreValues,
+  useStandards,
+  useNavigation
 } from './useApi';
