@@ -83,6 +83,11 @@ export default function HeroSliderEditor() {
     setSaving(true);
     try {
       for (const slide of slides) {
+        // Skip empty new slides
+        if (slide._isNew && (!slide.title || !slide.subtitle || !slide.description || !slide.image)) {
+          continue;
+        }
+        
         if (slide._isNew) {
           await heroSliderAPI.create(slide);
         } else {
@@ -92,7 +97,8 @@ export default function HeroSliderEditor() {
       toast.success('Hero slides saved successfully');
       fetchData();
     } catch (error) {
-      toast.error('Failed to save hero slides');
+      toast.error(error.response?.data?.message || 'Failed to save hero slides');
+      console.error('Save error:', error);
     } finally {
       setSaving(false);
     }

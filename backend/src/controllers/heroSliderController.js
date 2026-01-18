@@ -1,5 +1,5 @@
 const HeroSlider = require('../models/HeroSlider');
-const { uploadToCloudinary, deleteFromCloudinary } = require('../config/cloudinary');
+const { cloudinary } = require('../config/cloudinary');
 
 // @desc    Get all hero slides
 // @route   GET /api/hero-slider
@@ -58,12 +58,11 @@ exports.createSlide = async (req, res) => {
   try {
     const slideData = { ...req.body };
     
-    // Handle image upload
+    // Handle image upload (multer already uploaded to Cloudinary)
     if (req.file) {
-      const result = await uploadToCloudinary(req.file.buffer, 'hero-slider');
       slideData.image = {
-        url: result.secure_url,
-        publicId: result.public_id
+        url: req.file.path,
+        publicId: req.file.filename
       };
     }
     
@@ -100,17 +99,16 @@ exports.updateSlide = async (req, res) => {
     
     const updateData = { ...req.body };
     
-    // Handle image upload
+    // Handle image upload (multer already uploaded to Cloudinary)
     if (req.file) {
       // Delete old image from Cloudinary
       if (slide.image?.publicId) {
-        await deleteFromCloudinary(slide.image.publicId);
+        await cloudinary.uploader.destroy(slide.image.publicId);
       }
       
-      const result = await uploadToCloudinary(req.file.buffer, 'hero-slider');
       updateData.image = {
-        url: result.secure_url,
-        publicId: result.public_id
+        url: req.file.path,
+        publicId: req.file.filename
       };
     }
     
@@ -151,7 +149,7 @@ exports.deleteSlide = async (req, res) => {
     
     // Delete image from Cloudinary
     if (slide.image?.publicId) {
-      await deleteFromCloudinary(slide.image.publicId);
+      await cloudinary.uploader.destroy(slide.image.publicId);
     }
     
     await slide.deleteOne();
