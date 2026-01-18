@@ -6,6 +6,7 @@ const CLOUD_MONGODB_URI = 'mongodb+srv://khetesh:Khetesh%40123@adishri.zybxdok.m
 
 // Import all models
 const Hero = require('../models/Hero');
+const HeroSlider = require('../models/HeroSlider');
 const About = require('../models/About');
 const Vision = require('../models/Vision');
 const Product = require('../models/Product');
@@ -268,6 +269,48 @@ const standardsData = [
   { title: 'Recyclable Materials', description: '100% recyclable HDPE and LDPE for sustainable packaging solutions', icon: 'Recycle', order: 3, isActive: true }
 ];
 
+const heroSliderData = [
+  {
+    title: 'Future of Packaging',
+    subtitle: 'Innovation in Every Bottle',
+    description: 'Leading manufacturer of premium HDPE & LDPE bottles for pharmaceutical, chemical, and industrial applications',
+    image: { url: '/product8.jpeg' },
+    ctaText: 'Explore Products',
+    ctaLink: '/products',
+    secondaryText: 'Get Quote',
+    secondaryLink: '/contact',
+    badge: '🚀 Innovation Leader',
+    order: 0,
+    isActive: true
+  },
+  {
+    title: 'Sustainable Manufacturing',
+    subtitle: 'Eco-Friendly Solutions',
+    description: 'Committed to sustainable practices with recyclable materials and energy-efficient production processes',
+    image: { url: '/product1.jpeg' },
+    ctaText: 'Our Standards',
+    ctaLink: '/vision',
+    secondaryText: 'Learn More',
+    secondaryLink: '/about',
+    badge: '♻️ Eco-Friendly',
+    order: 1,
+    isActive: true
+  },
+  {
+    title: 'Manufacturing Excellence',
+    subtitle: '15+ Years of Trust',
+    description: 'State-of-the-art facilities producing 10,000+ units daily with ISO certified quality standards',
+    image: { url: '/product3.jpeg' },
+    ctaText: 'View Gallery',
+    ctaLink: '/gallery',
+    secondaryText: 'Contact Us',
+    secondaryLink: '/contact',
+    badge: '🏆 Quality Certified',
+    order: 2,
+    isActive: true
+  }
+];
+
 const navigationData = {
   navLinks: [
     { id: 'home', name: 'Home', href: '/', order: 0 },
@@ -303,6 +346,7 @@ const seedCloud = async () => {
     console.log('🗑️  Clearing existing data...');
     await Promise.all([
       Hero.deleteMany(),
+      HeroSlider.deleteMany(),
       About.deleteMany(),
       Vision.deleteMany(),
       Product.deleteMany(),
@@ -325,6 +369,9 @@ const seedCloud = async () => {
 
     await Hero.create(heroData);
     console.log('✅ Hero seeded');
+
+    await HeroSlider.insertMany(heroSliderData);
+    console.log(`✅ ${heroSliderData.length} Hero Slides seeded`);
 
     await About.create(aboutData);
     console.log('✅ About seeded');
@@ -365,6 +412,7 @@ const seedCloud = async () => {
     console.log(`   - Settings: 1`);
     console.log(`   - Navigation: 1`);
     console.log(`   - Hero: 1`);
+    console.log(`   - Hero Slides: ${heroSliderData.length}`);
     console.log(`   - About: 1`);
     console.log(`   - Vision: 1`);
     console.log(`   - Core Values: ${coreValuesData.length}`);

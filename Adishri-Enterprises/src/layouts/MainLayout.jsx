@@ -1,6 +1,6 @@
 // MainLayout - Shared layout with Navbar and Footer
 import { Outlet } from "react-router-dom";
-import { Navbar, Footer } from "../views/components";
+import { Navbar, Footer, WhatsAppButton } from "../views/components";
 
 export default function MainLayout() {
   return (
@@ -10,6 +10,7 @@ export default function MainLayout() {
         <Outlet />
       </main>
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 }

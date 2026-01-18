@@ -4,6 +4,7 @@ const router = express.Router();
 // Import all routes
 const authRoutes = require('./authRoutes');
 const heroRoutes = require('./heroRoutes');
+const heroSliderRoutes = require('./heroSliderRoutes');
 const productRoutes = require('./productRoutes');
 const aboutRoutes = require('./aboutRoutes');
 const galleryRoutes = require('./galleryRoutes');
@@ -18,6 +19,7 @@ const navigationRoutes = require('./navigationRoutes');
 // Mount routes
 router.use('/auth', authRoutes);
 router.use('/hero', heroRoutes);
+router.use('/hero-slider', heroSliderRoutes);
 router.use('/products', productRoutes);
 router.use('/about', aboutRoutes);
 router.use('/gallery', galleryRoutes);

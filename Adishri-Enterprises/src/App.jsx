@@ -13,6 +13,7 @@ import {
   Login,
   Dashboard,
   HeroEditor,
+  HeroSliderEditor,
   AboutEditor,
   ProductsManager,
   GalleryManager,
@@ -50,6 +51,7 @@ function App() {
             >
               <Route index element={<Dashboard />} />
               <Route path="hero" element={<HeroEditor />} />
+              <Route path="hero-slider" element={<HeroSliderEditor />} />
               <Route path="about" element={<AboutEditor />} />
               <Route path="products" element={<ProductsManager />} />
               <Route path="gallery" element={<GalleryManager />} />

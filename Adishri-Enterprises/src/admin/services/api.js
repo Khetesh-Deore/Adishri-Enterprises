@@ -124,6 +124,40 @@ export const navigationAPI = {
   update: (data) => api.put('/navigation', data)
 };
 
+// Hero Slider API
+export const heroSliderAPI = {
+  getAll: () => api.get('/hero-slider'),
+  getOne: (id) => api.get(`/hero-slider/${id}`),
+  create: (data) => {
+    const formData = new FormData();
+    Object.keys(data).forEach(key => {
+      if (key === 'image' && data[key] instanceof File) {
+        formData.append('image', data[key]);
+      } else {
+        formData.append(key, data[key]);
+      }
+    });
+    return api.post('/hero-slider', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+  },
+  update: (id, data) => {
+    const formData = new FormData();
+    Object.keys(data).forEach(key => {
+      if (key === 'image' && data[key] instanceof File) {
+        formData.append('image', data[key]);
+      } else if (key !== 'image') {
+        formData.append(key, data[key]);
+      }
+    });
+    return api.put(`/hero-slider/${id}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+  },
+  delete: (id) => api.delete(`/hero-slider/${id}`),
+  reorder: (data) => api.put('/hero-slider/reorder', data)
+};
+
 // Vision API
 export const visionAPI = {
   get: () => api.get('/vision'),

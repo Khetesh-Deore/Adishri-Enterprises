@@ -241,3 +241,45 @@ export function useNavigation() {
     return navigationAPI.get();
   }, defaultNavigation);
 }
+
+// Hero Slider data hook
+export function useHeroSlider() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetch = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await import('../services/api').then(m => m.heroSliderAPI.getAll());
+      setData(response.data?.data || []);
+    } catch (err) {
+      console.error('Hero Slider API Error:', err);
+      setError(err.message || 'Failed to fetch hero slides');
+      // Fallback to default slides
+      setData([
+        {
+          id: 1,
+          title: 'Future of Packaging',
+          subtitle: 'Innovation in Every Bottle',
+          description: 'Leading manufacturer of premium HDPE & LDPE bottles for pharmaceutical, chemical, and industrial applications',
+          image: { url: '/product8.jpeg' },
+          ctaText: 'Explore Products',
+          ctaLink: '/products',
+          secondaryText: 'Get Quote',
+          secondaryLink: '/contact',
+          badge: '🚀 Innovation Leader'
+        }
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetch();
+  }, [fetch]);
+
+  return { slides: data, loading, error, refetch: fetch };
+}

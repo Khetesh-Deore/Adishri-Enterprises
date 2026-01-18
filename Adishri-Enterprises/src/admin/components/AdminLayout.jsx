@@ -3,12 +3,13 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
   LayoutDashboard, Package, Image, Settings, 
-  LogOut, Menu, X, ChevronRight, Home, Phone, Info, Users, Eye
+  LogOut, Menu, X, ChevronRight, Home, Phone, Info, Users, Eye, Presentation
 } from 'lucide-react';
 
 const navItems = [
   { path: '/admin', icon: LayoutDashboard, label: 'Dashboard', exact: true },
   { path: '/admin/hero', icon: Home, label: 'Hero Section' },
+  { path: '/admin/hero-slider', icon: Presentation, label: 'Hero Slider' },
   { path: '/admin/about', icon: Info, label: 'About Section' },
   { path: '/admin/vision', icon: Eye, label: 'Vision Section' },
   { path: '/admin/products', icon: Package, label: 'Products' },

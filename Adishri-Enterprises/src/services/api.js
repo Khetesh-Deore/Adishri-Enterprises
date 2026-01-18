@@ -63,4 +63,10 @@ export const navigationAPI = {
   get: () => api.get('/navigation')
 };
 
+// Hero Slider API
+export const heroSliderAPI = {
+  getAll: () => api.get('/hero-slider'),
+  getOne: (id) => api.get(`/hero-slider/${id}`)
+};
+
 export default api;
