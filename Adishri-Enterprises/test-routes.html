@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Tester - Adishri Enterprises</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+        }
+        .route-list {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .route-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #2563eb;
+            background: #f9fafb;
+            border-radius: 4px;
+        }
+        .route-item a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .route-item a:hover {
+            text-decoration: underline;
+        }
+        .route-item p {
+            margin: 5px 0 0 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .admin-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+        }
+        .admin-section h2 {
+            color: #dc2626;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status.public {
+            background: #10b981;
+            color: white;
+        }
+        .status.protected {
+            background: #f59e0b;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Route Tester</h1>
+    <p>Test all routes to ensure they work correctly on Vercel deployment.</p>
+    
+    <div class="route-list">
+        <h2>Public Routes <span class="status public">Public</span></h2>
+        
+        <div class="route-item">
+            <a href="/" target="_blank">Home Page</a>
+            <p>Main landing page with hero section</p>
+        </div>
+        
+        <div class="route-item">
+            <a href="/about" target="_blank">About Page</a>
+            <p>Company information and history</p>
+        </div>
+        
+        <div class="route-item">
+            <a href="/products" target="_blank">Products Page</a>
+            <p>Product catalog and collection</p>
+        </div>
+        
+        <div class="route-item">
+            <a href="/gallery" target="_blank">Gallery Page</a>
+            <p>Product image gallery</p>
+        </div>
+        
+        <div class="route-item">
+            <a href="/vision" target="_blank">Vision Page</a>
+            <p>Company vision and core values</p>
+        </div>
+        
+        <div class="route-item">
+            <a href="/contact" target="_blank">Contact Page</a>
+            <p>Contact form and information</p>
+        </div>
+        
+        <div class="admin-section">
+            <h2>Admin Routes <span class="status protected">Protected</span></h2>
+            
+            <div class="route-item">
+                <a href="/admin/login" target="_blank">Admin Login</a>
+                <p>Login page for admin panel access</p>
+            </div>
+            
+            <div class="route-item">
+                <a href="/admin" target="_blank">Admin Dashboard</a>
+                <p>Main admin dashboard (requires login)</p>
+            </div>
+            
+            <div class="route-item">
+                <a href="/admin/products" target="_blank">Products Manager</a>
+                <p>Manage products (requires login)</p>
+            </div>
+            
+            <div class="route-item">
+                <a href="/admin/gallery" target="_blank">Gallery Manager</a>
+                <p>Manage gallery images (requires login)</p>
+            </div>
+        </div>
+    </div>
+    
+    <div style="margin-top: 30px; padding: 20px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+        <h3 style="margin-top: 0; color: #92400e;">⚠️ Important Notes</h3>
+        <ul style="color: #78350f;">
+            <li>All routes should load without 404 errors</li>
+            <li>Admin routes will redirect to login if not authenticated</li>
+            <li>After deployment, test each route on Vercel</li>
+            <li>Clear browser cache if routes don't work</li>
+        </ul>
+    </div>
+    
+    <div style="margin-top: 20px; padding: 20px; background: #dbeafe; border-radius: 8px; border-left: 4px solid #2563eb;">
+        <h3 style="margin-top: 0; color: #1e40af;">📝 Admin Credentials</h3>
+        <p style="color: #1e3a8a; margin: 5px 0;"><strong>Email:</strong> admin@adishrienterprises.com</p>
+        <p style="color: #1e3a8a; margin: 5px 0;"><strong>Password:</strong> Admin@123</p>
+    </div>
+</body>
+</html>
