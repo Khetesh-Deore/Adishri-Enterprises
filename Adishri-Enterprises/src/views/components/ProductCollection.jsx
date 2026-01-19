@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, Package } from "lucide-react";
 import { useProducts } from "../../hooks/useApi";
 import { products as staticProducts, categories } from "../../models/productData";
 import { staggerContainer, staggerItem } from "../../controllers/useAnimations";
-import { SectionHeading, GlassCard, SkeletonProductCard, SkeletonSection } from "../shared";
+import { SectionHeading, GlassCard, LazyImage, LazySection, LazyStaggerContainer, LazyStaggerItem, CardLoader } from "../shared";
 
 export default function ProductCollection() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -28,41 +28,49 @@ export default function ProductCollection() {
 
   if (loading) {
     return (
-      <SkeletonSection>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <SkeletonProductCard key={i} />
-          ))}
+      <section className="py-20 md:py-28 bg-background relative overflow-hidden min-h-screen">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            subtitle="Our Products"
+            title="Premium Bottle"
+            highlight="Collection"
+            description="Explore our comprehensive range of HDPE and LDPE bottles."
+          />
+          <CardLoader className="mt-12" />
         </div>
-      </SkeletonSection>
+      </section>
     );
   }
 
   return (
     <section className="py-20 md:py-28 bg-background relative overflow-hidden min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          subtitle="Our Products"
-          title="Premium Bottle"
-          highlight="Collection"
-          description="Explore our comprehensive range of HDPE and LDPE bottles."
-        />
+        <LazySection animation="fadeUp">
+          <SectionHeading
+            subtitle="Our Products"
+            title="Premium Bottle"
+            highlight="Collection"
+            description="Explore our comprehensive range of HDPE and LDPE bottles."
+          />
+        </LazySection>
 
-        <div className="flex justify-center gap-3 mt-8 mb-12 flex-wrap">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={`px-5 py-2.5 rounded-xl font-medium transition-all ${
-                activeCategory === cat.id
-                  ? "bg-primary text-primary-foreground shadow-lg"
-                  : "bg-card text-foreground hover:bg-muted border border-border"
-              }`}
+        <LazySection animation="fadeIn" delay={0.1}>
+          <div className="flex justify-center gap-3 mt-8 mb-12 flex-wrap">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`px-5 py-2.5 rounded-xl font-medium transition-all ${
+                  activeCategory === cat.id
+                    ? "bg-primary text-primary-foreground shadow-lg"
+                    : "bg-card text-foreground hover:bg-muted border border-border"
+                }`}
             >
               {cat.name}
             </button>
           ))}
-        </div>
+          </div>
+        </LazySection>
 
         <div className="relative hidden md:block">
           <button onClick={() => scroll("left")} className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-card shadow-lg flex items-center justify-center hover:bg-muted">
@@ -111,7 +119,12 @@ function ProductCard({ product }) {
   return (
     <GlassCard className="overflow-hidden h-full" hover={true}>
       <div className="relative h-48 bg-gradient-to-br from-muted to-muted/50 overflow-hidden group">
-        <img src={imageUrl} alt={product.name} className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform" onError={(e) => { e.target.src = "/adishri_logo3.png"; }} />
+        <LazyImage 
+          src={imageUrl} 
+          alt={product.name} 
+          className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform" 
+          onError={(e) => { e.target.src = "/adishri_logo3.png"; }} 
+        />
         <span className="absolute top-3 left-3 px-2.5 py-1 text-xs font-semibold bg-primary text-primary-foreground rounded-lg capitalize">{catLabel}</span>
         {product.isFeatured && <span className="absolute top-3 right-3 px-2 py-1 text-xs bg-accent text-accent-foreground rounded-lg">Featured</span>}
       </div>

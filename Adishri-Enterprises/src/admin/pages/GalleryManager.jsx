@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { galleryAPI, uploadAPI } from '../services/api';
-import { Upload, Trash2, Loader2, X, Image as ImageIcon } from 'lucide-react';
+import { Upload, Trash2, X, Image as ImageIcon } from 'lucide-react';
+import { PageLoader, ButtonSpinner } from '../../views/shared';
 import toast from 'react-hot-toast';
 
 const galleryCategories = [
@@ -109,11 +110,7 @@ export default function GalleryManager() {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
+    return <PageLoader message="Loading gallery..." />;
   }
 
   return (
@@ -137,7 +134,7 @@ export default function GalleryManager() {
           <label className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground 
                            rounded-lg hover:bg-primary-hover transition-colors cursor-pointer">
             {uploading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <ButtonSpinner className="w-4 h-4" />
             ) : (
               <Upload className="w-4 h-4" />
             )}

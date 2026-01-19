@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Package, Image, FileText, Settings, ArrowRight, Loader2 } from 'lucide-react';
+import { Package, Image, FileText, Settings, ArrowRight } from 'lucide-react';
+import { DotsSpinner } from '../../views/shared';
 import { productsAPI, galleryAPI } from '../services/api';
 
 const quickLinks = [
@@ -50,7 +51,7 @@ export default function Dashboard() {
             <div>
               <p className="text-sm text-muted-foreground">Total Products</p>
               {loading ? (
-                <Loader2 className="w-5 h-5 animate-spin mt-2" />
+                <DotsSpinner size="sm" className="mt-2" />
               ) : (
                 <p className="text-3xl font-bold text-foreground mt-1">{stats.products}</p>
               )}
@@ -66,7 +67,7 @@ export default function Dashboard() {
             <div>
               <p className="text-sm text-muted-foreground">Gallery Images</p>
               {loading ? (
-                <Loader2 className="w-5 h-5 animate-spin mt-2" />
+                <DotsSpinner size="sm" className="mt-2" />
               ) : (
                 <p className="text-3xl font-bold text-foreground mt-1">{stats.gallery}</p>
               )}

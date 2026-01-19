@@ -1,11 +1,11 @@
 // ContactForm Component - Contact Section with API Integration
 import { motion } from "framer-motion";
-import { Send, Phone, Mail, MapPin, Clock, Loader2 } from "lucide-react";
+import { Send, Phone, Mail, MapPin, Clock } from "lucide-react";
 import { useForm } from "../../controllers/useForm";
 import { useContact } from "../../hooks/useApi";
 import { contactInfo as staticContact } from "../../models/navigationData";
 import { fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "../../controllers/useAnimations";
-import { SectionHeading, Button, Skeleton } from "../shared";
+import { SectionHeading, Button, LazySection, ButtonSpinner, DotsSpinner } from "../shared";
 
 export default function ContactForm() {
   const { data: apiContact, loading } = useContact();
@@ -54,16 +54,18 @@ ${formData.message}
   return (
     <section className="py-20 md:py-28 bg-muted/30 dark:bg-background relative overflow-hidden min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          subtitle="Get in Touch"
-          title="Let's Discuss Your"
-          highlight="Requirements"
-          description="Ready to elevate your packaging? Contact us for custom solutions."
-        />
+        <LazySection animation="fadeUp">
+          <SectionHeading
+            subtitle="Get in Touch"
+            title="Let's Discuss Your"
+            highlight="Requirements"
+            description="Ready to elevate your packaging? Contact us for custom solutions."
+          />
+        </LazySection>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 mt-12">
           {/* Contact Form */}
-          <motion.div variants={fadeInLeft} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }}>
+          <LazySection animation="fadeLeft">
             <div className="p-6 md:p-8 rounded-2xl bg-card border border-border shadow-lg">
               {isSubmitted ? (
                 <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-12">
@@ -85,22 +87,32 @@ ${formData.message}
                     <FormInput label="Company Name" name="company" placeholder="Your Company" value={values.company} onChange={handleChange} onBlur={handleBlur} error={touched.company && errors.company} />
                   </div>
                   <FormTextarea label="Your Message" name="message" placeholder="Tell us about your requirements..." value={values.message} onChange={handleChange} onBlur={handleBlur} error={touched.message && errors.message} required />
-                  <Button type="submit" variant="gradient" size="lg" className="w-full" disabled={isSubmitting} icon={Send} iconPosition="right">
-                    {isSubmitting ? "Sending..." : "Send Message"}
+                  <Button type="submit" variant="gradient" size="lg" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <ButtonSpinner className="mr-2" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send Message
+                        <Send className="w-5 h-5 ml-2" />
+                      </>
+                    )}
                   </Button>
                 </form>
               )}
             </div>
-          </motion.div>
+          </LazySection>
 
           {/* Contact Info */}
-          <motion.div variants={fadeInRight} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="space-y-6">
+          <LazySection animation="fadeRight" className="space-y-6">
             <div className="mb-8">
               {loading ? (
-                <>
-                  <Skeleton className="h-8 w-64 mb-2" />
-                  <Skeleton className="h-4 w-48" />
-                </>
+                <div className="flex items-center gap-3">
+                  <DotsSpinner size="md" />
+                  <span className="text-muted-foreground">Loading contact info...</span>
+                </div>
               ) : (
                 <>
                   <h3 className="text-2xl font-bold text-foreground mb-2">{contact.company}</h3>
@@ -120,7 +132,9 @@ ${formData.message}
                       <div>
                         <h4 className="font-semibold text-foreground">{detail.label}</h4>
                         {loading ? (
-                          <Skeleton className="h-4 w-40 mt-1" />
+                          <div className="flex items-center gap-2 mt-1">
+                            <DotsSpinner size="sm" />
+                          </div>
                         ) : (
                           <p className="text-muted-foreground text-sm mt-1">{detail.value}</p>
                         )}
@@ -130,7 +144,7 @@ ${formData.message}
                 </motion.div>
               ))}
             </motion.div>
-          </motion.div>
+          </LazySection>
         </div>
       </div>
     </section>

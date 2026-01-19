@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Eye, EyeOff, LogIn, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, LogIn } from 'lucide-react';
+import { ButtonSpinner } from '../../views/shared';
 import toast from 'react-hot-toast';
 
 export default function Login() {
@@ -109,7 +110,7 @@ export default function Login() {
             >
               {loading ? (
                 <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <ButtonSpinner />
                   Signing in...
                 </>
               ) : (

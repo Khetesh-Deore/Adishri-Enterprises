@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
-import { Button } from '../shared';
+import { Button, LazyImage } from '../shared';
 import { useHeroSlider } from '../../hooks/useApi';
 
 export default function HeroSlider() {
@@ -174,13 +174,10 @@ export default function HeroSlider() {
               transition={{ delay: 0.4 }}
               className="relative"
             >
-              <img
+              <LazyImage
                 src={slide.image?.url || slide.image || '/product8.jpeg'}
                 alt={slide.title}
                 className="w-full max-w-lg mx-auto rounded-2xl shadow-lg"
-                onError={(e) => {
-                  e.target.src = '/product8.jpeg';
-                }}
               />
             </motion.div>
           </motion.div>

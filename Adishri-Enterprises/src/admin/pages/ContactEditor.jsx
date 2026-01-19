@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { contactAPI } from '../services/api';
-import { Save, Loader2 } from 'lucide-react';
+import { Save } from 'lucide-react';
+import { PageLoader, ButtonSpinner } from '../../views/shared';
 import toast from 'react-hot-toast';
 
 export default function ContactEditor() {
@@ -54,11 +55,7 @@ export default function ContactEditor() {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
+    return <PageLoader message="Loading contact information..." />;
   }
 
   return (
@@ -74,7 +71,7 @@ export default function ContactEditor() {
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground 
                      rounded-lg hover:bg-primary-hover transition-colors disabled:opacity-50"
         >
-          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          {saving ? <ButtonSpinner className="w-4 h-4" /> : <Save className="w-4 h-4" />}
           Save Changes
         </button>
       </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { heroSliderAPI } from '../services/api';
-import { Save, Loader2, Plus, Trash2, GripVertical, Upload, X } from 'lucide-react';
+import { Save, Plus, Trash2, GripVertical, Upload, X, Presentation } from 'lucide-react';
+import { PageLoader, ButtonSpinner } from '../../views/shared';
 import toast from 'react-hot-toast';
 
 export default function HeroSliderEditor() {
@@ -115,18 +116,21 @@ export default function HeroSliderEditor() {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
+    return <PageLoader message="Loading hero slides..." />;
   }
 
   return (
     <div className="max-w-6xl mx-auto p-6">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Hero Slider Editor</h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-3xl font-bold text-foreground">Hero Slider Editor</h1>
+            {slides.length > 0 && (
+              <span className="px-3 py-1 bg-primary/10 text-primary text-sm font-semibold rounded-full">
+                {slides.filter(s => s.isActive).length} Active
+              </span>
+            )}
+          </div>
           <p className="text-muted-foreground mt-1">Manage homepage hero slider content</p>
         </div>
         <div className="flex gap-2">
@@ -142,7 +146,7 @@ export default function HeroSliderEditor() {
             disabled={saving}
             className="px-4 py-2 bg-gradient-to-r from-gradient-from to-gradient-to text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2 disabled:opacity-50"
           >
-            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            {saving ? <ButtonSpinner className="w-4 h-4" /> : <Save className="w-4 h-4" />}
             {saving ? 'Saving...' : 'Save All'}
           </button>
         </div>
@@ -345,13 +349,53 @@ export default function HeroSliderEditor() {
 
         {slides.length === 0 && (
           <div className="text-center py-12 bg-card border border-border rounded-lg">
-            <p className="text-muted-foreground mb-4">No slides yet. Add your first slide!</p>
+            <div className="mb-4">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Presentation className="w-8 h-8 text-primary" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">No Slides Yet</h3>
+              <p className="text-muted-foreground mb-4">Create your first hero slider to showcase your products and services</p>
+            </div>
             <button
               onClick={handleAdd}
-              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors inline-flex items-center gap-2"
+              className="px-6 py-3 bg-gradient-to-r from-gradient-from to-gradient-to text-white rounded-lg hover:shadow-lg transition-all inline-flex items-center gap-2 font-medium"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-5 h-5" />
               Add First Slide
+            </button>
+          </div>
+        )}
+
+        {slides.length > 0 && (
+          <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center mt-0.5">
+                <span className="text-white text-xs font-bold">i</span>
+              </div>
+              <div className="flex-1">
+                <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-1">
+                  Tips for Great Slides
+                </h4>
+                <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
+                  <li>• Use high-quality images (recommended: 1200x800px)</li>
+                  <li>• Keep titles short and impactful (3-5 words)</li>
+                  <li>• Limit to 3-5 slides for best user experience</li>
+                  <li>• Use emojis in badges to make them more engaging</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Quick Add Button - Floating */}
+        {slides.length > 0 && slides.length < 10 && (
+          <div className="mt-6 text-center">
+            <button
+              onClick={handleAdd}
+              className="px-6 py-3 bg-white dark:bg-card border-2 border-dashed border-primary text-primary rounded-lg hover:bg-primary/5 transition-all inline-flex items-center gap-2 font-medium"
+            >
+              <Plus className="w-5 h-5" />
+              Add Another Slide
             </button>
           </div>
         )}

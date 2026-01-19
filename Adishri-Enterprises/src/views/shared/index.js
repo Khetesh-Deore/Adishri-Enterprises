@@ -4,6 +4,20 @@ export { default as AnimatedCounter, CounterWithLabel, GradientCounter } from ".
 export { default as FloatingBlur, FloatingBlurs, BlurBackground, GlowEffect } from "./FloatingBlur";
 export { default as Button } from "./Button";
 export { default as SectionHeading } from "./SectionHeading";
+export { default as LazyImage } from "./LazyImage";
+export { default as LazySection, LazyStaggerContainer, LazyStaggerItem } from "./LazySection";
+export { 
+  default as Spinner,
+  PageLoader,
+  InlineSpinner,
+  OverlaySpinner,
+  DotsSpinner,
+  PulseSpinner,
+  GradientSpinner,
+  CardLoader,
+  ButtonSpinner,
+  SkeletonWithSpinner
+} from "./Spinner";
 export { 
   Skeleton, 
   SkeletonText, 

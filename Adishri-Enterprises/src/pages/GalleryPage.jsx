@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn, Filter } from 'lucide-react';
 import { useGallery } from '../hooks';
-import { Skeleton } from '../views/shared';
+import { Skeleton, LazyImage } from '../views/shared';
 
 const categories = [
   { id: 'all', name: 'All Products' },
@@ -104,7 +104,7 @@ export default function GalleryPage() {
                   onClick={() => setSelectedImage(image)}
                 >
                   {/* Image */}
-                  <img
+                  <LazyImage
                     src={image.image?.url || image.image || '/product1.jpeg'}
                     alt={image.title || 'Product'}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { productsAPI, uploadAPI } from '../services/api';
-import { Plus, Edit2, Trash2, Loader2, X, Upload, Save, Search } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Upload, Save, Search } from 'lucide-react';
+import { PageLoader, ButtonSpinner } from '../../views/shared';
 import toast from 'react-hot-toast';
 
 const categories = [
@@ -63,11 +64,7 @@ export default function ProductsManager() {
   });
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
+    return <PageLoader message="Loading products..." />;
   }
 
   return (
@@ -271,7 +268,7 @@ function ProductModal({ product, onClose, onSave }) {
                                  flex flex-col items-center justify-center cursor-pointer
                                  hover:border-primary transition-colors">
                   {uploading ? (
-                    <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+                    <ButtonSpinner className="w-6 h-6 text-muted-foreground" />
                   ) : (
                     <>
                       <Upload className="w-6 h-6 text-muted-foreground" />
@@ -408,7 +405,7 @@ function ProductModal({ product, onClose, onSave }) {
             className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground 
                        rounded-lg hover:bg-primary-hover disabled:opacity-50"
           >
-            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            {saving ? <ButtonSpinner className="w-4 h-4" /> : <Save className="w-4 h-4" />}
             {product ? 'Update' : 'Create'}
           </button>
         </div>

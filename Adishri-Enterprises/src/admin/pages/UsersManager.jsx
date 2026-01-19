@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
-import { Plus, Edit2, Trash2, Key, UserCheck, UserX, Loader2 } from 'lucide-react';
+import { Plus, Edit2, Trash2, Key, UserCheck, UserX } from 'lucide-react';
+import { PageLoader } from '../../views/shared';
 import api from '../services/api';
 
 export default function UsersManager() {
@@ -120,11 +121,7 @@ export default function UsersManager() {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
+    return <PageLoader message="Loading users..." />;
   }
 
   return (

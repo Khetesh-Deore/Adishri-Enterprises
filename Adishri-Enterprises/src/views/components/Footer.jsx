@@ -4,8 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, MapPin, ArrowUp } from "lucide-react";
 import { useContact, useSettings, useNavigation } from "../../hooks/useApi";
-import { socialLinks, contactInfo as staticContact } from "../../models/navigationData";
-import { staggerContainer, staggerItem } from "../../controllers/useAnimations";
+import { socialLinks, contactInfo as staticContact, footerLinks } from "../../models/navigationData";
 
 // Social icons as simple SVGs to avoid deprecation warnings
 const SocialIcon = ({ type }) => {
@@ -41,18 +40,17 @@ export default function Footer() {
     socialLinks: apiContact?.socialLinks || {}
   };
   
-  // Get footer links from navigation API
-  const quickLinks = navigation?.footerQuickLinks?.sort((a, b) => a.order - b.order) || [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Products', href: '/products' },
-    { name: 'Contact', href: '/contact' }
-  ];
+  // Get footer links from navigation API with proper fallbacks
+  const quickLinks = (navigation?.footerQuickLinks && navigation.footerQuickLinks.length > 0)
+    ? navigation.footerQuickLinks.sort((a, b) => a.order - b.order)
+    : footerLinks.quickLinks;
   
-  const resources = navigation?.footerResources?.sort((a, b) => a.order - b.order) || [
-    { name: 'Privacy Policy', href: '/privacy' },
-    { name: 'Terms of Service', href: '/terms' }
-  ];
+  // Resources section commented out
+  // const resources = (navigation?.footerResources && navigation.footerResources.length > 0)
+  //   ? navigation.footerResources.sort((a, b) => a.order - b.order)
+  //   : footerLinks.resources;
+
+  console.log('Footer - Quick Links:', quickLinks); // Debug log
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -76,10 +74,30 @@ export default function Footer() {
       <div className="h-1 bg-gradient-to-r from-gradient-from via-gradient-to to-purple-600" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.1
+              }
+            }
+          }}
+        >
           
           {/* Company Info */}
-          <motion.div variants={staggerItem} className="lg:col-span-1">
+          <motion.div 
+            className="lg:col-span-1"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
+            }}
+          >
             <Link to="/" className="flex items-center gap-3 mb-4 group">
               <img src={apiSettings?.logo?.url || "/adishri_logo3.png"} alt="Logo" className="h-10 w-10 object-contain" />
               <span className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">{contact.company}</span>
@@ -102,7 +120,12 @@ export default function Footer() {
           </motion.div>
 
           {/* Quick Links */}
-          <motion.div variants={staggerItem}>
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
+            }}
+          >
             <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               {quickLinks.map((link, i) => (
@@ -119,8 +142,13 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          {/* Resources */}
-          <motion.div variants={staggerItem}>
+          {/* Resources - COMMENTED OUT */}
+          {/* <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
+            }}
+          >
             <h4 className="text-white font-semibold mb-4">Resources</h4>
             <ul className="space-y-2">
               {resources.map((link, i) => (
@@ -133,32 +161,44 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </motion.div> */}
         </motion.div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-gray-500">
-            {apiSettings?.copyrightText || `© ${new Date().getFullYear()} ${contact.company}. All rights reserved.`}
-          </p>
-          <div className="flex items-center gap-4">
-            {activeSocialLinks.map((social, i) => (
-              <motion.a key={i} href={social.href} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition-colors" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <SocialIcon type={social.icon} />
-              </motion.a>
-            ))}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.5 }}
+        >
+          <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-sm text-gray-500">
+              {apiSettings?.copyrightText || `© ${new Date().getFullYear()} ${contact.company}. All rights reserved.`}
+            </p>
+            <div className="flex items-center gap-4">
+              {activeSocialLinks.map((social, i) => (
+                <motion.a key={i} href={social.href} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition-colors" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                  <SocialIcon type={social.icon} />
+                </motion.a>
+              ))}
+            </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Developer Credit */}
-        <div className="mt-6 pt-4 border-t border-gray-800 text-center">
-          <p className="text-sm text-gray-500">
-            Developed by{" "}
-            <a href="https://www.linkedin.com/in/khetesh-deore/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
-              Khetesh Deore
-            </a>
-          </p>
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.6 }}
+        >
+          <div className="mt-6 pt-4 border-t border-gray-800 text-center">
+            <p className="text-sm text-gray-500">
+              Developed by{" "}
+              <a href="https://www.linkedin.com/in/khetesh-deore/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
+                Khetesh Deore
+              </a>
+            </p>
+          </div>
+        </motion.div>
       </div>
 
       {/* Scroll to Top */}

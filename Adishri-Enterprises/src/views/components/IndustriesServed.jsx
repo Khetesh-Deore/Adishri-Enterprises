@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import { Pill, Beaker, Apple, Sprout, Sparkles, Car, FlaskConical, Home } from 'lucide-react';
 import { staggerContainer, staggerItem } from '../../controllers/useAnimations';
-import { SectionHeading } from '../shared';
+import { SectionHeading, LazySection, LazyStaggerContainer, LazyStaggerItem } from '../shared';
 
 const industries = [
   {
@@ -62,26 +62,21 @@ export default function IndustriesServed() {
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <SectionHeading
-          subtitle="Industries We Serve"
-          title="Providing Solutions Across"
-          highlight="Diverse Sectors"
-          description="Empowering industries with cutting-edge packaging solutions, driving innovation, efficiency, and growth"
-        />
+        <LazySection animation="fadeUp">
+          <SectionHeading
+            subtitle="Industries We Serve"
+            title="Providing Solutions Across"
+            highlight="Diverse Sectors"
+            description="Empowering industries with cutting-edge packaging solutions, driving innovation, efficiency, and growth"
+          />
+        </LazySection>
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12"
-        >
+        <LazyStaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
           {industries.map((industry, index) => {
             const Icon = industry.icon;
             return (
-              <motion.div
+              <LazyStaggerItem
                 key={index}
-                variants={staggerItem}
                 className="group relative"
               >
                 <div className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-xl transition-all duration-300 cursor-pointer">
@@ -112,10 +107,10 @@ export default function IndustriesServed() {
                     </svg>
                   </div> */}
                 </div>
-              </motion.div>
+              </LazyStaggerItem>
             );
           })}
-        </motion.div>
+        </LazyStaggerContainer>
       </div>
     </section>
   );

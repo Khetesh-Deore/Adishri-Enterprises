@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { heroAPI, uploadAPI } from '../services/api';
-import { Save, Loader2, Upload, X, Eye } from 'lucide-react';
+import { Save, Upload, X, Eye } from 'lucide-react';
+import { PageLoader, ButtonSpinner } from '../../views/shared';
 import toast from 'react-hot-toast';
 
 export default function HeroEditor() {
@@ -73,11 +74,7 @@ export default function HeroEditor() {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
+    return <PageLoader message="Loading hero section..." />;
   }
 
   return (
@@ -93,7 +90,7 @@ export default function HeroEditor() {
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground 
                      rounded-lg hover:bg-primary-hover transition-colors disabled:opacity-50"
         >
-          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          {saving ? <ButtonSpinner className="w-4 h-4" /> : <Save className="w-4 h-4" />}
           Save Changes
         </button>
       </div>
@@ -163,7 +160,7 @@ export default function HeroEditor() {
                                flex flex-col items-center justify-center cursor-pointer
                                hover:border-primary transition-colors">
                 {uploading ? (
-                  <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+                  <ButtonSpinner className="w-6 h-6 text-muted-foreground" />
                 ) : (
                   <>
                     <Upload className="w-6 h-6 text-muted-foreground" />

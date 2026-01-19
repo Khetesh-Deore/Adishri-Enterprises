@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
-import { Save, Loader2, Plus, Trash2, GripVertical } from 'lucide-react';
+import { Save, Plus, Trash2, GripVertical } from 'lucide-react';
+import { PageLoader, ButtonSpinner } from '../../views/shared';
 import api from '../services/api';
 
 const ICON_OPTIONS = [
@@ -83,11 +84,7 @@ export default function VisionEditor() {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
+    return <PageLoader message="Loading vision content..." />;
   }
 
   return (
@@ -102,7 +99,7 @@ export default function VisionEditor() {
           disabled={saving}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50"
         >
-          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          {saving ? <ButtonSpinner className="w-4 h-4" /> : <Save className="w-4 h-4" />}
           {saving ? 'Saving...' : 'Save Changes'}
         </button>
       </div>
