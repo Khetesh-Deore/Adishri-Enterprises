@@ -1,9 +1,10 @@
-// Gallery Page - Product Image Gallery
+// Gallery Page - Product Image Gallery with Optimized Images
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn, Filter } from 'lucide-react';
 import { useGallery } from '../hooks';
 import { Skeleton, LazyImage } from '../views/shared';
+import { getOptimizedCloudinaryUrl } from '../views/shared/LazyImage';
 
 const categories = [
   { id: 'all', name: 'All Products' },
@@ -92,48 +93,57 @@ export default function GalleryPage() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
           >
             <AnimatePresence mode="popLayout">
-              {filteredImages.map((image, index) => (
-                <motion.div
-                  key={image._id || index}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
-                  className="group relative aspect-square rounded-xl overflow-hidden bg-card border border-border cursor-pointer"
-                  onClick={() => setSelectedImage(image)}
-                >
-                  {/* Image */}
-                  <LazyImage
-                    src={image.image?.url || image.image || '/product1.jpeg'}
-                    alt={image.title || 'Product'}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = '/product1.jpeg';
-                    }}
-                  />
+              {filteredImages.map((image, index) => {
+                // Optimize image URLs for thumbnails
+                const thumbnailUrl = image.image?.url 
+                  ? getOptimizedCloudinaryUrl(image.image.url, { width: 400, quality: 'auto', format: 'auto' })
+                  : image.image || '/product1.jpeg';
+                
+                return (
+                  <motion.div
+                    key={image._id || index}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.3 }}
+                    className="group relative aspect-square rounded-xl overflow-hidden bg-card border border-border cursor-pointer"
+                    onClick={() => setSelectedImage(image)}
+                  >
+                    {/* Image */}
+                    <LazyImage
+                      src={thumbnailUrl}
+                      alt={image.title || 'Product'}
+                      width={400}
+                      height={400}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/product1.jpeg';
+                      }}
+                    />
 
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="text-white font-semibold mb-1 line-clamp-1">
-                        {image.title}
-                      </h3>
-                      {image.caption && (
-                        <p className="text-white/80 text-sm line-clamp-2">
-                          {image.caption}
-                        </p>
-                      )}
-                    </div>
-                    <div className="absolute top-4 right-4">
-                      <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                        <ZoomIn className="w-5 h-5 text-white" />
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="absolute bottom-0 left-0 right-0 p-4">
+                        <h3 className="text-white font-semibold mb-1 line-clamp-1">
+                          {image.title}
+                        </h3>
+                        {image.caption && (
+                          <p className="text-white/80 text-sm line-clamp-2">
+                            {image.caption}
+                          </p>
+                        )}
+                      </div>
+                      <div className="absolute top-4 right-4">
+                        <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                          <ZoomIn className="w-5 h-5 text-white" />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </AnimatePresence>
           </motion.div>
         )}
@@ -173,10 +183,16 @@ export default function GalleryPage() {
               className="relative max-w-5xl w-full"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Optimized full-size image for lightbox */}
               <img
-                src={selectedImage.image?.url || selectedImage.image || '/product1.jpeg'}
+                src={selectedImage.image?.url 
+                  ? getOptimizedCloudinaryUrl(selectedImage.image.url, { width: 1600, quality: 'auto', format: 'auto' })
+                  : selectedImage.image || '/product1.jpeg'}
                 alt={selectedImage.title}
+                width={1600}
+                height={1200}
                 className="w-full h-auto max-h-[85vh] object-contain rounded-lg"
+                loading="eager"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = '/product1.jpeg';

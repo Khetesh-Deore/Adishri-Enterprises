@@ -6,6 +6,7 @@ import { useProducts } from "../../hooks/useApi";
 import { products as staticProducts, categories } from "../../models/productData";
 import { staggerContainer, staggerItem } from "../../controllers/useAnimations";
 import { SectionHeading, GlassCard, LazyImage, LazySection, LazyStaggerContainer, LazyStaggerItem, CardLoader } from "../shared";
+import { getOptimizedCloudinaryUrl } from "../shared/LazyImage";
 
 export default function ProductCollection() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -110,6 +111,12 @@ export default function ProductCollection() {
 
 function ProductCard({ product }) {
   const imageUrl = product.image?.url || product.image || "/adishri_logo3.png";
+  
+  // Optimize image for product card (300x300 thumbnail)
+  const optimizedImageUrl = imageUrl.includes('cloudinary.com')
+    ? getOptimizedCloudinaryUrl(imageUrl, { width: 300, quality: 'auto', format: 'auto' })
+    : imageUrl;
+  
   const catLabel = product.category?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   const features = product.features || [];
   const specs = product.specifications || product.specs || {};
@@ -120,8 +127,10 @@ function ProductCard({ product }) {
     <GlassCard className="overflow-hidden h-full" hover={true}>
       <div className="relative h-48 bg-gradient-to-br from-muted to-muted/50 overflow-hidden group">
         <LazyImage 
-          src={imageUrl} 
-          alt={product.name} 
+          src={optimizedImageUrl} 
+          alt={product.name}
+          width={300}
+          height={300}
           className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform" 
           onError={(e) => { e.target.src = "/adishri_logo3.png"; }} 
         />

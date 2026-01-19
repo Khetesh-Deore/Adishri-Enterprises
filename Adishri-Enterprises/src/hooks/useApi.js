@@ -227,8 +227,9 @@ export function useNavigation() {
       { id: 'home', name: 'Home', href: '/', order: 0 },
       { id: 'about', name: 'About', href: '/about', order: 1 },
       { id: 'products', name: 'Products', href: '/products', order: 2 },
-      { id: 'vision', name: 'Vision', href: '/vision', order: 3 },
-      { id: 'contact', name: 'Contact', href: '/contact', order: 4 }
+      { id: 'gallery', name: 'Gallery', href: '/gallery', order: 3 },
+      { id: 'vision', name: 'Vision', href: '/vision', order: 4 },
+      { id: 'contact', name: 'Contact', href: '/contact', order: 5 }
     ],
     footerQuickLinks: [],
     footerResources: [],

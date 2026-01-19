@@ -1,9 +1,10 @@
-// HeroSlider Component - Multi-slide Hero Section with Auto-play
+// HeroSlider Component - Multi-slide Hero Section with Auto-play and Optimized Images
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { Button, LazyImage } from '../shared';
+import { getOptimizedCloudinaryUrl } from '../shared/LazyImage';
 import { useHeroSlider } from '../../hooks/useApi';
 
 export default function HeroSlider() {
@@ -175,8 +176,12 @@ export default function HeroSlider() {
               className="relative"
             >
               <LazyImage
-                src={slide.image?.url || slide.image || '/product8.jpeg'}
+                src={slide.image?.url 
+                  ? getOptimizedCloudinaryUrl(slide.image.url, { width: 800, quality: 'auto', format: 'auto' })
+                  : slide.image || '/product8.jpeg'}
                 alt={slide.title}
+                width={800}
+                height={600}
                 className="w-full max-w-lg mx-auto rounded-2xl shadow-lg"
               />
             </motion.div>
