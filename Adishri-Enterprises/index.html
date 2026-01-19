@@ -5,6 +5,15 @@
     <link rel="icon" type="image/png+xml" href="/adishri_logo3.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Adishri Enterprises</title>
+    
+    <!-- Preload Critical Images for Faster Initial Load -->
+    <link rel="preload" as="image" href="/adishri_logo3.png" />
+    
+    <!-- DNS Prefetch for Cloudinary -->
+    <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+    
+    <!-- Note: Hero slider images will be preloaded dynamically by the component -->
   </head>
   <body>
     <div id="root"></div>

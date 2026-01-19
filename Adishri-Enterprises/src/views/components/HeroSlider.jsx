@@ -17,6 +17,36 @@ export default function HeroSlider() {
   // Use API slides or empty array
   const slides = apiSlides.length > 0 ? apiSlides : [];
 
+  // Preload first 2 hero images for instant display
+  useEffect(() => {
+    if (slides.length === 0) return;
+
+    const preloadImages = slides.slice(0, 2).map(slide => {
+      if (!slide.image?.url) return null;
+      
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = getOptimizedCloudinaryUrl(slide.image.url, { 
+        width: 800, 
+        quality: 'auto', 
+        format: 'auto' 
+      });
+      document.head.appendChild(link);
+      
+      return link;
+    }).filter(Boolean);
+
+    // Cleanup
+    return () => {
+      preloadImages.forEach(link => {
+        if (link && link.parentNode) {
+          document.head.removeChild(link);
+        }
+      });
+    };
+  }, [slides]);
+
   const nextSlide = useCallback(() => {
     if (slides.length === 0) return;
     setDirection(1);
