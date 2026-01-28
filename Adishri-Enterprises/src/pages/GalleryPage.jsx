@@ -6,25 +6,25 @@ import { useGallery } from '../hooks';
 import { Skeleton, LazyImage } from '../views/shared';
 import { getOptimizedCloudinaryUrl } from '../views/shared/LazyImage';
 
-const categories = [
-  { id: 'all', name: 'All Products' },
-  { id: 'products', name: 'Products' },
-  { id: 'factory', name: 'Factory' },
-  { id: 'team', name: 'Team' },
-  { id: 'events', name: 'Events' }
-];
-
 export default function GalleryPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedImage, setSelectedImage] = useState(null);
   
-  const { images, loading, error } = useGallery({ 
-    category: selectedCategory === 'all' ? undefined : selectedCategory 
-  });
+  const { images, loading, error } = useGallery();
+
+  // Extract unique categories dynamically from images data
+  const categories = [
+    { id: 'all', name: 'All Images' },
+    ...Array.from(new Set(images.map(img => img.category).filter(Boolean)))
+      .map(cat => ({
+        id: cat.toLowerCase().replace(/\s+/g, '-'),
+        name: cat
+      }))
+  ];
 
   const filteredImages = selectedCategory === 'all' 
     ? images 
-    : images.filter(img => img.category === selectedCategory);
+    : images.filter(img => img.category?.toLowerCase().replace(/\s+/g, '-') === selectedCategory);
 
   return (
     <div className="bg-background py-12 md:py-16 pt-24 md:pt-28">
@@ -36,10 +36,10 @@ export default function GalleryPage() {
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Product <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">Gallery</span>
+            {images[0]?.title || 'Our'} <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">Gallery</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Explore our comprehensive range of HDPE & LDPE bottles and jerry cans
+            {images[0]?.subtitle || 'Explore Our Manufacturing Excellence'}
           </p>
         </motion.div>
 

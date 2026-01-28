@@ -1,74 +1,111 @@
-// Excellence Component - About Section with Industries & Capacity (API Integration)
+// Excellence Component - About Section with Industries & Capacity (100% Google Sheets)
 import { motion } from "framer-motion";
 import { CheckCircle, Leaf, Target, Package, Factory, Beaker, Home, Tractor } from "lucide-react";
-import { useAbout } from "../../hooks/useApi";
+import { useAboutSection } from "../../hooks/useApi";
 import { fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "../../controllers/useAnimations";
 import { SectionHeading, Skeleton } from "../shared";
 
-// Targeted Industries
-const industries = [
-  {
-    icon: Home,
-    name: "Home Appliances",
-    description: "Packaging solutions for household products and appliances",
-    color: "from-blue-500 to-blue-600"
-  },
-  {
-    icon: Tractor,
-    name: "Agriculture",
-    description: "Durable containers for pesticides, fertilizers & agri-chemicals",
-    color: "from-green-500 to-green-600"
-  },
-  {
-    icon: Beaker,
-    name: "Chemical Industry",
-    description: "Chemical-resistant bottles for industrial chemicals & solvents",
-    color: "from-purple-500 to-purple-600"
-  },
-  {
-    icon: Package,
-    name: "Pharmaceuticals",
-    description: "FDA approved packaging for medicines & healthcare products",
-    color: "from-red-500 to-red-600"
-  }
-];
-
-// Capacity Stats
-const capacityStats = [
-  { label: "Daily Production", value: "10,000+", suffix: "Units" },
-  { label: "Product Range", value: "200ml - 5L", suffix: "Capacity" },
-  { label: "Monthly Output", value: "3 Lakh+", suffix: "Bottles" },
-  { label: "SKU Variants", value: "50+", suffix: "Products" }
-];
-
-// Packaging Features
-const packagingFeatures = [
-  "HDPE Bottles (200ml to 5L)",
-  "LDPE Bottles & Containers",
-  "Jerry Cans (1L to 5L)",
-  "Custom Moulded Bottles",
-  "Leak-Proof Caps & Closures",
-  "Food Grade Packaging"
-];
-
 export default function Excellence() {
-  // Fetch about data from API
-  const { data: apiAbout, loading } = useAbout();
+  // Fetch about section data from Google Sheets
+  const { data, loading } = useAboutSection();
 
-  // Use API data for mission/vision if available
-  const mission = apiAbout?.mission?.description || "To provide superior quality plastic packaging solutions ensuring safety, durability, and customer satisfaction.";
-  const vision = apiAbout?.vision?.description || "100% recyclable HDPE & LDPE materials promoting sustainable packaging solutions.";
-  const aboutImage = apiAbout?.image?.url;
+  // Extract data from Google Sheets
+  const title = data?.title || "Excellence in Plastic Packaging Manufacturing";
+  const subtitle = data?.subtitle || "About Us";
+  const description = data?.description || "Based in Chhatrapati Sambhaji Nagar, Adishri Enterprises is a leading manufacturer of HDPE & LDPE bottles and jerry cans.";
+  const mainText = data?.mainText || "With over 15 years of experience, we have established ourselves as a trusted manufacturer serving pharmaceutical, chemical, agricultural, and industrial sectors across India.";
+  const secondaryText = data?.secondaryText || "Our state-of-the-art facility uses advanced blow molding technology to produce high-quality bottles ranging from 200ml to 5L capacity, meeting the diverse needs of our clients.";
+  const experienceYears = data?.experienceYears || "15";
+  
+  // Images from Google Sheets
+  const image1 = data?.image1 || "/product1.jpeg";
+  const image2 = data?.image2 || "/product2.jpeg";
+  const image3 = data?.image3 || "/product3.jpeg";
+  
+  // Mission & Eco
+  const missionTitle = data?.missionTitle || "Our Mission";
+  const missionDescription = data?.missionDescription || "To provide superior quality plastic packaging solutions ensuring safety, durability, and customer satisfaction.";
+  const ecoTitle = data?.ecoTitle || "Eco-Friendly";
+  const ecoDescription = data?.ecoDescription || "100% recyclable HDPE & LDPE materials promoting sustainable packaging solutions.";
+  
+  // Capacity Stats - from Google Sheets or defaults
+  const capacityStats = [
+    { label: data?.stat1Label || "Daily Production", value: data?.stat1Value || "10,000+", suffix: data?.stat1Suffix || "Units" },
+    { label: data?.stat2Label || "Product Range", value: data?.stat2Value || "200ml - 5L", suffix: data?.stat2Suffix || "Capacity" },
+    { label: data?.stat3Label || "Monthly Output", value: data?.stat3Value || "3 Lakh+", suffix: data?.stat3Suffix || "Bottles" },
+    { label: data?.stat4Label || "SKU Variants", value: data?.stat4Value || "50+", suffix: data?.stat4Suffix || "Products" }
+  ];
+
+  // Packaging Features - from Google Sheets or defaults
+  const packagingFeatures = data?.features 
+    ? data.features.split('|').map(f => f.trim())
+    : [
+        "HDPE Bottles (200ml to 5L)",
+        "LDPE Bottles & Containers",
+        "Jerry Cans (1L to 5L)",
+        "Custom Moulded Bottles",
+        "Leak-Proof Caps & Closures",
+        "Food Grade Packaging"
+      ];
+
+  // Industries - from Google Sheets or defaults
+  const industries = [
+    {
+      icon: Home,
+      name: data?.industry1Name || "Home Appliances",
+      description: data?.industry1Description || "Packaging solutions for household products and appliances",
+      color: "from-blue-500 to-blue-600"
+    },
+    {
+      icon: Tractor,
+      name: data?.industry2Name || "Agriculture",
+      description: data?.industry2Description || "Durable containers for pesticides, fertilizers & agri-chemicals",
+      color: "from-green-500 to-green-600"
+    },
+    {
+      icon: Beaker,
+      name: data?.industry3Name || "Chemical Industry",
+      description: data?.industry3Description || "Chemical-resistant bottles for industrial chemicals & solvents",
+      color: "from-purple-500 to-purple-600"
+    },
+    {
+      icon: Package,
+      name: data?.industry4Name || "Pharmaceuticals",
+      description: data?.industry4Description || "FDA approved packaging for medicines & healthcare products",
+      color: "from-red-500 to-red-600"
+    }
+  ];
+
+  // Manufacturing Excellence - from Google Sheets or defaults
+  const manufacturingTitle = data?.manufacturingTitle || "Manufacturing Excellence";
+  const manufacturingDescription = data?.manufacturingDescription || "Our advanced facility operates with cutting-edge blow molding technology, ensuring high-volume production without compromising on quality.";
+  const productionHours = data?.productionHours || "24/7";
+  const monthlyUnits = data?.monthlyUnits || "3L+";
+
+  if (loading) {
+    return (
+      <section className="py-20 md:py-28 bg-background min-h-screen">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Skeleton className="h-8 w-64 mx-auto mb-4" />
+          <Skeleton className="h-12 w-96 mx-auto mb-8" />
+          <div className="grid lg:grid-cols-2 gap-12">
+            <Skeleton className="h-96" />
+            <Skeleton className="h-96" />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 md:py-28 bg-background min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <SectionHeading
-          subtitle="About Us"
-          title="Excellence in Plastic"
-          highlight="Packaging Manufacturing"
-          description="Based in Chhatrapati Sambhaji Nagar, Adishri Enterprises is a leading manufacturer of HDPE & LDPE bottles and jerry cans."
+          subtitle={subtitle}
+          title={title.split(' ').slice(0, 3).join(' ')}
+          highlight={title.split(' ').slice(3).join(' ')}
+          description={description}
         />
 
         {/* Main Content Grid */}
@@ -86,18 +123,18 @@ export default function Excellence() {
             <div className="grid grid-cols-2 gap-4">
               <div className="row-span-2">
                 <img
-                  src="/product1.jpeg"
+                  src={image1}
                   alt="HDPE Bottles"
                   className="w-full h-full object-cover rounded-2xl shadow-lg"
                 />
               </div>
               <img
-                src="/product2.jpeg"
+                src={image2}
                 alt="Jerry Cans"
                 className="w-full h-32 object-cover rounded-2xl shadow-lg"
               />
               <img
-                src="/product3.jpeg"
+                src={image3}
                 alt="Product Range"
                 className="w-full h-32 object-cover rounded-2xl shadow-lg"
               />
@@ -131,12 +168,12 @@ export default function Excellence() {
             {/* About Text */}
             <div>
               <p className="text-lg text-muted-foreground leading-relaxed mb-4">
-                With over <strong className="text-foreground">15 years of experience</strong>, we have established ourselves as a trusted 
-                manufacturer serving pharmaceutical, chemical, agricultural, and industrial sectors across India.
+                {mainText.includes('{experienceYears}') 
+                  ? mainText.replace('{experienceYears}', experienceYears)
+                  : mainText}
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Our state-of-the-art facility uses advanced blow molding technology to produce 
-                high-quality bottles ranging from 200ml to 5L capacity, meeting the diverse needs of our clients.
+                {secondaryText}
               </p>
             </div>
 
@@ -165,9 +202,9 @@ export default function Excellence() {
                   <Target className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-foreground mb-1">Our Mission</h4>
+                  <h4 className="font-bold text-foreground mb-1">{missionTitle}</h4>
                   <p className="text-sm text-muted-foreground">
-                    {mission}
+                    {missionDescription}
                   </p>
                 </div>
               </div>
@@ -177,9 +214,9 @@ export default function Excellence() {
                   <Leaf className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-foreground mb-1">Eco-Friendly</h4>
+                  <h4 className="font-bold text-foreground mb-1">{ecoTitle}</h4>
                   <p className="text-sm text-muted-foreground">
-                    100% recyclable HDPE & LDPE materials promoting sustainable packaging solutions.
+                    {ecoDescription}
                   </p>
                 </div>
               </div>
@@ -251,22 +288,21 @@ export default function Excellence() {
           <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
             <div>
               <h3 className="text-2xl md:text-3xl font-bold mb-3">
-                Manufacturing Excellence
+                {manufacturingTitle}
               </h3>
               <p className="text-white/80">
-                Our advanced facility operates with cutting-edge blow molding technology, 
-                ensuring high-volume production without compromising on quality.
+                {manufacturingDescription}
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="p-4 bg-white/10 backdrop-blur-sm rounded-xl text-center">
                 <Factory className="w-8 h-8 mx-auto mb-2" />
-                <div className="text-2xl font-bold">24/7</div>
+                <div className="text-2xl font-bold">{productionHours}</div>
                 <div className="text-sm text-white/70">Production</div>
               </div>
               <div className="p-4 bg-white/10 backdrop-blur-sm rounded-xl text-center">
                 <Package className="w-8 h-8 mx-auto mb-2" />
-                <div className="text-2xl font-bold">3L+</div>
+                <div className="text-2xl font-bold">{monthlyUnits}</div>
                 <div className="text-sm text-white/70">Monthly Units</div>
               </div>
             </div>

@@ -185,7 +185,7 @@ export default function Footer() {
         </motion.div>
 
         {/* Developer Credit */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.6 }}
@@ -198,7 +198,7 @@ export default function Footer() {
               </a>
             </p>
           </div>
-        </motion.div>
+        </motion.div> */}
       </div>
 
       {/* Scroll to Top */}

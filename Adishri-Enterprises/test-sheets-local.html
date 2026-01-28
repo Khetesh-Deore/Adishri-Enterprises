@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Google Sheets - Local</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+        
+        .status.loading {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .alert {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .alert h3 {
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+        
+        .alert p {
+            color: #1e3a8a;
+            line-height: 1.6;
+        }
+        
+        .alert ol {
+            margin: 10px 0 10px 20px;
+            color: #1e3a8a;
+        }
+        
+        .alert li {
+            margin: 5px 0;
+        }
+        
+        .sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d1d5db;
+        }
+        
+        .section-status.success {
+            background: #10b981;
+        }
+        
+        .section-status.error {
+            background: #ef4444;
+        }
+        
+        .data {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .data-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .data-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .data-key {
+            color: #667eea;
+            font-weight: 600;
+            min-width: 150px;
+        }
+        
+        .data-value {
+            color: #374151;
+            word-break: break-word;
+        }
+        
+        .error-message {
+            color: #ef4444;
+            background: #fee2e2;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: 15px;
+        }
+        
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Test Google Sheets - Local</h1>
+            <p style="color: #6b7280; margin-bottom: 15px;">Testing connection to your Google Sheet</p>
+            <div id="status" class="status loading">
+                <div class="spinner"></div>
+                <span>Testing connection...</span>
+            </div>
+            <button onclick="testConnection()">Refresh Test</button>
+        </div>
+
+        <div id="alert-container"></div>
+
+        <div id="sections" class="sections"></div>
+    </div>
+
+    <script>
+        const SHEET_ID = '1s3e0PGnaRKu3oW2E1Bh23epXvlWIgiLip9GkuYJe-oI';
+        const SECTIONS = ['Hero', 'About', 'Products', 'Contact', 'Vision', 'Gallery'];
+
+        async function testConnection() {
+            const statusEl = document.getElementById('status');
+            const sectionsEl = document.getElementById('sections');
+            const alertContainer = document.getElementById('alert-container');
+            
+            statusEl.className = 'status loading';
+            statusEl.innerHTML = '<div class="spinner"></div><span>Testing connection...</span>';
+            sectionsEl.innerHTML = '';
+            alertContainer.innerHTML = '';
+
+            let successCount = 0;
+            let errorCount = 0;
+            let notPublicError = false;
+
+            for (const section of SECTIONS) {
+                const sectionEl = document.createElement('div');
+                sectionEl.className = 'section';
+                sectionEl.innerHTML = `
+                    <h2>
+                        <div class="section-status"></div>
+                        ${section}
+                    </h2>
+                    <div class="data">
+                        <div class="spinner"></div> Loading...
+                    </div>
+                `;
+                sectionsEl.appendChild(sectionEl);
+
+                try {
+                    const response = await fetch(`https://opensheet.vercel.app/${SHEET_ID}/${section}`);
+                    
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            throw new Error('Sheet not public or tab not found');
+                        }
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    // Convert array to object
+                    const content = {};
+                    data.forEach(row => {
+                        if (row.key && row.value !== undefined) {
+                            content[row.key] = row.value;
+                        }
+                    });
+
+                    const dataEl = sectionEl.querySelector('.data');
+                    const statusDot = sectionEl.querySelector('.section-status');
+
+                    if (Object.keys(content).length === 0) {
+                        dataEl.innerHTML = '<div class="error-message">⚠️ Sheet tab exists but has no data</div>';
+                        statusDot.className = 'section-status error';
+                        errorCount++;
+                    } else {
+                        dataEl.innerHTML = Object.entries(content)
+                            .map(([key, value]) => `
+                                <div class="data-item">
+                                    <div class="data-key">${key}:</div>
+                                    <div class="data-value">${value}</div>
+                                </div>
+                            `).join('');
+                        statusDot.className = 'section-status success';
+                        successCount++;
+                    }
+                } catch (error) {
+                    const dataEl = sectionEl.querySelector('.data');
+                    const statusDot = sectionEl.querySelector('.section-status');
+                    
+                    if (error.message.includes('not public')) {
+                        notPublicError = true;
+                    }
+                    
+                    dataEl.innerHTML = `<div class="error-message">❌ ${error.message}</div>`;
+                    statusDot.className = 'section-status error';
+                    errorCount++;
+                }
+            }
+
+            // Show alert if sheet is not public
+            if (notPublicError) {
+                alertContainer.innerHTML = `
+                    <div class="alert">
+                        <h3>🔓 Sheet Not Public</h3>
+                        <p>Your Google Sheet needs to be made public for the API to access it.</p>
+                        <ol>
+                            <li>Open your Google Sheet</li>
+                            <li>Click the <strong>Share</strong> button (top right)</li>
+                            <li>Change to: <strong>"Anyone with the link"</strong> → <strong>Viewer</strong></li>
+                            <li>Click <strong>Done</strong></li>
+                            <li>Refresh this page</li>
+                        </ol>
+                    </div>
+                `;
+            }
+
+            // Update overall status
+            if (successCount === SECTIONS.length) {
+                statusEl.className = 'status success';
+                statusEl.innerHTML = `<span>✅ All ${successCount} sections loaded successfully!</span>`;
+            } else if (successCount > 0) {
+                statusEl.className = 'status success';
+                statusEl.innerHTML = `<span>✅ ${successCount} sections loaded, ${errorCount} failed</span>`;
+            } else {
+                statusEl.className = 'status error';
+                statusEl.innerHTML = `<span>❌ Failed to load any sections</span>`;
+            }
+        }
+
+        // Auto-test on load
+        testConnection();
+    </script>
+</body>
+</html>

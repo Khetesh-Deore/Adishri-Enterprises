@@ -1,22 +1,30 @@
-// ProductCollection Component - Product Showcase with API Integration
+// ProductCollection Component - Product Showcase with Google Sheets Integration
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Package } from "lucide-react";
 import { useProducts } from "../../hooks/useApi";
-import { products as staticProducts, categories } from "../../models/productData";
 import { staggerContainer, staggerItem } from "../../controllers/useAnimations";
-import { SectionHeading, GlassCard, LazyImage, LazySection, LazyStaggerContainer, LazyStaggerItem, CardLoader } from "../shared";
+import { SectionHeading, GlassCard, LazyImage, LazySection, CardLoader } from "../shared";
 import { getOptimizedCloudinaryUrl } from "../shared/LazyImage";
 
 export default function ProductCollection() {
   const [activeCategory, setActiveCategory] = useState("all");
   const scrollRef = useRef(null);
   const { products: apiProducts, loading } = useProducts();
-  const products = apiProducts.length > 0 ? apiProducts : staticProducts;
+
+  // Extract unique categories from products
+  const categories = [
+    { id: "all", name: "All Products" },
+    ...Array.from(new Set(apiProducts.map(p => p.category).filter(Boolean)))
+      .map(cat => ({
+        id: cat.toLowerCase().replace(/\s+/g, '-'),
+        name: cat
+      }))
+  ];
 
   const filteredProducts = activeCategory === "all"
-    ? products
-    : products.filter((p) => p.category === activeCategory);
+    ? apiProducts
+    : apiProducts.filter((p) => p.category?.toLowerCase().replace(/\s+/g, '-') === activeCategory);
 
   const scroll = (dir) => {
     if (scrollRef.current) {
@@ -101,7 +109,7 @@ export default function ProductCollection() {
         {filteredProducts.length === 0 && (
           <div className="text-center py-16">
             <Package className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-            <p className="text-muted-foreground">No products found</p>
+            <p className="text-muted-foreground">No products found in this category</p>
           </div>
         )}
       </div>

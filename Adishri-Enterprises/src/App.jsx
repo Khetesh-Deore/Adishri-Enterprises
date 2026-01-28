@@ -13,6 +13,7 @@ const VisionPage = lazy(() => import("./pages/VisionPage"));
 const ProductsPage = lazy(() => import("./pages/ProductsPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const GalleryPage = lazy(() => import("./pages/GalleryPage"));
+const TestSheetsPage = lazy(() => import("./pages/TestSheetsPage"));
 
 // Admin imports - lazy loaded
 const AuthProvider = lazy(() => import("./admin/context/AuthContext").then(m => ({ default: m.AuthProvider })));
@@ -29,6 +30,7 @@ const ContactEditor = lazy(() => import("./admin/pages/ContactEditor"));
 const SettingsEditor = lazy(() => import("./admin/pages/SettingsEditor"));
 const UsersManager = lazy(() => import("./admin/pages/UsersManager"));
 const VisionEditor = lazy(() => import("./admin/pages/VisionEditor"));
+const GoogleSheetsCMS = lazy(() => import("./admin/pages/GoogleSheetsCMS"));
 
 // Loading fallback component - using PageLoader from shared components
 
@@ -69,6 +71,11 @@ function App() {
                 <Route path="contact" element={
                   <Suspense fallback={<PageLoader />}>
                     <ContactPage />
+                  </Suspense>
+                } />
+                <Route path="test-sheets" element={
+                  <Suspense fallback={<PageLoader />}>
+                    <TestSheetsPage />
                   </Suspense>
                 } />
               </Route>
@@ -137,6 +144,11 @@ function App() {
                 <Route path="vision" element={
                   <Suspense fallback={<PageLoader />}>
                     <VisionEditor />
+                  </Suspense>
+                } />
+                <Route path="google-sheets" element={
+                  <Suspense fallback={<PageLoader />}>
+                    <GoogleSheetsCMS />
                   </Suspense>
                 } />
               </Route>

@@ -1,17 +1,19 @@
-// WhatsAppButton Component - Floating WhatsApp Contact Button
+// WhatsAppButton Component - Floating WhatsApp Contact Button (Google Sheets)
 import { motion } from 'framer-motion';
 import { MessageCircle, X } from 'lucide-react';
 import { useState } from 'react';
+import { useContact } from '../../hooks/useApi';
 
 export default function WhatsAppButton() {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: contactData } = useContact();
   
-  // Replace with actual WhatsApp number (format: country code + number, no spaces or special chars)
-  const whatsappNumber = '919876543210'; // Example: +91 98765 43210
+  // Get WhatsApp number from Contact sheet (remove all non-digits)
+  const whatsappNumber = contactData?.whatsapp?.replace(/\D/g, '') || '919876543210';
   const defaultMessage = 'Hello! I am interested in your HDPE/LDPE bottles. Please provide more information.';
 
   const handleWhatsAppClick = () => {
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(defaultMessage)}`;
+    const url = `https://api.whatsapp.com/send/?phone=${whatsappNumber}&text=${encodeURIComponent(defaultMessage)}&type=phone_number&app_absent=0`;
     window.open(url, '_blank');
   };
 
@@ -59,7 +61,7 @@ export default function WhatsAppButton() {
                 <MessageCircle className="w-6 h-6 text-green-600" />
               </div>
               <div>
-                <h3 className="text-white font-semibold">Adishri Enterprises</h3>
+                <h3 className="text-white font-semibold">{contactData?.company || 'Adishri Enterprises'}</h3>
                 <p className="text-white/80 text-xs">Typically replies instantly</p>
               </div>
             </div>
