@@ -35,6 +35,7 @@ export default function ProductCollection() {
     }
   };
 
+  // Show loading state while fetching from Google Sheets
   if (loading) {
     return (
       <section className="py-20 md:py-28 bg-background relative overflow-hidden min-h-screen">
@@ -43,7 +44,7 @@ export default function ProductCollection() {
             subtitle="Our Products"
             title="Premium Bottle"
             highlight="Collection"
-            description="Explore our comprehensive range of HDPE and LDPE bottles."
+            description="Loading products from Google Sheets..."
           />
           <CardLoader className="mt-12" />
         </div>

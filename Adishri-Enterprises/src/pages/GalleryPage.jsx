@@ -36,10 +36,10 @@ export default function GalleryPage() {
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            {images[0]?.title || 'Our'} <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">Gallery</span>
+            Our <span className="bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">Gallery</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {images[0]?.subtitle || 'Explore Our Manufacturing Excellence'}
+            {images.length > 0 && images[0]?.subtitle ? images[0].subtitle : 'Explore Our Manufacturing Excellence'}
           </p>
         </motion.div>
 
@@ -78,16 +78,8 @@ export default function GalleryPage() {
           </div>
         )}
 
-        {/* Error State */}
-        {error && (
-          <div className="text-center py-12">
-            <p className="text-destructive mb-4">Failed to load gallery images</p>
-            <p className="text-muted-foreground">Please try again later</p>
-          </div>
-        )}
-
-        {/* Gallery Grid */}
-        {!loading && !error && (
+        {/* Gallery Grid - Render when data is loaded */}
+        {!loading && (
           <motion.div
             layout
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
@@ -149,7 +141,7 @@ export default function GalleryPage() {
         )}
 
         {/* Empty State */}
-        {!loading && !error && filteredImages.length === 0 && (
+        {!loading && filteredImages.length === 0 && (
           <div className="text-center py-12">
             <p className="text-muted-foreground">No images found in this category</p>
           </div>

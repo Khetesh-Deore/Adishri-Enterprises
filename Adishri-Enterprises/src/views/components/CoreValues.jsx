@@ -34,6 +34,7 @@ const defaultColors = [
 export default function CoreValues() {
   const { coreValues: apiCoreValues, loading, error } = useCoreValues();
 
+  // Show loading state while fetching from Google Sheets
   if (loading) {
     return (
       <section className="py-20 md:py-28 bg-background">
@@ -42,7 +43,7 @@ export default function CoreValues() {
             subtitle="Our Philosophy"
             title="Our Core"
             highlight="Values"
-            description="The principles that guide our commitment to excellence and customer satisfaction."
+            description="Loading core values from Google Sheets..."
           />
           <CardLoader className="mt-12" />
         </div>

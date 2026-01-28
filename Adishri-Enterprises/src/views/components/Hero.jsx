@@ -10,8 +10,8 @@ export default function Hero() {
   const navigate = useNavigate();
   const { data: hero, loading, error } = useHero();
 
-  // Show skeleton while loading
-  if (loading) {
+  // Show skeleton while loading from Google Sheets
+  if (loading || !hero) {
     return (
       <section className="bg-background relative min-h-screen overflow-hidden">
         <SkeletonHero />

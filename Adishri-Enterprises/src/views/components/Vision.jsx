@@ -11,7 +11,8 @@ const defaultIcons = [Target, Rocket, Globe, TrendingUp];
 export default function Vision() {
   const { data: visionData, loading } = useVision();
 
-  if (loading) {
+  // Show loading state while fetching from Google Sheets
+  if (loading || !visionData) {
     return (
       <section className="py-20 md:py-28 bg-background relative overflow-hidden min-h-[60vh]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,7 +20,7 @@ export default function Vision() {
             subtitle="Our Vision"
             title="Shaping the Future of"
             highlight="Packaging"
-            description="Loading..."
+            description="Loading vision from Google Sheets..."
           />
           <CardLoader className="mt-12" />
         </div>

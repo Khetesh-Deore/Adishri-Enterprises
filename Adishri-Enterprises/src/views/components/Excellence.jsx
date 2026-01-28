@@ -82,7 +82,8 @@ export default function Excellence() {
   const productionHours = data?.productionHours || "24/7";
   const monthlyUnits = data?.monthlyUnits || "3L+";
 
-  if (loading) {
+  // Show skeleton while loading from Google Sheets
+  if (loading || !data) {
     return (
       <section className="py-20 md:py-28 bg-background min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

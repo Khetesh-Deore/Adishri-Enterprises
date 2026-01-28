@@ -44,13 +44,6 @@ export default function Footer() {
   const quickLinks = (navigation?.footerQuickLinks && navigation.footerQuickLinks.length > 0)
     ? navigation.footerQuickLinks.sort((a, b) => a.order - b.order)
     : footerLinks.quickLinks;
-  
-  // Resources section commented out
-  // const resources = (navigation?.footerResources && navigation.footerResources.length > 0)
-  //   ? navigation.footerResources.sort((a, b) => a.order - b.order)
-  //   : footerLinks.resources;
-
-  console.log('Footer - Quick Links:', quickLinks); // Debug log
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 

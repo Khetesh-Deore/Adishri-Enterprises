@@ -1,33 +1,68 @@
-// Google Sheets CMS Service
-// Fetches content from Google Sheets for live updates without redeployment
+// Google Sheets CMS Service - OPTIMIZED FOR SPEED
+// Fetches content from Google Sheets with aggressive caching and parallel loading
 
 const SHEET_ID = '1s3e0PGnaRKu3oW2E1Bh23epXvlWIgiLip9GkuYJe-oI';
 const OPENSHEET_API = 'https://opensheet.vercel.app';
 
-// Cache to reduce API calls
-const cache = {
-  data: null,
-  timestamp: null,
-  duration: 5 * 60 * 1000 // 5 minutes cache
+// Aggressive cache - 30 minutes in memory + localStorage
+const memoryCache = {};
+const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
+
+/**
+ * Get from localStorage cache
+ */
+const getFromLocalStorage = (key) => {
+  try {
+    const cached = localStorage.getItem(`sheets_${key}`);
+    if (cached) {
+      const { data, timestamp } = JSON.parse(cached);
+      if (Date.now() - timestamp < CACHE_DURATION) {
+        return data;
+      }
+    }
+  } catch (e) {
+    console.warn('LocalStorage read error:', e);
+  }
+  return null;
 };
 
 /**
- * Fetch data from Google Sheet and convert to key-value object
- * @param {string} sheetName - Name of the sheet tab (default: 'Sheet1')
- * @returns {Promise<Object>} - Content object with key-value pairs
+ * Save to localStorage cache
  */
-export const fetchSheetContent = async (sheetName = 'Sheet1') => {
-  // Return cached data if still valid
-  if (cache.data && cache.timestamp && (Date.now() - cache.timestamp < cache.duration)) {
-    return cache.data;
+const saveToLocalStorage = (key, data) => {
+  try {
+    localStorage.setItem(`sheets_${key}`, JSON.stringify({
+      data,
+      timestamp: Date.now()
+    }));
+  } catch (e) {
+    console.warn('LocalStorage write error:', e);
+  }
+};
+
+/**
+ * Fetch data from Google Sheet with aggressive caching
+ */
+const fetchSheetContent = async (sheetName) => {
+  // Check memory cache first (fastest)
+  if (memoryCache[sheetName] && Date.now() - memoryCache[sheetName].timestamp < CACHE_DURATION) {
+    return memoryCache[sheetName].data;
   }
 
+  // Check localStorage cache (fast)
+  const localData = getFromLocalStorage(sheetName);
+  if (localData) {
+    memoryCache[sheetName] = { data: localData, timestamp: Date.now() };
+    return localData;
+  }
+
+  // Fetch from API (slower but fresh)
   try {
     const url = `${OPENSHEET_API}/${SHEET_ID}/${sheetName}`;
     const response = await fetch(url);
     
     if (!response.ok) {
-      throw new Error(`Failed to fetch sheet: ${response.statusText}`);
+      throw new Error(`Failed to fetch ${sheetName}: ${response.statusText}`);
     }
 
     const data = await response.json();
@@ -40,72 +75,63 @@ export const fetchSheetContent = async (sheetName = 'Sheet1') => {
       }
     });
 
-    // Update cache
-    cache.data = content;
-    cache.timestamp = Date.now();
+    // Cache in memory and localStorage
+    memoryCache[sheetName] = { data: content, timestamp: Date.now() };
+    saveToLocalStorage(sheetName, content);
 
     return content;
   } catch (error) {
-    console.error('Google Sheets fetch error:', error);
-    // Return cached data if available, even if expired
-    if (cache.data) {
-      console.warn('Using expired cache due to fetch error');
-      return cache.data;
-    }
+    console.error(`Google Sheets fetch error (${sheetName}):`, error);
     throw error;
   }
 };
 
 /**
- * Fetch specific section from Google Sheet
- * @param {string} section - Section name (e.g., 'hero', 'about', 'products')
- * @returns {Promise<Object>} - Section content
+ * Prefetch all sheets in parallel for maximum speed
  */
-export const fetchSection = async (section) => {
-  try {
-    const content = await fetchSheetContent(section);
-    return content;
-  } catch (error) {
-    console.error(`Failed to fetch ${section} section:`, error);
-    return {};
-  }
+export const prefetchAllSheets = async () => {
+  const sheets = ['Hero', 'About', 'About-section', 'Products', 'Contact', 'Vision', 'Gallery'];
+  
+  // Fetch all sheets in parallel
+  const promises = sheets.map(sheet => 
+    fetchSheetContent(sheet).catch(err => {
+      console.warn(`Failed to prefetch ${sheet}:`, err);
+      return null;
+    })
+  );
+  
+  await Promise.all(promises);
+  console.log('✅ All sheets prefetched');
 };
 
 /**
- * Clear cache manually (useful for testing)
+ * Clear all caches
  */
 export const clearCache = () => {
-  cache.data = null;
-  cache.timestamp = null;
-};
-
-/**
- * Parse JSON string from sheet cell
- * Useful for complex data like arrays or objects
- */
-export const parseJSON = (value) => {
+  Object.keys(memoryCache).forEach(key => delete memoryCache[key]);
   try {
-    return JSON.parse(value);
-  } catch {
-    return value;
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith('sheets_')) {
+        localStorage.removeItem(key);
+      }
+    });
+  } catch (e) {
+    console.warn('Cache clear error:', e);
   }
 };
 
-// Export individual section fetchers for convenience
+// Export individual section fetchers
 export const googleSheetsAPI = {
-  // Fetch all content
-  getAll: () => fetchSheetContent('Sheet1'),
-  
-  // Fetch specific sections
-  getHero: () => fetchSection('Hero'),
-  getAbout: () => fetchSection('About'),
-  getAboutSection: () => fetchSection('About-section'),
-  getProducts: () => fetchSection('Products'),
-  getContact: () => fetchSection('Contact'),
-  getVision: () => fetchSection('Vision'),
-  getGallery: () => fetchSection('Gallery'),
+  getHero: () => fetchSheetContent('Hero'),
+  getAbout: () => fetchSheetContent('About'),
+  getAboutSection: () => fetchSheetContent('About-section'),
+  getProducts: () => fetchSheetContent('Products'),
+  getContact: () => fetchSheetContent('Contact'),
+  getVision: () => fetchSheetContent('Vision'),
+  getGallery: () => fetchSheetContent('Gallery'),
   
   // Utility
+  prefetchAll: prefetchAllSheets,
   clearCache
 };
 

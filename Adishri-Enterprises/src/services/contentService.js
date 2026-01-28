@@ -1,140 +1,107 @@
-// Hybrid Content Service - MongoDB + Google Sheets CMS
-// Fetches from MongoDB first, then falls back to Google Sheets
-// Google Sheets can override MongoDB content when enabled
+// Content Service - Google Sheets CMS Only - OPTIMIZED FOR SPEED
+// Direct integration with Google Sheets for all content
 
 import { googleSheetsAPI } from './googleSheets';
-import * as api from './api';
 
-// Configuration
-const USE_GOOGLE_SHEETS = import.meta.env.VITE_USE_GOOGLE_SHEETS === 'true';
-const SHEETS_PRIORITY = import.meta.env.VITE_SHEETS_PRIORITY === 'true'; // If true, Sheets override MongoDB
+const isDev = import.meta.env.DEV;
 
-/**
- * Fetch content with fallback strategy
- * @param {Function} mongoFetch - MongoDB API call
- * @param {Function} sheetsFetch - Google Sheets API call
- * @param {string} contentType - Type of content for logging
- * @returns {Promise<Object>} - Content data
- */
-const fetchWithFallback = async (mongoFetch, sheetsFetch, contentType) => {
-  try {
-    // Strategy 1: Google Sheets has priority
-    if (USE_GOOGLE_SHEETS && SHEETS_PRIORITY) {
-      try {
-        const sheetsData = await sheetsFetch();
-        if (sheetsData && Object.keys(sheetsData).length > 0) {
-          console.log(`✅ ${contentType}: Using Google Sheets (priority mode)`);
-          return { source: 'sheets', data: sheetsData };
-        }
-      } catch (sheetsError) {
-        console.warn(`⚠️ ${contentType}: Sheets failed, falling back to MongoDB`, sheetsError);
-      }
-    }
-
-    // Strategy 2: Try MongoDB first
-    try {
-      const mongoResponse = await mongoFetch();
-      const mongoData = mongoResponse?.data?.data || mongoResponse?.data;
-      
-      if (mongoData) {
-        console.log(`✅ ${contentType}: Using MongoDB`);
-        
-        // If Google Sheets is enabled but not priority, merge with sheets data
-        if (USE_GOOGLE_SHEETS && !SHEETS_PRIORITY) {
-          try {
-            const sheetsData = await sheetsFetch();
-            if (sheetsData && Object.keys(sheetsData).length > 0) {
-              console.log(`✅ ${contentType}: Merging with Google Sheets overrides`);
-              return { source: 'hybrid', data: { ...mongoData, ...sheetsData } };
-            }
-          } catch (sheetsError) {
-            console.warn(`⚠️ ${contentType}: Sheets merge failed`, sheetsError);
-          }
-        }
-        
-        return { source: 'mongodb', data: mongoData };
-      }
-    } catch (mongoError) {
-      console.warn(`⚠️ ${contentType}: MongoDB failed`, mongoError);
-    }
-
-    // Strategy 3: Fallback to Google Sheets
-    if (USE_GOOGLE_SHEETS) {
-      try {
-        const sheetsData = await sheetsFetch();
-        if (sheetsData && Object.keys(sheetsData).length > 0) {
-          console.log(`✅ ${contentType}: Using Google Sheets (fallback)`);
-          return { source: 'sheets', data: sheetsData };
-        }
-      } catch (sheetsError) {
-        console.error(`❌ ${contentType}: Both MongoDB and Sheets failed`, sheetsError);
-      }
-    }
-
-    throw new Error(`Failed to fetch ${contentType} from all sources`);
-  } catch (error) {
-    console.error(`❌ ${contentType}: All fetch strategies failed`, error);
-    throw error;
-  }
-};
-
-// Content Service API
+// Content Service API - All data from Google Sheets
 export const contentService = {
   // Hero Section
-  getHero: () => fetchWithFallback(
-    () => api.heroAPI.get(),
-    () => googleSheetsAPI.getHero(),
-    'Hero'
-  ),
+  getHero: async () => {
+    try {
+      const data = await googleSheetsAPI.getHero();
+      if (isDev) console.log('✅ Hero: Loaded from Google Sheets');
+      return { source: 'sheets', data };
+    } catch (error) {
+      console.error('❌ Hero: Failed to fetch', error);
+      throw error;
+    }
+  },
 
   // Hero Slider
-  getHeroSlider: () => fetchWithFallback(
-    () => api.heroSliderAPI.getAll(),
-    () => googleSheetsAPI.getHero(),
-    'HeroSlider'
-  ),
+  getHeroSlider: async () => {
+    try {
+      const data = await googleSheetsAPI.getHero();
+      if (isDev) console.log('✅ HeroSlider: Loaded from Google Sheets');
+      return { source: 'sheets', data };
+    } catch (error) {
+      console.error('❌ HeroSlider: Failed to fetch', error);
+      throw error;
+    }
+  },
 
   // About Section
-  getAbout: () => fetchWithFallback(
-    () => api.aboutAPI.get(),
-    () => googleSheetsAPI.getAbout(),
-    'About'
-  ),
+  getAbout: async () => {
+    try {
+      const data = await googleSheetsAPI.getAbout();
+      if (isDev) console.log('✅ About: Loaded from Google Sheets');
+      return { source: 'sheets', data };
+    } catch (error) {
+      console.error('❌ About: Failed to fetch', error);
+      throw error;
+    }
+  },
 
   // Products
-  getProducts: (params) => fetchWithFallback(
-    () => api.productsAPI.getAll(params),
-    () => googleSheetsAPI.getProducts(),
-    'Products'
-  ),
+  getProducts: async () => {
+    try {
+      const data = await googleSheetsAPI.getProducts();
+      if (isDev) console.log('✅ Products: Loaded from Google Sheets');
+      return { source: 'sheets', data };
+    } catch (error) {
+      console.error('❌ Products: Failed to fetch', error);
+      throw error;
+    }
+  },
 
   // Gallery
-  getGallery: (params) => fetchWithFallback(
-    () => api.galleryAPI.getAll(params),
-    () => googleSheetsAPI.getGallery(),
-    'Gallery'
-  ),
+  getGallery: async () => {
+    try {
+      const data = await googleSheetsAPI.getGallery();
+      if (isDev) console.log('✅ Gallery: Loaded from Google Sheets');
+      return { source: 'sheets', data };
+    } catch (error) {
+      console.error('❌ Gallery: Failed to fetch', error);
+      throw error;
+    }
+  },
 
   // Contact
-  getContact: () => fetchWithFallback(
-    () => api.contactAPI.get(),
-    () => googleSheetsAPI.getContact(),
-    'Contact'
-  ),
+  getContact: async () => {
+    try {
+      const data = await googleSheetsAPI.getContact();
+      if (isDev) console.log('✅ Contact: Loaded from Google Sheets');
+      return { source: 'sheets', data };
+    } catch (error) {
+      console.error('❌ Contact: Failed to fetch', error);
+      throw error;
+    }
+  },
 
   // Vision
-  getVision: () => fetchWithFallback(
-    () => api.visionAPI.get(),
-    () => googleSheetsAPI.getVision(),
-    'Vision'
-  ),
+  getVision: async () => {
+    try {
+      const data = await googleSheetsAPI.getVision();
+      if (isDev) console.log('✅ Vision: Loaded from Google Sheets');
+      return { source: 'sheets', data };
+    } catch (error) {
+      console.error('❌ Vision: Failed to fetch', error);
+      throw error;
+    }
+  },
 
   // Settings
-  getSettings: () => fetchWithFallback(
-    () => api.settingsAPI.get(),
-    () => googleSheetsAPI.getAll(),
-    'Settings'
-  )
+  getSettings: async () => {
+    try {
+      const data = await googleSheetsAPI.getHero();
+      if (isDev) console.log('✅ Settings: Loaded from Google Sheets');
+      return { source: 'sheets', data };
+    } catch (error) {
+      console.error('❌ Settings: Failed to fetch', error);
+      throw error;
+    }
+  }
 };
 
 export default contentService;

@@ -72,7 +72,7 @@ export default function HeroSlider() {
     return () => clearInterval(interval);
   }, [isPlaying, nextSlide, slides.length]);
 
-  // Show loading state
+  // Show loading state while fetching from Google Sheets
   if (loading || slides.length === 0) {
     return (
       <section className="relative min-h-screen flex items-center overflow-hidden bg-background pt-20">

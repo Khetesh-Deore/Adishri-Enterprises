@@ -2,12 +2,13 @@
 export { 
   useHero, 
   useProducts, 
-  useProduct, 
   useAbout, 
   useGallery, 
   useContact, 
   useSettings,
   useCoreValues,
-  useStandards,
-  useNavigation
+  useNavigation,
+  useVision,
+  useHeroSlider,
+  useAboutSection
 } from './useApi';
