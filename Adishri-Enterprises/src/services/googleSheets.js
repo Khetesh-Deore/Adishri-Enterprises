@@ -6,8 +6,8 @@ const OPENSHEET_API = 'https://opensheet.vercel.app';
 
 // Smart cache - shorter duration for production, longer for dev
 const CACHE_DURATION = import.meta.env.PROD 
-  ? 1 * 60 * 1000  // 5 minutes in production (for faster updates)
-  : 1 * 60 * 1000; // 30 minutes in development
+  ? 5 * 60 * 1000  // 5 minutes in production (for faster updates)
+  : 130 * 60 * 1000; // 30 minutes in development
 
 // Memory cache
 const memoryCache = {};
