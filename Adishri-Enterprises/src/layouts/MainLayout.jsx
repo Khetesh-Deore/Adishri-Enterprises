@@ -1,6 +1,7 @@
 // MainLayout - Shared layout with Navbar and Footer
 import { Outlet } from "react-router-dom";
 import { Navbar, Footer, WhatsAppButton } from "../views/components";
+import RefreshButton from "../views/components/RefreshButton";
 
 export default function MainLayout() {
   return (
@@ -11,6 +12,8 @@ export default function MainLayout() {
       </main>
       <Footer />
       <WhatsAppButton />
+      {/* Show refresh button only in production */}
+      {import.meta.env.PROD && <RefreshButton />}
     </div>
   );
 }

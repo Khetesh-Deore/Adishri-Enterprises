@@ -4,9 +4,13 @@
 const SHEET_ID = '1s3e0PGnaRKu3oW2E1Bh23epXvlWIgiLip9GkuYJe-oI';
 const OPENSHEET_API = 'https://opensheet.vercel.app';
 
-// Aggressive cache - 30 minutes in memory + localStorage
+// Smart cache - shorter duration for production, longer for dev
+const CACHE_DURATION = import.meta.env.PROD 
+  ? 1 * 60 * 1000  // 5 minutes in production (for faster updates)
+  : 1 * 60 * 1000; // 30 minutes in development
+
+// Memory cache
 const memoryCache = {};
-const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
 
 /**
  * Get from localStorage cache
@@ -18,6 +22,9 @@ const getFromLocalStorage = (key) => {
       const { data, timestamp } = JSON.parse(cached);
       if (Date.now() - timestamp < CACHE_DURATION) {
         return data;
+      } else {
+        // Remove expired cache
+        localStorage.removeItem(`sheets_${key}`);
       }
     }
   } catch (e) {
@@ -41,25 +48,33 @@ const saveToLocalStorage = (key, data) => {
 };
 
 /**
- * Fetch data from Google Sheet with aggressive caching
+ * Fetch data from Google Sheet with smart caching
  */
-const fetchSheetContent = async (sheetName) => {
-  // Check memory cache first (fastest)
-  if (memoryCache[sheetName] && Date.now() - memoryCache[sheetName].timestamp < CACHE_DURATION) {
-    return memoryCache[sheetName].data;
-  }
+const fetchSheetContent = async (sheetName, forceRefresh = false) => {
+  // Skip cache if force refresh
+  if (!forceRefresh) {
+    // Check memory cache first (fastest)
+    if (memoryCache[sheetName] && Date.now() - memoryCache[sheetName].timestamp < CACHE_DURATION) {
+      return memoryCache[sheetName].data;
+    }
 
-  // Check localStorage cache (fast)
-  const localData = getFromLocalStorage(sheetName);
-  if (localData) {
-    memoryCache[sheetName] = { data: localData, timestamp: Date.now() };
-    return localData;
+    // Check localStorage cache (fast)
+    const localData = getFromLocalStorage(sheetName);
+    if (localData) {
+      memoryCache[sheetName] = { data: localData, timestamp: Date.now() };
+      return localData;
+    }
   }
 
   // Fetch from API (slower but fresh)
   try {
     const url = `${OPENSHEET_API}/${SHEET_ID}/${sheetName}`;
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      cache: 'no-store', // Don't use browser cache
+      headers: {
+        'Cache-Control': 'no-cache'
+      }
+    });
     
     if (!response.ok) {
       throw new Error(`Failed to fetch ${sheetName}: ${response.statusText}`);
@@ -105,7 +120,7 @@ export const prefetchAllSheets = async () => {
 };
 
 /**
- * Clear all caches
+ * Clear all caches (useful for forcing refresh)
  */
 export const clearCache = () => {
   Object.keys(memoryCache).forEach(key => delete memoryCache[key]);
@@ -115,24 +130,37 @@ export const clearCache = () => {
         localStorage.removeItem(key);
       }
     });
+    console.log('✅ Cache cleared');
   } catch (e) {
     console.warn('Cache clear error:', e);
   }
 };
 
+/**
+ * Force refresh all data from Google Sheets
+ */
+export const forceRefreshAll = async () => {
+  clearCache();
+  await prefetchAllSheets();
+  console.log('✅ All data refreshed from Google Sheets');
+  // Reload the page to show fresh data
+  window.location.reload();
+};
+
 // Export individual section fetchers
 export const googleSheetsAPI = {
-  getHero: () => fetchSheetContent('Hero'),
-  getAbout: () => fetchSheetContent('About'),
-  getAboutSection: () => fetchSheetContent('About-section'),
-  getProducts: () => fetchSheetContent('Products'),
-  getContact: () => fetchSheetContent('Contact'),
-  getVision: () => fetchSheetContent('Vision'),
-  getGallery: () => fetchSheetContent('Gallery'),
+  getHero: (forceRefresh) => fetchSheetContent('Hero', forceRefresh),
+  getAbout: (forceRefresh) => fetchSheetContent('About', forceRefresh),
+  getAboutSection: (forceRefresh) => fetchSheetContent('About-section', forceRefresh),
+  getProducts: (forceRefresh) => fetchSheetContent('Products', forceRefresh),
+  getContact: (forceRefresh) => fetchSheetContent('Contact', forceRefresh),
+  getVision: (forceRefresh) => fetchSheetContent('Vision', forceRefresh),
+  getGallery: (forceRefresh) => fetchSheetContent('Gallery', forceRefresh),
   
   // Utility
   prefetchAll: prefetchAllSheets,
-  clearCache
+  clearCache,
+  forceRefreshAll
 };
 
 export default googleSheetsAPI;
