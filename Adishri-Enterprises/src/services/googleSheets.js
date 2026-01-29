@@ -69,12 +69,7 @@ const fetchSheetContent = async (sheetName, forceRefresh = false) => {
   // Fetch from API (slower but fresh)
   try {
     const url = `${OPENSHEET_API}/${SHEET_ID}/${sheetName}`;
-    const response = await fetch(url, {
-      cache: 'no-store', // Don't use browser cache
-      headers: {
-        'Cache-Control': 'no-cache'
-      }
-    });
+    const response = await fetch(url);
     
     if (!response.ok) {
       throw new Error(`Failed to fetch ${sheetName}: ${response.statusText}`);
