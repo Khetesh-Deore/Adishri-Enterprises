@@ -8,7 +8,7 @@ import {
 
 const navItems = [
   { path: '/admin', icon: LayoutDashboard, label: 'Dashboard', exact: true },
-  { path: '/admin/hero', icon: Home, label: 'Hero Section' },
+  // { path: '/admin/hero', icon: Home, label: 'Hero Section' },
   { path: '/admin/hero-slider', icon: Presentation, label: 'Hero Slider' },
   { path: '/admin/about', icon: Info, label: 'About Section' },
   { path: '/admin/vision', icon: Eye, label: 'Vision Section' },

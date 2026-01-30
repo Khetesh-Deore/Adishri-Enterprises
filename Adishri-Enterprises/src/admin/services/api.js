@@ -56,7 +56,39 @@ export const productsAPI = {
 // About API
 export const aboutAPI = {
   get: () => api.get('/about'),
-  update: (data) => api.put('/about', data)
+  update: (data) => {
+    console.log('About update called with data:', data);
+    
+    // Convert to FormData to support both JSON and file uploads
+    const formData = new FormData();
+    
+    // Handle nested objects and arrays properly
+    Object.keys(data).forEach(key => {
+      const value = data[key];
+      
+      // Skip image object if it's already uploaded (has url and publicId)
+      if (key === 'image' && value && typeof value === 'object' && !(value instanceof File)) {
+        formData.append(key, JSON.stringify(value));
+      }
+      // Handle arrays and objects
+      else if (Array.isArray(value) || (typeof value === 'object' && value !== null && !(value instanceof File))) {
+        formData.append(key, JSON.stringify(value));
+      }
+      // Handle primitives and files
+      else if (value !== null && value !== undefined) {
+        formData.append(key, value);
+      }
+    });
+    
+    console.log('FormData entries:');
+    for (let pair of formData.entries()) {
+      console.log(pair[0], ':', pair[1]);
+    }
+    
+    return api.put('/about', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+  }
 };
 
 // Gallery API

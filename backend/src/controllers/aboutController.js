@@ -35,31 +35,59 @@ const getAbout = asyncHandler(async (req, res) => {
 // @route   PUT /api/about
 // @access  Private
 const updateAbout = asyncHandler(async (req, res) => {
-  const updateData = { ...req.body };
+  try {
+    const updateData = {};
 
-  // Handle image upload
-  if (req.file) {
-    const existingAbout = await About.findOne();
-    if (existingAbout?.image?.publicId) {
-      await cloudinary.uploader.destroy(existingAbout.image.publicId);
+    // Parse FormData fields
+    Object.keys(req.body).forEach(key => {
+      const value = req.body[key];
+      
+      // Try to parse JSON strings (arrays and objects)
+      if (typeof value === 'string' && (value.startsWith('[') || value.startsWith('{'))) {
+        try {
+          updateData[key] = JSON.parse(value);
+        } catch (e) {
+          updateData[key] = value;
+        }
+      } else {
+        updateData[key] = value;
+      }
+    });
+
+    // Handle image upload
+    if (req.file) {
+      const existingAbout = await About.findOne();
+      if (existingAbout?.image?.publicId) {
+        try {
+          await cloudinary.uploader.destroy(existingAbout.image.publicId);
+        } catch (deleteError) {
+          console.error('Error deleting old image:', deleteError);
+          // Continue even if delete fails
+        }
+      }
+      updateData.image = {
+        url: req.file.path,
+        publicId: req.file.filename
+      };
     }
-    updateData.image = {
-      url: req.file.path,
-      publicId: req.file.filename
-    };
+
+    console.log('Updating about with data:', JSON.stringify(updateData, null, 2));
+
+    const about = await About.findOneAndUpdate(
+      {},
+      updateData,
+      { new: true, upsert: true, runValidators: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'About section updated successfully',
+      data: about
+    });
+  } catch (error) {
+    console.error('Update about error:', error);
+    throw error;
   }
-
-  const about = await About.findOneAndUpdate(
-    {},
-    updateData,
-    { new: true, upsert: true, runValidators: true }
-  );
-
-  res.status(200).json({
-    success: true,
-    message: 'About section updated successfully',
-    data: about
-  });
 });
 
 module.exports = { getAbout, updateAbout };

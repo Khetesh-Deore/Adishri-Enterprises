@@ -111,6 +111,11 @@ app.listen(PORT, () => {
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
-  console.error('UNHANDLED REJECTION:', err.message);
-  process.exit(1);
+  console.error('UNHANDLED REJECTION:', err);
+  console.error('Stack:', err?.stack);
+  // Don't exit in development to allow debugging
+  if (process.env.NODE_ENV === 'production') {
+    process.exit(1);
+  }
 });
+

@@ -15,6 +15,12 @@ const errorHandler = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
+  console.error('Error Handler:', {
+    name: err.name,
+    message: err.message,
+    statusCode: err.statusCode
+  });
+
   // Development error response
   if (process.env.NODE_ENV === 'development') {
     return res.status(err.statusCode).json({
@@ -31,6 +37,20 @@ const errorHandler = (err, req, res, next) => {
     return res.status(err.statusCode).json({
       success: false,
       message: err.message
+    });
+  }
+
+  // Handle Multer errors
+  if (err.name === 'MulterError') {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({
+        success: false,
+        message: 'File size too large. Maximum size is 5MB'
+      });
+    }
+    return res.status(400).json({
+      success: false,
+      message: err.message || 'File upload error'
     });
   }
 

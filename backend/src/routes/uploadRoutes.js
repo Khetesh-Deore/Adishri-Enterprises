@@ -4,8 +4,36 @@ const { uploadImage, uploadMultipleImages, deleteImage } = require('../controlle
 const { protect } = require('../middleware/auth');
 const { upload } = require('../config/cloudinary');
 
-router.post('/', protect, upload.single('image'), uploadImage);
-router.post('/multiple', protect, upload.array('images', 10), uploadMultipleImages);
+// Multer error handler middleware
+const handleMulterError = (err, req, res, next) => {
+  if (err) {
+    console.error('Multer error:', err);
+    return res.status(400).json({
+      success: false,
+      message: err.message || 'File upload failed'
+    });
+  }
+  next();
+};
+
+router.post('/', protect, (req, res, next) => {
+  upload.single('image')(req, res, (err) => {
+    if (err) {
+      return handleMulterError(err, req, res, next);
+    }
+    next();
+  });
+}, uploadImage);
+
+router.post('/multiple', protect, (req, res, next) => {
+  upload.array('images', 10)(req, res, (err) => {
+    if (err) {
+      return handleMulterError(err, req, res, next);
+    }
+    next();
+  });
+}, uploadMultipleImages);
+
 router.delete('/:publicId', protect, deleteImage);
 
 module.exports = router;

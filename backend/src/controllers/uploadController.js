@@ -5,18 +5,25 @@ const { asyncHandler, AppError } = require('../middleware/errorHandler');
 // @route   POST /api/upload
 // @access  Private
 const uploadImage = asyncHandler(async (req, res, next) => {
-  if (!req.file) {
-    return next(new AppError('Please upload an image', 400));
-  }
-
-  res.status(200).json({
-    success: true,
-    message: 'Image uploaded successfully',
-    data: {
-      url: req.file.path,
-      publicId: req.file.filename
+  try {
+    if (!req.file) {
+      return next(new AppError('Please upload an image', 400));
     }
-  });
+
+    console.log('File uploaded:', req.file.filename);
+
+    res.status(200).json({
+      success: true,
+      message: 'Image uploaded successfully',
+      data: {
+        url: req.file.path,
+        publicId: req.file.filename
+      }
+    });
+  } catch (error) {
+    console.error('Upload error:', error);
+    return next(new AppError('Failed to upload image: ' + error.message, 500));
+  }
 });
 
 // @desc    Upload multiple images

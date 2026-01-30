@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Sun, Moon, MessageCircle } from "lucide-react";
-import { useNavigation } from "../../hooks/useApi";
+import { useNavigation, useContact } from "../../hooks/useApi";
 import { useTheme } from "../../controllers/useTheme";
 
 export default function Navbar() {
@@ -15,10 +15,11 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   
-  // Fetch navigation data from API
+  // Fetch navigation and contact data from API
   const { data: navigation } = useNavigation();
+  const { data: apiContact } = useContact();
   const navLinks = navigation?.navLinks?.sort((a, b) => a.order - b.order) || [];
-  const whatsappNumber = navigation?.whatsapp?.number || '919876543210';
+  const whatsappNumber = apiContact?.whatsapp || navigation?.whatsapp?.number || '919876543210';
   const whatsappMessage = navigation?.whatsapp?.message || 'Hello! I would like to inquire about your products.';
   
   const getWhatsAppLink = () => {

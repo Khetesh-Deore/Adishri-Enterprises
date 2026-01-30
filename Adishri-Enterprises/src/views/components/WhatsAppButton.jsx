@@ -2,12 +2,14 @@
 import { motion } from 'framer-motion';
 import { MessageCircle, X } from 'lucide-react';
 import { useState } from 'react';
+import { useContact } from '../../hooks/useApi';
 
 export default function WhatsAppButton() {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: apiContact } = useContact();
   
-  // Replace with actual WhatsApp number (format: country code + number, no spaces or special chars)
-  const whatsappNumber = '919876543210'; // Example: +91 98765 43210
+  // Fetch WhatsApp number from API with fallback
+  const whatsappNumber = apiContact?.whatsapp || '919876543210';
   const defaultMessage = 'Hello! I am interested in your HDPE/LDPE bottles. Please provide more information.';
 
   const handleWhatsAppClick = () => {
